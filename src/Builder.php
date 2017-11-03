@@ -58,6 +58,7 @@ class Builder
     public function build(array $routes, $source, $build)
     {
         $build = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $build);
+
         $source = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $source);
 
         $this->clear($build);
@@ -90,13 +91,11 @@ class Builder
         $iterator = new \RecursiveIteratorIterator($directory, 2);
 
         foreach ($iterator as $file) {
-            if ($file->isDir()) {
-                rmdir($file->getRealPath());
+            $git = strpos($file->getRealPath(), '.git') !== false;
 
-                continue;
-            }
+            $path = $file->getRealPath();
 
-            unlink($file->getRealPath());
+            $git || ($file->isDir() ? rmdir($path) : unlink($path));
         }
     }
 
