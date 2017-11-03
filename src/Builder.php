@@ -70,7 +70,7 @@ class Builder
 
             $path = sprintf('%s/%s/index.html', $build, $folder);
 
-            file_put_contents($path, $this->convert($route, $source));
+            file_put_contents($path, $this->html($route, $source));
         }
 
         $this->transfer($source . DIRECTORY_SEPARATOR . 'assets', $build);
@@ -100,38 +100,15 @@ class Builder
     }
 
     /**
-     * Converts the specified route into a minified HTML.
-     *
-     * @param  \Rougin\Staticka\Route $route
-     * @param  string                 $source
-     * @return string
-     */
-    protected function convert(Route $route, $source)
-    {
-        $file = sprintf($source . '/content/%s.md', $route->content());
-
-        $content = $this->converter->convert(file_get_contents($file));
-
-        $data = array('content' => $content, 'config' => $this->config);
-
-        $data['url'] = new Url($this->config->get('app.base_url'));
-
-        $view = $this->renderer->render($route->view(), $data);
-
-        return $this->minifier->minify($view);
-    }
-
-    /**
      * Returns the whole folder path based from specified URIs.
      *
      * @param  string $path
      * @param  array  $uris
+     * @param  string $folder
      * @return string
      */
-    protected function folder($path, $uris)
+    protected function folder($path, $uris, $folder = '')
     {
-        $folder = '';
-
         foreach ($uris as $uri) {
             $folder = (empty($folder)) ? $uri : $folder;
 
@@ -147,6 +124,28 @@ class Builder
         file_exists($path) || mkdir($path);
 
         return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
+    }
+
+    /**
+     * Converts the specified route into a minified HTML.
+     *
+     * @param  \Rougin\Staticka\Route $route
+     * @param  string                 $source
+     * @return string
+     */
+    protected function html(Route $route, $source)
+    {
+        $file = sprintf($source . '/content/%s.md', $route->content());
+
+        $content = $this->converter->convert(file_get_contents($file));
+
+        $data = array('content' => $content, 'config' => $this->config);
+
+        $data['url'] = new Url($this->config->get('app.base_url'));
+
+        $view = $this->renderer->render($route->view(), $data);
+
+        return $this->minifier->minify($view);
     }
 
     /**
