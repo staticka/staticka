@@ -54,22 +54,26 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
 
         $settings = require $source . '/staticka.php';
 
-        $files = $this->files($settings);
+        $message = 'Currently watching "' . $source . '" for changes...';
 
-        $output->writeln('<info>Currently watching files for changes...</info>');
+        $output->writeln('<info>' . $message . '</info>');
+
+        $files = $this->files($settings);
 
         while (1) {
             list($length, $updated) = array(count($files), $files);
 
             for ($i = 0; $i < $length; $i++) {
-                $updated[$i]['size'] = filesize($updated[$i]['file']);
+                $size = filesize($updated[$i]['file']);
+
+                $updated[$i]['size'] = $size;
             }
 
             $files === $updated || $this->build($input, $output);
 
             $files = $this->files($settings);
 
-            sleep(2);
+            sleep(5);
         }
     }
 
