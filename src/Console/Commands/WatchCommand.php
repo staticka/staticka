@@ -95,7 +95,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
 
             $file['contents'] = file_get_contents($item);
 
-            array_push($files, array('file' => $item));
+            array_push($files, $file);
         }
 
         return $files;
