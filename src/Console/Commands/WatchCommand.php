@@ -64,16 +64,16 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
             list($length, $updated) = array(count($files), $files);
 
             for ($i = 0; $i < $length; $i++) {
-                $size = filesize($updated[$i]['file']);
+                $size = file_get_contents($updated[$i]['file']);
 
-                $updated[$i]['size'] = $size;
+                $updated[$i]['contents'] = $size;
             }
 
             $files === $updated || $this->build($input, $output);
 
             $files = $this->files($settings);
 
-            sleep(5);
+            sleep(2);
         }
     }
 
@@ -94,7 +94,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
         foreach ($items as $item) {
             $file = array('file' => $item);
 
-            $file['size'] = filesize($item);
+            $file['contents'] = file_get_contents($item);
 
             array_push($files, $file);
         }
@@ -119,7 +119,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
         foreach ($iterator as $file) {
             $filepath = $file->getRealPath();
 
-            array_push($items, $filepath);
+            $file->isDir() || array_push($items, $filepath);
         }
 
         return $items;
