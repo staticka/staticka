@@ -46,12 +46,12 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         $renderer = new \Rougin\Staticka\Renderer($settings->views());
         $builder = new \Rougin\Staticka\Builder($settings->config(), $renderer);
 
-        $output->writeln('');
         $output->writeln('<info>Building the new site...</info>');
 
         $builder->build($settings->routes(), $site, $build);
 
         $output->writeln('<info>Site built successfully!</info>');
+        $output->writeln('');
     }
 
     /**

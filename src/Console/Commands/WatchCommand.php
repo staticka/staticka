@@ -5,8 +5,6 @@ namespace Rougin\Staticka\Console\Commands;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Rougin\Staticka\Settings;
-
 class WatchCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
@@ -54,9 +52,8 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
 
         $settings = require $source . '/staticka.php';
 
-        $message = 'Currently watching "' . $source . '" for changes...';
-
-        $output->writeln('<info>' . $message . '</info>');
+        $output->writeln("<info>Watching \"$source\" for changes...</info>");
+        $output->writeln('');
 
         $files = $this->files($settings);
 
@@ -87,16 +84,18 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     {
         list($files, $items) = array(array(), array());
 
-        $items = array_merge($items, $this->filenames($settings['config']));
-        $items = array_merge($items, $this->filenames($settings['content']));
-        $items = array_merge($items, $this->filenames($settings['views']));
+        $config = $this->filenames($settings['config']);
+        $content = $this->filenames($settings['content']);
+        $views = $this->filenames($settings['views']);
+
+        $items = array_merge($items, $config, $content, $views);
 
         foreach ($items as $item) {
-            $file = array('file' => $item);
+            $file = array('file' => (string) $item);
 
             $file['contents'] = file_get_contents($item);
 
-            array_push($files, $file);
+            array_push($files, array('file' => $item));
         }
 
         return $files;
@@ -110,13 +109,11 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function filenames($source)
     {
+        $files = \Rougin\Staticka\Utility::files($source, 4096, 1);
+
         $items = array();
 
-        $directory = new \RecursiveDirectoryIterator($source, 4096);
-
-        $iterator = new \RecursiveIteratorIterator($directory, 1);
-
-        foreach ($iterator as $file) {
+        foreach ($files as $file) {
             $filepath = $file->getRealPath();
 
             $file->isDir() || array_push($items, $filepath);

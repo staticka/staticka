@@ -51,52 +51,27 @@ class Builder
      * Builds the static site based on the given routes.
      *
      * @param  array  $routes
-     * @param  string $source
+     * @param  string $from
      * @param  string $build
      * @return void
      */
-    public function build(array $routes, $source, $build)
+    public function build(array $routes, $from, $to)
     {
-        $build = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $build);
+        list($to, $from) = array(Utility::path($to), Utility::path($from));
 
-        $source = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $source);
-
-        $this->clear($build);
+        Utility::clear($to);
 
         foreach ($routes as $route) {
             $empty = empty($uris = $route->uri(true));
 
-            $folder = $empty ? '' : $this->folder($build, $uris);
+            $folder = $empty ? '' : $this->folder($to, $uris);
 
-            $path = sprintf('%s/%s/index.html', $build, $folder);
+            $path = sprintf('%s/%s/index.html', $to, $folder);
 
-            file_put_contents($path, $this->html($route, $source));
+            file_put_contents($path, $this->html($route, $from));
         }
 
-        $this->transfer($source . DIRECTORY_SEPARATOR . 'assets', $build);
-    }
-
-    /**
-     * Removes the files of the recently built static site.
-     *
-     * @param  string $path
-     * @return void
-     */
-    protected function clear($path)
-    {
-        file_exists($path) || mkdir($path);
-
-        $directory = new \RecursiveDirectoryIterator($path, 4096);
-
-        $iterator = new \RecursiveIteratorIterator($directory, 2);
-
-        foreach ($iterator as $file) {
-            $git = strpos($file->getRealPath(), '.git') !== false;
-
-            $path = $file->getRealPath();
-
-            $git || ($file->isDir() ? rmdir($path) : unlink($path));
-        }
+        Utility::transfer(Utility::path($from . '/assets'), $to);
     }
 
     /**
@@ -119,11 +94,9 @@ class Builder
             ($folder === $uri) || $folder .= '/' . $uri;
         }
 
-        $path = $path . '/' . $folder;
+        file_exists($path .= '/' . $folder) || mkdir($path);
 
-        file_exists($path) || mkdir($path);
-
-        return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
+        return Utility::path($folder);
     }
 
     /**
@@ -146,27 +119,5 @@ class Builder
         $view = $this->renderer->render($route->view(), $data);
 
         return $this->minifier->minify($view);
-    }
-
-    /**
-     * Transfers the specified files into another path.
-     *
-     * @param  string $source
-     * @param  string $path
-     * @return void
-     */
-    protected function transfer($source, $path)
-    {
-        file_exists($path) || mkdir($path);
-
-        $directory = new \RecursiveDirectoryIterator($source, 4096);
-
-        $iterator = new \RecursiveIteratorIterator($directory, 1);
-
-        foreach ($iterator as $file) {
-            $to = str_replace($source, $path, $from = $file->getRealPath());
-
-            $file->isDir() ? $this->transfer($from, $to) : copy($from, $to);
-        }
     }
 }
