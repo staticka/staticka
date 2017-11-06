@@ -2,6 +2,12 @@
 
 namespace Rougin\Staticka;
 
+/**
+ * Utility
+ *
+ * @package Staticka
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ */
 class Utility
 {
     /**
@@ -21,15 +27,29 @@ class Utility
         }
     }
 
+    /**
+     * Returns a listing of files with a \RecursiveIteratorIterator instance.
+     *
+     * @param  string  $path
+     * @param  integer $directory
+     * @param  integer $iterator
+     * @return \RecursiveIteratorIterator
+     */
     public static function files($path, $directory = 4096, $iterator = 1)
     {
         file_exists($path) || mkdir($path);
 
-        $directory = new \RecursiveDirectoryIterator($path, 4096);
+        $directory = new \RecursiveDirectoryIterator($path, $directory);
 
-        return new \RecursiveIteratorIterator($directory, 2);
+        return new \RecursiveIteratorIterator($directory, $iterator);
     }
 
+    /**
+     * Replaces the slashes by the DIRECTORY_SEPARATOR.
+     *
+     * @param  string $path
+     * @return string
+     */
     public static function path($path)
     {
         return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $path);
