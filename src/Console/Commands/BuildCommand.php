@@ -36,12 +36,15 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $build = realpath($input->getOption('path')) ?: getcwd() . '/build';
         $site = realpath($input->getOption('source'));
 
-        $settings = new Settings(require $site . '/staticka.php');
+        $build = realpath($input->getOption('path')) ?: $site . '/build';
 
-        file_exists($settings->views()) || $this->exception($settings, $site);
+        $settings = (new Settings)->load($site . '/staticka.php');
+
+        $exists = file_exists($settings->views()) && file_exists($settings->content());
+
+        $exists === true || $this->exception($settings, $site);
 
         $renderer = new \Rougin\Staticka\Renderer($settings->views());
         $builder = new \Rougin\Staticka\Builder($settings->config(), $renderer);
@@ -51,7 +54,6 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         $builder->build($settings->routes(), $site, $build);
 
         $output->writeln('<info>Site built successfully!</info>');
-        $output->writeln('');
     }
 
     /**
@@ -71,6 +73,14 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         }
 
         if (file_exists($settings->views()) === false) {
+            $error = 'don\'t have any views';
+
+            $message = sprintf($format, $source, $error);
+
+            throw new \InvalidArgumentException($message);
+        }
+
+        if (file_exists($settings->content()) === false) {
             $error = 'don\'t have any content';
 
             $message = sprintf($format, $source, $error);

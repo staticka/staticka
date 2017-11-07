@@ -5,6 +5,8 @@ namespace Rougin\Staticka\Console\Commands;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Rougin\Staticka\Settings;
+
 class WatchCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
@@ -50,12 +52,10 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     {
         $source = realpath($input->getOption('source'));
 
-        $settings = require $source . '/staticka.php';
-
-        $output->writeln("<info>Watching \"$source\" for changes...</info>");
+        $output->writeln('<info>Watching ' . $source . ' for changes...</info>');
         $output->writeln('');
 
-        $files = $this->files($settings);
+        $files = $this->files((new Settings)->load($source . '/staticka.php'));
 
         while (1) {
             list($length, $updated) = array(count($files), $files);
@@ -77,16 +77,16 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Returns a listing of available files.
      *
-     * @param  array $settings
+     * @param  \Rougin\Staticka\Settings $settings
      * @return array
      */
-    protected function files(array $settings)
+    protected function files(Settings $settings)
     {
         list($files, $items) = array(array(), array());
 
-        $config = $this->filenames($settings['config']);
-        $content = $this->filenames($settings['content']);
-        $views = $this->filenames($settings['views']);
+        $config = $this->filenames($config->get('config'));
+        $content = $this->filenames($config->get('content'));
+        $views = $this->filenames($config->get('views'));
 
         $items = array_merge($items, $config, $content, $views);
 
@@ -109,7 +109,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function filenames($source)
     {
-        $files = \Rougin\Staticka\Utility::files($source, 4096, 1);
+        $files = \Rougin\Staticka\Utility::files($source, 1);
 
         $items = array();
 

@@ -18,7 +18,7 @@ class Utility
      */
     public static function clear($path)
     {
-        foreach (Utility::files($path, 4096, 2) as $file) {
+        foreach (Utility::files($path, 2) as $file) {
             $git = strpos($file->getRealPath(), '.git') !== false;
 
             $path = $file->getRealPath();
@@ -31,11 +31,11 @@ class Utility
      * Returns a listing of files with a \RecursiveIteratorIterator instance.
      *
      * @param  string  $path
-     * @param  integer $directory
      * @param  integer $iterator
+     * @param  integer $directory
      * @return \RecursiveIteratorIterator
      */
-    public static function files($path, $directory = 4096, $iterator = 1)
+    public static function files($path, $iterator = 1, $directory = 4096)
     {
         file_exists($path) || mkdir($path);
 
@@ -66,7 +66,7 @@ class Utility
     {
         file_exists($path) || mkdir($path);
 
-        foreach (self::files($source, 4096, 1) as $file) {
+        foreach (self::files($source, 1) as $file) {
             $to = str_replace($source, $path, $from = $file->getRealPath());
 
             $file->isDir() ? self::transfer($from, $to) : copy($from, $to);
