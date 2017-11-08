@@ -60,10 +60,10 @@ After running the command, it will render all routes listed in `routes.php` and 
 
 ```
 static-site/
-├── build/
-│   ├── hello-world/
-│   │   └── index.html
-│   └── index.html
+└── build/
+   ├── hello-world/
+   │   └── index.html
+   └── index.html
 ```
 
 #### Command Options
@@ -73,7 +73,7 @@ static-site/
 
 ### Customization
 
-To customize the directory structure of the static site, add a file named `staticka.php` to specify the paths of the required directories:
+To customize the directory structure of the static site, add a file named `staticka.php` to specify the paths of the required files/directories:
 
 ``` php
 return array(
@@ -107,7 +107,7 @@ return array(
 );
 ```
 
-**NOTE:** You could also define an array of routes in `staticka.php` instead of specifying its `routes.php`.
+**NOTE:** You could also define an array of `routes` in `staticka.php` instead on specifying it to a `routes.php` file. You can do also the same thing in `config`.
 
 ## Change log
 
@@ -116,7 +116,6 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Testing
 
 ``` bash
-$ composer require filp/whoops http-interop/http-middleware --dev
 $ composer test
 ```
 

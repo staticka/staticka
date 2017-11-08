@@ -12,6 +12,10 @@ class Settings
     {
         $settings = $settings ?: $this->defaults();
 
+        $config = $settings['config'];
+
+        $settings['config'] = is_string($config) ? array($config) : $config;
+
         $this->config = new Config($settings['config']);
 
         $this->settings = $settings;
