@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka;
+namespace Rougin\Staticka\Helpers;
 
 /**
  * Utility
@@ -18,7 +18,7 @@ class Utility
      */
     public static function clear($path)
     {
-        foreach (Utility::files($path, 2) as $file) {
+        foreach (self::files($path, 2) as $file) {
             $git = strpos($file->getRealPath(), '.git') !== false;
 
             $path = $file->getRealPath();

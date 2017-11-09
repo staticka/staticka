@@ -61,9 +61,10 @@ After running the command, it will render all routes listed in `routes.php` and 
 ```
 static-site/
 └── build/
-   ├── hello-world/
-   │   └── index.html
-   └── index.html
+│  ├── hello-world/
+│  │   └── index.html
+│  └── index.html
+└── content/
 ```
 
 #### Command Options
@@ -126,18 +127,6 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Security
 
 If you discover any security related issues, please email rougingutib@gmail.com instead of using the issue tracker.
-
-## Inspirations
-
-* [Awesome PHP!](https://github.com/ziadoz/awesome-php) by [Jamie York](https://github.com/ziadoz)
-* [Codeigniter](https://codeigniter.com) by [EllisLab](https://ellislab.com)/[British Columbia Institute of Technology](http://www.bcit.ca)
-* [Crux](https://github.com/yuloh/crux) by [Matt A](https://github.com/yuloh)
-* [Fucking Small](https://github.com/trq/fucking-small) by [Tony Quilkey](https://github.com/trq)
-* [Laravel](https://laravel.com) by [Taylor Otwell](https://github.com/taylorotwell)
-* [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial) by [Patrick Louys](https://github.com/PatrickLouys)
-* [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest) by [Dominik Liebler](https://github.com/domnikl)
-* [PHP Standard Recommendations](http://www.php-fig.org/psr) by [PHP-FIG](http://www.php-fig.org)
-* [Symfony](http://symfony.com) by [SensioLabs](https://sensiolabs.com)
 
 ## Credits
 

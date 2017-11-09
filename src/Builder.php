@@ -2,6 +2,8 @@
 
 namespace Rougin\Staticka;
 
+use Rougin\Staticka\Helpers\Utility;
+
 /**
  * Builder
  *
@@ -111,10 +113,11 @@ class Builder
         $file = sprintf($source . '/content/%s.md', $route->content());
 
         $content = $this->converter->convert(file_get_contents($file));
-
         $data = array('content' => $content, 'config' => $this->config);
+        $includes = $this->config->get('app.includes', array());
+        $data = array_merge($data, $includes);
 
-        $data['url'] = new Url($this->config->get('app.base_url'));
+        $data['url'] = new Helpers\Url($this->config->get('app.base_url'));
 
         $view = $this->renderer->render($route->view(), $data);
 

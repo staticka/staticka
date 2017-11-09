@@ -52,10 +52,12 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     {
         $source = realpath($input->getOption('source'));
 
+        $settings = (new Settings)->load($source . '/staticka.php');
+
         $output->writeln('<info>Watching ' . $source . ' for changes...</info>');
         $output->writeln('');
 
-        $files = $this->files((new Settings)->load($source . '/staticka.php'));
+        $files = $this->files($settings);
 
         while (1) {
             list($length, $updated) = array(count($files), $files);
@@ -84,9 +86,9 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     {
         list($files, $items) = array(array(), array());
 
-        $config = $this->filenames($config->get('config'));
-        $content = $this->filenames($config->get('content'));
-        $views = $this->filenames($config->get('views'));
+        $config = $this->filenames($settings->get('config'));
+        $content = $this->filenames($settings->get('content'));
+        $views = $this->filenames($settings->get('views'));
 
         $items = array_merge($items, $config, $content, $views);
 

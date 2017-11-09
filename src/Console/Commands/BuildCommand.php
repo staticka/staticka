@@ -37,13 +37,10 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $site = realpath($input->getOption('source'));
-
         $build = realpath($input->getOption('path')) ?: $site . '/build';
 
         $settings = (new Settings)->load($site . '/staticka.php');
-
         $exists = file_exists($settings->views()) && file_exists($settings->content());
-
         $exists === true || $this->exception($settings, $site);
 
         $renderer = new \Rougin\Staticka\Renderer($settings->views());
@@ -54,6 +51,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         $builder->build($settings->routes(), $site, $build);
 
         $output->writeln('<info>Site built successfully!</info>');
+        $output->writeln('');
     }
 
     /**
