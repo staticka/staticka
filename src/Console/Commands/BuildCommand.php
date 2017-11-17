@@ -2,9 +2,11 @@
 
 namespace Rougin\Staticka\Console\Commands;
 
+use Rougin\Slytherin\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Rougin\Staticka\Generator;
 use Rougin\Staticka\Settings;
 
 /**
@@ -15,6 +17,24 @@ use Rougin\Staticka\Settings;
  */
 class BuildCommand extends \Symfony\Component\Console\Command\Command
 {
+    /**
+     * @var \Rougin\Slytherin\Container\ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * Initializes the command instance.
+     *
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param string|null                                    $name
+     */
+    public function __construct(ContainerInterface $container, $name = null)
+    {
+        parent::__construct($name);
+
+        $this->container = $container;
+    }
+
     /**
      * Configures the current command.
      *
@@ -37,53 +57,32 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $site = realpath($input->getOption('source'));
+
         $build = realpath($input->getOption('path')) ?: $site . '/build';
 
         $settings = (new Settings)->load($site . '/staticka.php');
-        $exists = file_exists($settings->views()) && file_exists($settings->content());
-        $exists === true || $this->exception($settings, $site);
 
-        $renderer = new \Rougin\Staticka\Renderer($settings->views());
-        $builder = new \Rougin\Staticka\Builder($settings->config(), $renderer);
+        $container = $this->integrate($settings);
 
         $output->writeln('<info>Building the new site...</info>');
 
-        $builder->build($settings->routes(), $site, $build);
+        (new Generator($container, $settings))->make($site, $build);
 
         $output->writeln('<info>Site built successfully!</info>');
-        $output->writeln('');
     }
 
-    /**
-     * Returns an exception if there is an error.
-     *
-     * @param  \Rougin\Staticka\Settings $settings
-     * @param  string                    $source
-     */
-    protected function exception(Settings $settings, $source)
+    protected function integrate(Settings $settings)
     {
-        $format = 'Source directory "%s" %s!';
+        $container = $this->container;
 
-        if (file_exists($source) === false) {
-            $message = sprintf($format, $source, 'does not exists');
+        $config = $settings->config();
 
-            throw new \InvalidArgumentException($message);
+        foreach ($settings->get('integrations') as $integration) {
+            $integration = new $integration;
+
+            $container = $integration->define($container, $config);
         }
 
-        if (file_exists($settings->views()) === false) {
-            $error = 'don\'t have any views';
-
-            $message = sprintf($format, $source, $error);
-
-            throw new \InvalidArgumentException($message);
-        }
-
-        if (file_exists($settings->content()) === false) {
-            $error = 'don\'t have any content';
-
-            $message = sprintf($format, $source, $error);
-
-            throw new \InvalidArgumentException($message);
-        }
+        return $container;
     }
 }

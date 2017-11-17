@@ -2,6 +2,8 @@
 
 namespace Rougin\Staticka\Console;
 
+use Rougin\Slytherin\Container\ContainerInterface;
+
 /**
  * Console Application
  *
@@ -11,15 +13,20 @@ namespace Rougin\Staticka\Console;
 class Application extends \Symfony\Component\Console\Application
 {
     /**
+     * @var string
+     */
+    protected $version = '0.1.0';
+
+    /**
      * Initializes the console application instance.
      *
-     * @param string $version
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
      */
-    public function __construct($version = '0.1.0')
+    public function __construct(ContainerInterface $container)
     {
-        parent::__construct('Staticka', $version);
+        parent::__construct('Staticka', $this->version);
 
-        $this->add(new Commands\BuildCommand);
+        $this->add(new Commands\BuildCommand($container));
         $this->add(new Commands\WatchCommand);
     }
 }

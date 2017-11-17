@@ -2,6 +2,8 @@
 
 require 'vendor/autoload.php';
 
-$app = new Rougin\Staticka\Console\Application;
+$container = new Rougin\Slytherin\Container\Container;
+
+$app = new Rougin\Staticka\Console\Application($container);
 
 $app->run();

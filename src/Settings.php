@@ -2,6 +2,8 @@
 
 namespace Rougin\Staticka;
 
+use Rougin\Slytherin\Integration\Configuration;
+
 /**
  * Settings
  *
@@ -11,7 +13,7 @@ namespace Rougin\Staticka;
 class Settings
 {
     /**
-     * @var \Rougin\Staticka\Config
+     * @var \Rougin\Slytherin\Integration\Configuration
      */
     protected $config;
 
@@ -31,18 +33,20 @@ class Settings
 
         $settings['config'] = is_string($config) ? array($config) : $config;
 
-        $this->config = new Config($settings['config']);
+        $this->config = new Configuration($settings['config']);
 
         $this->settings = $settings;
     }
 
     /**
-     * Returns the \Rougin\Staticka\Config instance.
+     * Returns the \Rougin\Slytherin\Integration\Configuration instance.
      *
-     * @return \Rougin\Staticka\Config
+     * @return \Rougin\Slytherin\Integration\Configuration
      */
     public function config()
     {
+        $this->config->set('staticka', $this->settings);
+
         return $this->config;
     }
 
@@ -83,7 +87,9 @@ class Settings
 
         $items = file_exists($file) ? require $file : $default;
 
-        $this->config = new Config($items['config']);
+        $items = array_merge($default, $items);
+
+        $this->config = new Configuration($items['config']);
 
         $this->settings = $items;
 
@@ -93,7 +99,7 @@ class Settings
     /**
      * Returns a listing of routes or the specified path.
      *
-     * @return array|string
+     * @return array
      */
     public function routes()
     {
@@ -128,10 +134,18 @@ class Settings
     {
         $source = $source ?: (string) getcwd();
 
-        $settings = array();
+        list($includes, $items, $settings) = array(array(), array(), array());
+
+        $includes['url'] = 'Rougin\Staticka\Helper\UrlHelper';
+
+        $items[] = 'Rougin\Staticka\Content\MarkdownIntegration';
+        $items[] = 'Rougin\Staticka\Helper\HelperIntegration';
+        $items[] = 'Rougin\Staticka\Renderer\BladeIntegration';
 
         $settings['config'] = $source . '/config';
         $settings['content'] = $source . '/content';
+        $settings['includes'] = $includes;
+        $settings['integrations'] = $items;
         $settings['routes'] = $source . '/routes.php';
         $settings['views'] = $source . '/views';
 

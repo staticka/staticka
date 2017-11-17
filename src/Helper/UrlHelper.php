@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Staticka\Helpers;
+namespace Rougin\Staticka\Helper;
 
 /**
- * URL
+ * URL Helper
  *
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Url
+class UrlHelper
 {
     /**
      * @var string

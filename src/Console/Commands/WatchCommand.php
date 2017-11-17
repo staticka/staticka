@@ -7,6 +7,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Rougin\Staticka\Settings;
 
+/**
+ * Watch Command
+ *
+ * @package Staticka
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ */
 class WatchCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
@@ -40,6 +46,8 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
         $array = new \Symfony\Component\Console\Input\ArrayInput($inputs);
 
         $command->run($input, $output);
+
+        $output->writeln('');
     }
 
     /**

@@ -18,6 +18,11 @@ class Route
     /**
      * @var string
      */
+    protected $extension = 'md';
+
+    /**
+     * @var string
+     */
     protected $uri;
 
     /**
@@ -42,13 +47,13 @@ class Route
     }
 
     /**
-     * Returns the content name.
+     * Returns the filename of the content.
      *
      * @return string
      */
     public function content()
     {
-        return $this->content;
+        return $this->content . '.' . $this->extension;
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
-namespace Rougin\Staticka;
+namespace Rougin\Staticka\Renderer;
 
 use Illuminate\Contracts\Container\Container;
+use Rougin\Slytherin\Template\RendererInterface;
 
 /**
  * Renderer
@@ -10,7 +11,7 @@ use Illuminate\Contracts\Container\Container;
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Renderer extends \Jenssegers\Blade\Blade
+class BladeRenderer extends \Jenssegers\Blade\Blade implements RendererInterface
 {
     /**
      * Initializes the renderer instance.
@@ -33,7 +34,7 @@ class Renderer extends \Jenssegers\Blade\Blade
      * @param  array  $merge
      * @return string
      */
-    public function render($view, $data = array(), $merge = array())
+    public function render($view, array $data = array(), $merge = array())
     {
         return parent::render($view, $data, $merge);
     }
