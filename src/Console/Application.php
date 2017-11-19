@@ -20,11 +20,13 @@ class Application extends \Symfony\Component\Console\Application
     /**
      * Initializes the console application instance.
      *
-     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container = null)
     {
         parent::__construct('Staticka', $this->version);
+
+        $container = $container ?: new \Rougin\Slytherin\Container\Container;
 
         $this->add(new Commands\BuildCommand($container));
         $this->add(new Commands\WatchCommand);

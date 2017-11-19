@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Rougin\Staticka\Generator;
 use Rougin\Staticka\Settings;
+use Rougin\Staticka\Utility;
 
 /**
  * Build Command
@@ -62,15 +63,40 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         $settings = (new Settings)->load($site . '/staticka.php');
 
-        $container = $this->integrate($settings);
-
         $output->writeln('<info>Building the new site...</info>');
 
-        (new Generator($container, $settings))->make($site, $build);
+        $this->script($site, $settings->scripts('before'), $output);
+
+        (new Generator($this->integrate($settings), $settings))->make($site, $build);
+
+        Utility::transfer(Utility::path($site . '/assets'), $build);
+
+        $this->script($site, $settings->scripts('after'), $output);
 
         $output->writeln('<info>Site built successfully!</info>');
     }
 
+    /**
+     * Displays the script and run it using exec().
+     *
+     * @param  string                                             $source
+     * @param  string                                             $scripts
+     * @param  \Symfony\Component\Consolse\Output\OutputInterface $output
+     * @return void
+     */
+    protected function script($source, $scripts, OutputInterface $output)
+    {
+        ! $scripts || $output->writeln('Running script "' . $scripts . '"...');
+
+        ! $scripts || exec('cd ' . $source . ' && ' . $scripts);
+    }
+
+    /**
+     * Adds all defined integrations inside the container.
+     *
+     * @param  \Rougin\Staticka\Settings $settings
+     * @return \Rougin\Slytherin\Container\ContainerInterface
+     */
     protected function integrate(Settings $settings)
     {
         $container = $this->container;
