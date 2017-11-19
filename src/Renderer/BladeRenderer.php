@@ -2,17 +2,19 @@
 
 namespace Rougin\Staticka\Renderer;
 
-use Illuminate\Contracts\Container\Container;
-use Rougin\Slytherin\Template\RendererInterface;
-
 /**
  * Renderer
  *
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class BladeRenderer extends \Jenssegers\Blade\Blade implements RendererInterface
+class BladeRenderer implements \Rougin\Slytherin\Template\RendererInterface
 {
+    /** 
+     * @var \Jenssegers\Blade\Blade
+     */
+    protected $blade;
+
     /**
      * Initializes the renderer instance.
      *
@@ -21,9 +23,11 @@ class BladeRenderer extends \Jenssegers\Blade\Blade implements RendererInterface
      */
     public function __construct($views, $cache = null)
     {
+        $cache = $cache ?: sys_get_temp_dir();
+
         $views = (is_string($views)) ? array($views) : $views;
 
-        parent::__construct($views, $cache ?: sys_get_temp_dir());
+        $this->blade = new \Jenssegers\Blade\Blade($views, $cache);
     }
 
     /**
@@ -36,6 +40,6 @@ class BladeRenderer extends \Jenssegers\Blade\Blade implements RendererInterface
      */
     public function render($view, array $data = array(), $merge = array())
     {
-        return parent::render($view, $data, $merge);
+        return $this->blade->render($view, $data, $merge);
     }
 }

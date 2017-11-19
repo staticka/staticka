@@ -115,6 +115,21 @@ class Settings
     }
 
     /**
+     * Returns the before/after script during building.
+     *
+     * @param  string $type
+     * @return string
+     */
+    public function scripts($type)
+    {
+        $exists = isset($this->settings['scripts'][$type]);
+
+        $scripts = $exists ? $this->settings['scripts'][$type] : '';
+
+        return is_array($scripts) ? implode(' && ', $scripts) : $scripts;
+    }
+
+    /**
      * Returns a views path.
      *
      * @return string
@@ -147,6 +162,7 @@ class Settings
         $settings['includes'] = $includes;
         $settings['integrations'] = $items;
         $settings['routes'] = $source . '/routes.php';
+        $settings['scripts'] = array('before' => '', 'after' => '');
         $settings['views'] = $source . '/views';
 
         return $settings;
