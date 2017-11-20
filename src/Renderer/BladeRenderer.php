@@ -35,11 +35,10 @@ class BladeRenderer implements \Rougin\Slytherin\Template\RendererInterface
      *
      * @param  string $view
      * @param  array  $data
-     * @param  array  $merge
      * @return string
      */
-    public function render($view, array $data = array(), $merge = array())
+    public function render($view, array $data = array())
     {
-        return $this->blade->render($view, $data, $merge);
+        return $this->blade->render($view, $data);
     }
 }

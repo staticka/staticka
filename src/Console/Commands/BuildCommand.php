@@ -86,7 +86,9 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function script($source, $scripts, OutputInterface $output)
     {
-        ! $scripts || $output->writeln('Running script "' . $scripts . '"...');
+        $message = 'Running script "' . $scripts . '"...';
+
+        ! $scripts || $output->writeln('<info>' . $message . '</info>');
 
         ! $scripts || exec('cd ' . $source . ' && ' . $scripts);
     }

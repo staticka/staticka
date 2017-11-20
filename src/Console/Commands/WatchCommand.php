@@ -100,7 +100,13 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
 
         $items = array_merge($items, $config, $content, $views);
 
-        foreach ($items as $item) {
+        foreach ($settings->get('watch') as $watch) {
+            $names = $this->filenames($watch);
+
+            $items = array_merge($items, $names);
+        }
+
+        foreach ((array) $items as $item) {
             $file = array('file' => (string) $item);
 
             $file['contents'] = file_get_contents($item);
@@ -114,16 +120,15 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Returns a listing of available filenames.
      *
-     * @param  string $source
+     * @param  string|array $source
+     * @param  array        $items
      * @return array
      */
-    protected function filenames($source)
+    protected function filenames($source, $items = array())
     {
         $files = \Rougin\Staticka\Utility::files($source, 1);
 
-        $items = array();
-
-        foreach ($files as $file) {
+        foreach ((array) $files as $file) {
             $filepath = $file->getRealPath();
 
             $file->isDir() || array_push($items, $filepath);

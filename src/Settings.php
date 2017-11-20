@@ -29,10 +29,6 @@ class Settings
     {
         $settings = $settings ?: $this->defaults();
 
-        $config = $settings['config'];
-
-        $settings['config'] = is_string($config) ? array($config) : $config;
-
         $this->config = new Configuration($settings['config']);
 
         $this->settings = $settings;
@@ -87,11 +83,7 @@ class Settings
 
         $items = file_exists($file) ? require $file : $default;
 
-        $items = array_merge($default, $items);
-
-        $this->config = new Configuration($items['config']);
-
-        $this->settings = $items;
+        $this->__construct(array_merge($default, $items));
 
         return $this;
     }
@@ -164,6 +156,7 @@ class Settings
         $settings['routes'] = $source . '/routes.php';
         $settings['scripts'] = array('before' => '', 'after' => '');
         $settings['views'] = $source . '/views';
+        $settings['watch'] = array();
 
         return $settings;
     }

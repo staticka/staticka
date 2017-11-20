@@ -70,7 +70,7 @@ static-site/
 #### Command Options
 
 * `--site` - path of the source files. If not specified, it will use the current working directory as its default.
-* `--path` - path on which the static files will be built. If not specified, the current working directory will be used.
+* `--path` - path on which the static files will be built. If not defined, the current working directory or the `--site` + `build` directory (if specified) will be used.
 
 ### Customization
 
@@ -81,7 +81,7 @@ return array(
     /**
      * Directory path for the configurations.
      *
-     * @var string
+     * @var array|string
      */
     'config' => __DIR__ . '/config',
 
@@ -109,6 +109,52 @@ return array(
 ```
 
 **NOTE:** You could also define an array of `routes` in `staticka.php` instead on specifying it to a `routes.php` file. You can do also the same thing in `config`.
+
+### Watch file/s for changes
+
+To run the `build` command if there is a file change, you need to run this command:
+
+``` bash
+$ vendor/bin/staticka watch --site="static-site" --path="static-site/build"
+```
+
+By default, Staticka will watch the keys specified from the settings file (`staticka.php`):
+
+* `config`
+* `content`
+* `views`
+
+If you want to add additional folders to be watched, add `watch` key in `staticka.php`:
+
+``` php
+    ...
+
+    /**
+     * Watches the changes from the specified directories.
+     *
+     * @var array
+     */
+    'watch' => array(__DIR__ . '/source/assets'),
+
+    ...
+```
+
+### Run scripts before or after building
+
+You may encounter a scenario wherein you need to compile your files first before or after building. An example for this one is running [Gulp](https://gulpjs.com/) commands. To run the required scripts, include a `scripts` key with `before` and `after` array in the `staticka.php`:
+
+``` php
+    ...
+
+    /**
+     * Scripts needed to be run before or after the building.
+     *
+     * @var array
+     */
+    'scripts' => array('before' => 'gulp'),
+
+    ...
+```
 
 ## Change log
 
