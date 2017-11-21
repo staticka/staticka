@@ -2,6 +2,7 @@
 
 namespace Rougin\Staticka\Console\Commands;
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -39,14 +40,11 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     {
         $command = $this->getApplication()->find('build');
 
-        $inputs = array('command' => 'watch');
+        $inputs = array('--source' => $input->getOption('source'));
 
-        $inputs['--source'] = $input->getOption('source');
         $inputs['--path'] = $input->getOption('path');
 
-        $array = new \Symfony\Component\Console\Input\ArrayInput($inputs);
-
-        $command->run($input, $output);
+        $command->run(new ArrayInput($inputs), $output);
 
         $output->writeln('');
     }
@@ -109,8 +107,8 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Returns a listing of available filenames.
      *
-     * @param  string|array $source
-     * @param  array        $items
+     * @param  string $source
+     * @param  array  $items
      * @return array
      */
     protected function filenames($source, $items = array())

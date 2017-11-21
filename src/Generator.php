@@ -63,9 +63,9 @@ class Generator
         list($to, $from) = array(Utility::path($to), Utility::path($from));
 
         foreach ($this->settings->routes() as $route) {
-            $empty = empty($uris = $route->uri(true));
+            $uris = $route->uri(true);
 
-            $folder = $empty ? '' : $this->folder($to, $uris);
+            $folder = empty($uris) ? '' : $this->folder($to, $uris);
 
             $path = sprintf('%s/%s/index.html', $to, $folder);
 

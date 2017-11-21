@@ -54,7 +54,6 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         $this->addOption('source', null, 4, 'Source of the site', getcwd());
         $this->addOption('path', null, 4, 'Path of the site to be built', getcwd() . '/build');
-        $this->addOption('test', null, 1, 'Option to be use for unit testing');
     }
 
     /**

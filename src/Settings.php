@@ -57,7 +57,7 @@ class Settings
      * Returns a value based on the specified key.
      *
      * @param  string $key
-     * @return string
+     * @return mixed
      */
     public function get($key)
     {
@@ -94,7 +94,7 @@ class Settings
     {
         $routes = $this->settings['routes'];
 
-        if (is_string($routes) == true) {
+        if (is_string($routes) === true) {
             $exists = file_exists($routes) === true;
 
             $routes = $exists ? require $routes : array();
