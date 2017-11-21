@@ -89,12 +89,12 @@ class Generator
 
             $directory = $path . '/' . $folder;
 
-            file_exists($directory) || mkdir($directory);
+            file_exists($directory) ?: mkdir($directory);
 
-            ($folder === $uri) || $folder .= '/' . $uri;
+            $folder === $uri ?: $folder .= '/' . $uri;
         }
 
-        file_exists($path .= '/' . $folder) || mkdir($path);
+        file_exists($path .= '/' . $folder) ?: mkdir($path);
 
         return Utility::path($folder);
     }
