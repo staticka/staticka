@@ -47,16 +47,6 @@ class Settings
     }
 
     /**
-     * Returns the content path.
-     *
-     * @return string
-     */
-    public function content()
-    {
-        return $this->settings['content'];
-    }
-
-    /**
      * Returns a value based on the specified key.
      *
      * @param  string $key
@@ -100,10 +90,10 @@ class Settings
         if (is_string($routes) == true) {
             $exists = file_exists($routes) === true;
 
-            return $exists ? require $routes : array();
+            $routes = $exists ? require $routes : array();
         }
 
-        return $this->settings['routes'];
+        return $routes;
     }
 
     /**
@@ -122,13 +112,19 @@ class Settings
     }
 
     /**
-     * Returns a views path.
+     * Returns a listing of watchable directories.
      *
-     * @return string
+     * @return array
      */
-    public function views()
+    public function watchables()
     {
-        return $this->settings['views'];
+        $directories = $this->settings['watch'] ?: array();
+
+        array_push($directories, $this->settings['config']);
+        array_push($directories, $this->settings['content']);
+        array_push($directories, $this->settings['views']);
+
+        return $directories;
     }
 
     /**

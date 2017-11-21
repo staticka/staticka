@@ -26,6 +26,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
 
         $this->addOption('source', null, 4, 'Source of the site', getcwd());
         $this->addOption('path', null, 4, 'Path of the site to be built', getcwd() . '/build');
+        $this->addOption('test', null, 1, 'Option to be use for unit testing');
     }
 
     /**
@@ -58,7 +59,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $source = realpath($input->getOption('source'));
+        list($counter, $source) = array(1, realpath($input->getOption('source')));
 
         $settings = (new Settings)->load($source . '/staticka.php');
 
@@ -67,20 +68,12 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
 
         $files = $this->files($settings);
 
-        while (1) {
-            list($length, $updated) = array(count($files), $files);
-
-            for ($i = 0; $i < $length; $i++) {
-                $size = file_get_contents($updated[$i]['file']);
-
-                $updated[$i]['contents'] = $size;
-            }
-
-            $files === $updated || $this->build($input, $output);
-
-            $files = $this->files($settings);
+        while ($counter === 1) {
+            $files = $this->watch($input, $output, $settings, $files);
 
             sleep(2);
+
+            ! $input->getOption('test') || $counter++;
         }
     }
 
@@ -94,19 +87,13 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     {
         list($files, $items) = array(array(), array());
 
-        $config = $this->filenames($settings->get('config'));
-        $content = $this->filenames($settings->get('content'));
-        $views = $this->filenames($settings->get('views'));
-
-        $items = array_merge($items, $config, $content, $views);
-
-        foreach ($settings->get('watch') as $watch) {
-            $names = $this->filenames($watch);
+        foreach ($settings->watchables() as $folder) {
+            $names = $this->filenames($folder);
 
             $items = array_merge($items, $names);
         }
 
-        foreach ((array) $items as $item) {
+        foreach ($items as $item) {
             $file = array('file' => (string) $item);
 
             $file['contents'] = file_get_contents($item);
@@ -128,12 +115,36 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     {
         $files = \Rougin\Staticka\Utility::files($source, 1);
 
-        foreach ((array) $files as $file) {
+        foreach ($files as $file) {
             $filepath = $file->getRealPath();
 
             $file->isDir() || array_push($items, $filepath);
         }
 
         return $items;
+    }
+
+    /**
+     * Watches the specified files for changes.
+     *
+     * @param  \Symfony\Component\Consolse\Input\InputInterface   $input
+     * @param  \Symfony\Component\Consolse\Output\OutputInterface $output
+     * @param  \Rougin\Staticka\Settings                          $settings
+     * @param  array                                              $files
+     * @return array
+     */
+    protected function watch(InputInterface $input, OutputInterface $output, Settings $settings, $files)
+    {
+        list($length, $updated) = array(count($files), $files);
+
+        for ($i = 0; $i < $length; $i++) {
+            $size = file_get_contents($updated[$i]['file']);
+
+            $updated[$i]['contents'] = $size;
+        }
+
+        ($files === $updated && ! $input->getOption('test')) || $this->build($input, $output);
+
+        return $this->files($settings);
     }
 }

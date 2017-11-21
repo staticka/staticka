@@ -37,7 +37,7 @@ class Utility
      */
     public static function files($path, $iterator = 1, $directory = 4096)
     {
-        file_exists($path) || mkdir($path);
+        file_exists($path = Utility::path($path)) || mkdir($path);
 
         $directory = new \RecursiveDirectoryIterator($path, $directory);
 

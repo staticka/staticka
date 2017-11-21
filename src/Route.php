@@ -64,15 +64,17 @@ class Route
      */
     public function uri($array = false)
     {
+        $uri = $this->uri;
+
         if ($array === true) {
             $items = explode('/', $this->uri);
 
             $items = array_filter($items);
 
-            return array_values($items);
+            $uri = array_values($items);
         }
 
-        return $this->uri;
+        return $uri;
     }
 
     /**
