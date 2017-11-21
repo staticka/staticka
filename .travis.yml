@@ -19,10 +19,10 @@ matrix:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - if [[ $TRAVIS_PHP_VERSION == '5.4' ]]; then composer require illuminate/events:"~4.1 || ~5.0" symfony/yaml --dev; fi
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-  - if [[ $TRAVIS_PHP_VERSION == '5.4' ]]; then composer require illuminate/events:"~4.1 || ~5.0" symfony/yaml --dev; fi
 
 after_script:
   - if [[ $TRAVIS_PHP_VERSION != 'hhvm' && $TRAVIS_PHP_VERSION != '7.0' ]]; then php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover; fi
