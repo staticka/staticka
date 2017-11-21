@@ -24,6 +24,11 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     protected $container;
 
     /**
+     * @var \Rougin\Staticka\Settings
+     */
+    protected $settings;
+
+    /**
      * Initializes the command instance.
      *
      * @param \Rougin\Slytherin\Container\ContainerInterface $container
@@ -34,6 +39,8 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         parent::__construct($name);
 
         $this->container = $container;
+
+        $this->settings = new Settings;
     }
 
     /**
@@ -62,13 +69,15 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         $build = realpath($input->getOption('path')) ?: $site . '/build';
 
-        $settings = (new Settings)->load($site . '/staticka.php');
+        $settings = $this->settings->load($site . '/staticka.php');
 
         $output->writeln('<info>Building the new site...</info>');
 
         $this->script($site, $settings->scripts('before'), $output);
 
-        (new Generator($this->integrate($settings), $settings))->make($site, $build);
+        $generator = new Generator($this->integrate($settings), $settings);
+
+        $generator->make($site, $build);
 
         Utility::transfer(Utility::path($site . '/assets'), $build);
 

@@ -2,15 +2,13 @@
 
 namespace Rougin\Staticka\Content;
 
-use League\CommonMark\CommonMarkConverter;
-
 /**
  * Markdown Content
  *
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class MarkdownContent extends CommonMarkConverter implements ContentInterface
+class MarkdownContent extends \Parsedown implements ContentInterface
 {
     /**
      * Converts the specified code.
@@ -20,6 +18,6 @@ class MarkdownContent extends CommonMarkConverter implements ContentInterface
      */
     public function convert($code)
     {
-        return $this->convertToHtml($code);
+        return $this->text($code);
     }
 }

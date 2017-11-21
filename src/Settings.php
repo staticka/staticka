@@ -29,7 +29,14 @@ class Settings
     {
         $settings = $settings ?: $this->defaults();
 
-        $this->config = new Configuration($settings['config']);
+        $config = new Configuration($settings['config']);
+
+        $view = array('illuminate.view.compiled', 'illuminate.view.templates');
+
+        $config->set($view[0], $config->get($view[0], sys_get_temp_dir()));
+        $config->set($view[1], $config->get($view[1], $settings['views']));
+
+        $this->config = $config;
 
         $this->settings = $settings;
     }
@@ -143,7 +150,7 @@ class Settings
 
         $items[] = 'Rougin\Staticka\Content\MarkdownIntegration';
         $items[] = 'Rougin\Staticka\Helper\HelperIntegration';
-        $items[] = 'Rougin\Staticka\Renderer\BladeIntegration';
+        $items[] = 'Rougin\Weasley\Integrations\Illuminate\ViewIntegration';
 
         $settings['config'] = $source . '/config';
         $settings['content'] = $source . '/content';

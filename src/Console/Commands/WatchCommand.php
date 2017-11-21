@@ -59,9 +59,11 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $settings = new Settings;
+
         list($counter, $source) = array(1, realpath($input->getOption('source')));
 
-        $settings = (new Settings)->load($source . '/staticka.php');
+        $settings = $settings->load($source . '/staticka.php');
 
         $output->writeln('<info>Watching ' . $source . ' for changes...</info>');
         $output->writeln('');
