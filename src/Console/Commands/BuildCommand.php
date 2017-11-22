@@ -24,9 +24,14 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     protected $container;
 
     /**
-     * @var \Rougin\Staticka\Settings
+     * @var \Symfony\Component\Console\Input\InputInterface
      */
-    protected $settings;
+    protected $input;
+
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
+    protected $output;
 
     /**
      * Initializes the command instance.
@@ -39,8 +44,6 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         parent::__construct($name);
 
         $this->container = $container;
-
-        $this->settings = new Settings;
     }
 
     /**
@@ -59,47 +62,28 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Executes the current command.
      *
-     * @param  \Symfony\Component\Consolse\Input\InputInterface   $input
-     * @param  \Symfony\Component\Consolse\Output\OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $site = realpath($input->getOption('source'));
+        list($this->input, $this->output) = array($input, $output);
 
-        $build = realpath($input->getOption('path')) ?: $site . '/build';
-
-        $settings = $this->settings->load($site . '/staticka.php');
+        list($site, $build, $settings) = $this->settings();
 
         $output->writeln('<info>Building the new site...</info>');
 
         $this->script($site, $settings->scripts('before'), $output);
 
-        $generator = new Generator($this->integrate($settings), $settings);
+        (new Generator($this->integrate($settings), $settings))->make($site, $build);
 
-        $generator->make($site, $build);
+        $assets = Utility::path($site . '/assets');
 
-        Utility::transfer(Utility::path($site . '/assets'), $build);
+        ! file_exists($assets) || Utility::transfer($assets, $build);
 
         $this->script($site, $settings->scripts('after'), $output);
 
         $output->writeln('<info>Site built successfully!</info>');
-    }
-
-    /**
-     * Displays the script and run it using exec().
-     *
-     * @param  string                                             $source
-     * @param  string                                             $scripts
-     * @param  \Symfony\Component\Consolse\Output\OutputInterface $output
-     * @return void
-     */
-    protected function script($source, $scripts, OutputInterface $output)
-    {
-        $message = 'Running script "' . $scripts . '"...';
-
-        ! $scripts || $output->writeln('<info>' . $message . '</info>');
-
-        ! $scripts || exec('cd ' . $source . ' && ' . $scripts);
     }
 
     /**
@@ -110,9 +94,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function integrate(Settings $settings)
     {
-        $container = $this->container;
-
-        $config = $settings->config();
+        list($config, $container) = array($this->container, $settings->config());
 
         foreach ($settings->get('integrations') as $integration) {
             $integration = new $integration;
@@ -121,5 +103,37 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         }
 
         return $container;
+    }
+
+    /**
+     * Displays the script and run it using exec().
+     *
+     * @param  string $source
+     * @param  string $scripts
+     * @return void
+     */
+    protected function script($source, $scripts)
+    {
+        $message = 'Running script "' . $scripts . '"...';
+
+        ! $scripts || $this->output->writeln('<info>' . $message . '</info>');
+
+        ! $scripts || exec('cd ' . $source . ' && ' . $scripts);
+    }
+
+    /**
+     * Returns the source path, build path, and a Settings instance.
+     *
+     * @return array
+     */
+    protected function settings()
+    {
+        $site = realpath($this->input->getOption('source'));
+
+        $build = realpath($this->input->getOption('path')) ?: $site . '/build';
+
+        $settings = (new Settings)->load($site . '/staticka.php');
+
+        return array($site, $build, $settings);
     }
 }

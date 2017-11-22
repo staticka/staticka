@@ -102,7 +102,7 @@ return array(
     /**
      * A listing of available routes.
      *
-     * @var array
+     * @var array|string
      */
     'routes' => __DIR__ . '/routes.php',
 );

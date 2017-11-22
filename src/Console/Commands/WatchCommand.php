@@ -17,6 +17,26 @@ use Rougin\Staticka\Settings;
 class WatchCommand extends \Symfony\Component\Console\Command\Command
 {
     /**
+     * @var \Symfony\Component\Console\Input\InputInterface
+     */
+    protected $input;
+
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
+    protected $output;
+
+    /**
+     * Initializes the command instance.
+     *
+     * @param string|null $name
+     */
+    public function __construct($name = null)
+    {
+        parent::__construct($name);
+    }
+
+    /**
      * Configures the current command.
      *
      * @return void
@@ -33,35 +53,34 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Runs the "build" command.
      *
-     * @param  \Symfony\Component\Consolse\Input\InputInterface   $input
-     * @param  \Symfony\Component\Consolse\Output\OutputInterface $output
+     * @return void
      */
-    protected function build(InputInterface $input, OutputInterface $output)
+    protected function build()
     {
         $command = $this->getApplication()->find('build');
 
-        $inputs = array('--source' => $input->getOption('source'));
+        $inputs = array('--source' => $this->input->getOption('source'));
 
-        $inputs['--path'] = $input->getOption('path');
+        $inputs['--path'] = $this->input->getOption('path');
 
-        $command->run(new ArrayInput($inputs), $output);
+        $command->run(new ArrayInput($inputs), $this->output);
 
-        $output->writeln('');
+        $this->output->writeln('');
     }
 
     /**
      * Executes the current command.
      *
-     * @param  \Symfony\Component\Consolse\Input\InputInterface   $input
-     * @param  \Symfony\Component\Consolse\Output\OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $settings = new Settings;
+        list($this->input, $this->output) = array($input, $output);
 
         list($counter, $source) = array(1, realpath($input->getOption('source')));
 
-        $settings = $settings->load($source . '/staticka.php');
+        $settings = (new Settings)->load($source . '/staticka.php');
 
         $output->writeln('<info>Watching ' . $source . ' for changes...</info>');
         $output->writeln('');
@@ -69,7 +88,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
         $files = $this->files($settings);
 
         while ($counter === 1) {
-            $files = $this->watch($input, $output, $settings, $files);
+            $files = $this->watch($settings, $files);
 
             sleep(2);
 
@@ -127,23 +146,23 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Watches the specified files for changes.
      *
-     * @param  \Symfony\Component\Consolse\Input\InputInterface   $input
-     * @param  \Symfony\Component\Consolse\Output\OutputInterface $output
-     * @param  \Rougin\Staticka\Settings                          $settings
-     * @param  array                                              $files
+     * @param  \Rougin\Staticka\Settings $settings
+     * @param  array                     $files
      * @return array
      */
-    protected function watch(InputInterface $input, OutputInterface $output, Settings $settings, $files)
+    protected function watch(Settings $settings, $files)
     {
         list($length, $updated) = array(count($files), $files);
+
+        $test = $this->input->getOption('test');
 
         for ($i = 0; $i < $length; $i++) {
             $size = file_get_contents($updated[$i]['file']);
 
-            $updated[$i]['contents'] = $size;
+            $updated[$i]['contents'] = (string) $size;
         }
 
-        ($files === $updated && ! $input->getOption('test')) || $this->build($input, $output);
+        ($files === $updated && ! $test) || $this->build();
 
         return $this->files($settings);
     }

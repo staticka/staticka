@@ -85,8 +85,6 @@ class Generator
     protected function folder($path, $uris, $folder = '')
     {
         foreach ($uris as $uri) {
-            $folder = (empty($folder)) ? $uri : $folder;
-
             $directory = $path . '/' . $folder;
 
             file_exists($directory) ?: mkdir($directory);
@@ -108,13 +106,9 @@ class Generator
      */
     protected function html(Route $route, $source)
     {
+        $data = array('config' => $this->settings->config());
+
         $file = sprintf($source . '/content/%s', $route->content());
-
-        $content = $this->content->convert(file_get_contents($file));
-
-        $data = array('content' => $content);
-
-        $data['config'] = $this->settings->config();
 
         $includes = $this->settings->get('includes');
 
@@ -123,6 +117,10 @@ class Generator
 
             $data[$key] = $item;
         }
+
+        $content = $this->content->convert(file_get_contents($file));
+
+        $data['content'] = $content;
 
         return $this->renderer->render($route->view(), $data);
     }

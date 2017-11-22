@@ -58,18 +58,19 @@ class Utility
     /**
      * Transfers the specified files into another path.
      *
-     * @param  string $source
-     * @param  string $path
+     * @param  string  $source
+     * @param  string  $path
+     * @param  boolean $first
      * @return void
      */
-    public static function transfer($source, $path)
+    public static function transfer($source, $path, $first = true)
     {
-        file_exists($path) || mkdir($path);
+        (file_exists($path) || $first) || mkdir($path);
 
         foreach (self::files($source, 1) as $file) {
             $to = str_replace($source, $path, $from = $file->getRealPath());
 
-            $file->isDir() ? self::transfer($from, $to) : copy($from, $to);
+            $file->isDir() ? self::transfer($from, $to, false) : copy($from, $to);
         }
     }
 }
