@@ -20,6 +20,20 @@ class Settings
     /**
      * @var array
      */
+    protected $filters = array('Rougin\Staticka\Filter\HtmlMinifier');
+
+    /**
+     * @var array
+     */
+    protected $integrations = array(
+        'Rougin\Staticka\Content\MarkdownIntegration',
+        'Rougin\Staticka\Helper\HelperIntegration',
+        'Rougin\Weasley\Integrations\Illuminate\ViewIntegration',
+    );
+
+    /**
+     * @var array
+     */
     protected $settings = array();
 
     /**
@@ -148,18 +162,15 @@ class Settings
 
         $includes['url'] = 'Rougin\Staticka\Helper\UrlHelper';
 
-        $items[] = 'Rougin\Staticka\Content\MarkdownIntegration';
-        $items[] = 'Rougin\Staticka\Helper\HelperIntegration';
-        $items[] = 'Rougin\Weasley\Integrations\Illuminate\ViewIntegration';
-
         $settings['config'] = $source . '/config';
         $settings['content'] = $source . '/content';
         $settings['includes'] = $includes;
-        $settings['integrations'] = $items;
+        $settings['integrations'] = $this->integrations;
         $settings['routes'] = $source . '/routes.php';
         $settings['scripts'] = array('before' => '', 'after' => '');
         $settings['views'] = $source . '/views';
         $settings['watch'] = array();
+        $settings['filters'] = $this->filters;
 
         return $settings;
     }

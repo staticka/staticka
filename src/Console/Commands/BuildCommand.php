@@ -83,7 +83,37 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         $this->script($site, $settings->scripts('after'), $output);
 
+        $this->filters($settings, $build);
+
         $output->writeln('<info>Site built successfully!</info>');
+    }
+
+    /**
+     * Runs the specified filters to the built site.
+     *
+     * @param  \Rougin\Staticka\Settings $settings
+     * @param  string                    $path
+     * @return void
+     */
+    protected function filters(Settings $settings, $path)
+    {
+        $this->output->writeln('<info>Running filters...</info>');
+
+        foreach ($settings->get('filters') as $filter) {
+            $filter = $this->container->get($filter);
+
+            foreach ($filter->tags() as $tag) {
+                $files = glob($path . '/*.' . $tag);
+
+                foreach ($files as $file) {
+                    $content = file_get_contents($file);
+
+                    $content = $filter->filter($content);
+
+                    file_put_contents($file, $content);
+                }
+            }
+        }
     }
 
     /**
@@ -94,7 +124,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function integrate(Settings $settings)
     {
-        list($config, $container) = array($this->container, $settings->config());
+        list($config, $container) = array($settings->config(), $this->container);
 
         foreach ($settings->get('integrations') as $integration) {
             $integration = new $integration;
