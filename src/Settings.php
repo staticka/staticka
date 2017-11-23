@@ -20,7 +20,10 @@ class Settings
     /**
      * @var array
      */
-    protected $filters = array('Rougin\Staticka\Filter\HtmlMinifier');
+    protected $filters = array(
+        'Rougin\Staticka\Filter\CssMinifier',
+        'Rougin\Staticka\Filter\HtmlMinifier',
+    );
 
     /**
      * @var array

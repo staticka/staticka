@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Yet another static site generator for PHP.
+Staticka is yet another static site generator written in PHP. It uses [`Markdown`](https://en.wikipedia.org/wiki/Markdown) format for the content files and the [`Laravel Blade`](https://laravel.com/docs/5.5/blade) engine for managing the view files. It is also written using [Slytherin](https://github.com/rougin/slytherin).
 
 ## Install
 
@@ -130,7 +130,7 @@ If you want to add additional folders to be watched, add `watch` key in `statick
     ...
 
     /**
-     * Watches the changes from the specified directories.
+     * Looks for file changes from the specified directories.
      *
      * @var array
      */
@@ -155,6 +155,120 @@ You may encounter a scenario wherein you need to compile your files first before
 
     ...
 ```
+
+### Helpers
+
+Staticka can use helpers in helping you to put functions into your view files. By default, `Rougin\Staticka\Helper\UrlHelper` is added in which can be used in the view by the `$url` variable. To add additional helpers to your site, include them in a `includes` key in the `staticka.php` file.
+
+``` php
+    ...
+
+    /**
+     * Returns a listing of helpers to be used in the view files.
+     *
+     * @var array
+     */
+    'filters' => array(
+        /**
+         * The "key" is the alias to the view while the "value" is the class related to it.
+         */
+        'url' => 'Rougin\Staticka\Helper\UrlHelper',
+        'array' => 'Acme\Helper\ArrayHelper',
+        'dir' => 'Acme\Helper\DirectoryFilter',
+    ),
+
+    ...
+```
+
+### Filters
+
+Staticka can also use filters to modify the contents generated in the built path. By default, these two filters are available and added:
+
+* `Rougin\Staticka\Filter\CssMinifier`
+* `Rougin\Staticka\Filter\HtmlMinifier`
+
+To modify the list of filters you want to use, just add a `filters` key in `staticka.php` file:
+
+``` php
+    ...
+
+    /**
+     * Returns a listing of filters to be used in the built site.
+     *
+     * @var array
+     */
+    'filters' => array(
+        'Rougin\Staticka\Filter\CssMinifier',
+        'Rougin\Staticka\Filter\HtmlMinifier',
+        'Acme\Filter\MyFilter',
+        'Acme\Filter\AnotherFilter',
+    ),
+
+    ...
+```
+
+To create your own filter, you must implement it in [`FilterInterface`](src/Filter/FilterInterface.php).
+
+### Integrations
+
+If you have a filter or a helper that contains dependencies or needs to be configured first, it is better to add them into an integration in order for Staticka to use it properly. The example below contains the integration of the `Rougin\Staticka\Helper\UrlHelper`:
+
+``` php
+namespace Rougin\Staticka\Helper;
+
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Container\ContainerInterface;
+
+/**
+ * Helper Integration
+ *
+ * An integration for template renderers to be included in Slytherin.
+ *
+ * @package Slytherin
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ */
+class HelperIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+{
+    /**
+     * Defines the specified integration.
+     *
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  \Rougin\Slytherin\Integration\Configuration    $config
+     * @return \Rougin\Slytherin\Container\ContainerInterface
+     */
+    public function define(ContainerInterface $container, Configuration $config)
+    {
+        $url = new UrlHelper($config->get('app.base_url'));
+
+        $container->set('Rougin\Staticka\Helper\UrlHelper', $url);
+
+        return $container;
+    }
+}
+```
+
+To include your customized integration, add an `integration` key in the `staticka.php` file:
+
+``` php
+    ...
+
+    /**
+     * Returns a listing of integrations to be used.
+     *
+     * @var array
+     */
+    'integrations' => array(
+        'Acme\Integrations\AcmeIntegration',
+        'Acme\Integrations\NewIntegration',
+        'Rougin\Staticka\Content\MarkdownIntegration',
+        'Rougin\Staticka\Helper\HelperIntegration',
+        'Rougin\Weasley\Integrations\Illuminate\ViewIntegration',
+    ),
+
+    ...
+```
+
+**NOTE**: `MarkdownIntegration` and `ViewIntegration` are implemented in `Rougin\Staticka\Content\ContentInterface` and `Rougin\Slytherin\Template\RendererInterface` respectively which are required by Staticka to generate the content and view files. So if you don't want to use the [`Markdown`](https://en.wikipedia.org/wiki/Markdown) format and the [`Laravel Blade`](https://laravel.com/docs/5.5/blade) engine, you can replace them by implementing it to their mentioned interfaces.
 
 ## Change log
 

@@ -103,7 +103,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
             $filter = $this->container->get($filter);
 
             foreach ($filter->tags() as $tag) {
-                $files = glob($path . '/*.' . $tag);
+                $files = glob($path . '/**/*.' . $tag);
 
                 foreach ($files as $file) {
                     $content = file_get_contents($file);
@@ -111,6 +111,8 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
                     $content = $filter->filter($content);
 
                     file_put_contents($file, $content);
+
+                    rename($file, $filter->rename($file));
                 }
             }
         }
