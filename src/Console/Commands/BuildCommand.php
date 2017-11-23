@@ -106,9 +106,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
                 $files = glob($path . '/**/*.' . $tag);
 
                 foreach ($files as $file) {
-                    $content = file_get_contents($file);
-
-                    $content = $filter->filter($content);
+                    $content = $filter->filter(file_get_contents($file));
 
                     file_put_contents($file, $content);
 
