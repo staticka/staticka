@@ -52,25 +52,24 @@ class Utility
      */
     public static function path($path)
     {
-        return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $path);
+        return str_replace(array('\\', '/', '\\\\'), DIRECTORY_SEPARATOR, $path);
     }
 
     /**
      * Transfers the specified files into another path.
      *
-     * @param  string  $source
-     * @param  string  $path
-     * @param  boolean $first
+     * @param  string $source
+     * @param  string $path
      * @return void
      */
-    public static function transfer($source, $path, $first = true)
+    public static function transfer($source, $path)
     {
-        (file_exists($path) || $first) || mkdir($path);
+        file_exists($path) || mkdir($path);
 
         foreach (self::files($source, 1) as $file) {
             $to = str_replace($source, $path, $from = $file->getRealPath());
 
-            $file->isDir() ? self::transfer($from, $to, false) : copy($from, $to);
+            $file->isDir() ? self::transfer($from, $to) : copy($from, $to);
         }
     }
 }

@@ -67,9 +67,13 @@ class Generator
 
             $folder = empty($uris) ? '' : $this->folder($to, $uris);
 
-            $path = sprintf('%s/%s/index.html', $to, $folder);
+            $path = Utility::path($to . '/' . $folder);
 
-            file_put_contents($path, $this->html($route, $from));
+            file_exists($path) || mkdir($path);
+
+            $html = $this->html($route, $from);
+
+            file_put_contents($path . '/index.html', $html);
         }
     }
 
@@ -92,9 +96,7 @@ class Generator
             $folder === $uri ?: $folder .= '/' . $uri;
         }
 
-        file_exists($path .= '/' . $folder) ?: mkdir($path);
-
-        return Utility::path($folder);
+        return $folder;
     }
 
     /**

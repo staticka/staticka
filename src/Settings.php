@@ -158,7 +158,7 @@ class Settings
     {
         $source = $source ?: (string) getcwd();
 
-        list($includes, $items, $settings) = array(array(), array(), array());
+        list($includes, $settings) = array(array(), array());
 
         $includes['url'] = 'Rougin\Staticka\Helper\UrlHelper';
 

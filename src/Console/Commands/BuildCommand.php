@@ -73,7 +73,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         $output->writeln('<info>Building the new site...</info>');
 
-        $this->script($site, $settings->scripts('before'), $output);
+        $this->script($site, $settings->scripts('before'));
 
         (new Generator($this->integrate($settings), $settings))->make($site, $build);
 
@@ -81,7 +81,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         ! file_exists($assets) || Utility::transfer($assets, $build);
 
-        $this->script($site, $settings->scripts('after'), $output);
+        $this->script($site, $settings->scripts('after'));
 
         $this->filters($settings, $build);
 
