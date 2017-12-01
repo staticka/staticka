@@ -33,7 +33,7 @@ class UrlHelper
      */
     public function set($link)
     {
-        $link = ($link[0] != '/') ? '/' . $link : $link;
+        $link = $link[0] !== '/' ? '/' . $link : $link;
 
         return $this->base . $link;
     }
