@@ -11,29 +11,6 @@ namespace Rougin\Staticka\Filter;
 class HtmlMinifier extends \voku\helper\HtmlMin implements FilterInterface
 {
     /**
-     * Initializes the minifier instance.
-     */
-    public function __construct()
-    {
-        $this->doOptimizeViaHtmlDomParser();
-        $this->doRemoveComments();
-        $this->doSumUpWhitespace();
-        $this->doRemoveWhitespaceAroundTags();
-        $this->doOptimizeAttributes();
-        $this->doRemoveHttpPrefixFromAttributes();
-        $this->doRemoveDefaultAttributes();
-        $this->doRemoveDeprecatedAnchorName();
-        $this->doRemoveDeprecatedScriptCharsetAttribute();
-        $this->doRemoveDeprecatedTypeFromScriptTag();
-        $this->doRemoveDeprecatedTypeFromStylesheetLink();
-        $this->doRemoveEmptyAttributes();
-        $this->doRemoveValueFromEmptyInput();
-        $this->doSortCssClassNames();
-        $this->doSortHtmlAttributes();
-        $this->doRemoveSpacesBetweenTags();
-    }
-
-    /**
      * Modifies the given code.
      *
      * @param  string $code
