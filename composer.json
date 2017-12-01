@@ -18,7 +18,7 @@
         "matthiasmullie/minify": "~1.3",
         "rougin/slytherin": "~0.9",
         "rougin/weasley": "~0.5",
-        "symfony/console": "~2.8",
+        "symfony/console": "~2.8 || ~3.0",
         "voku/html-min": "~1.0"
     },
     "require-dev": {
