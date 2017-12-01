@@ -19,6 +19,7 @@
         "rougin/slytherin": "~0.9",
         "rougin/weasley": "~0.5",
         "symfony/console": "~2.8 || ~3.0",
+        "symfony/css-selector": "~2.8.31 || ~3.0",
         "symfony/yaml": "~2.8 || ~3.0",
         "voku/html-min": "~1.0"
     },
