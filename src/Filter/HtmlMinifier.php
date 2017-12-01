@@ -62,6 +62,6 @@ class HtmlMinifier extends \voku\helper\HtmlMin implements FilterInterface
      */
     public function tags()
     {
-        return array('htm', 'html');
+        return array('html');
     }
 }

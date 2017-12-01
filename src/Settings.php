@@ -31,7 +31,7 @@ class Settings
     protected $integrations = array(
         'Rougin\Staticka\Content\MarkdownIntegration',
         'Rougin\Staticka\Helper\HelperIntegration',
-        'Rougin\Weasley\Integrations\Illuminate\ViewIntegration',
+        'Rougin\Staticka\Renderer\RendererIntegration',
     );
 
     /**
@@ -50,6 +50,7 @@ class Settings
 
         $view = array('illuminate.view.compiled', 'illuminate.view.templates');
 
+        $config->set('app.views', $config->get($view[1], $settings['views']));
         $config->set($view[0], $config->get($view[0], sys_get_temp_dir()));
         $config->set($view[1], $config->get($view[1], $settings['views']));
 

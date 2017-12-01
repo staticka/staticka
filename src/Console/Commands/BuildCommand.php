@@ -75,11 +75,11 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         $this->script($site, $settings->scripts('before'));
 
-        (new Generator($this->integrate($settings), $settings))->make($site, $build);
+        $this->generate($settings, $site, $build);
 
         $assets = Utility::path($site . '/assets');
 
-        ! file_exists($assets) || Utility::transfer($assets, $build);
+        file_exists($assets) && Utility::transfer($assets, $build);
 
         $this->script($site, $settings->scripts('after'));
 
@@ -102,27 +102,27 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
         foreach ($settings->get('filters') as $filter) {
             $filter = $this->container->get($filter);
 
-            foreach ($filter->tags() as $tag) {
-                $files = glob($path . '/**/*.' . $tag);
+            $files = $this->match($path, $filter->tags());
 
-                foreach ($files as $file) {
-                    $content = $filter->filter(file_get_contents($file));
+            foreach ((array) $files as $file) {
+                $content = $filter->filter(file_get_contents($file));
 
-                    file_put_contents($file, $content);
+                file_put_contents($file, $content);
 
-                    rename($file, $filter->rename($file));
-                }
+                rename($file, $filter->rename($file));
             }
         }
     }
 
     /**
-     * Adds all defined integrations inside the container.
+     * Adds all defined integrations and runs the generator.
      *
      * @param  \Rougin\Staticka\Settings $settings
-     * @return \Rougin\Slytherin\Container\ContainerInterface
+     * @param  string                    $site
+     * @param  string                    $build
+     * @return void
      */
-    protected function integrate(Settings $settings)
+    protected function generate(Settings $settings, $site, $build)
     {
         list($config, $container) = array($settings->config(), $this->container);
 
@@ -132,7 +132,38 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
             $container = $integration->define($container, $config);
         }
 
-        return $container;
+        $generator = new Generator($container, $settings);
+
+        $generator->make($site, $build);
+    }
+
+    /**
+     * Matches the files against a specified tag.
+     *
+     * @param  string $path
+     * @param  string $tags
+     * @param  array  $files
+     * @return array
+     */
+    protected function match($path, array $tags, $files = array())
+    {
+        $iterator = Utility::files($path);
+
+        foreach ($tags as $tag) {
+            $pattern = '/.' . $tag . '$/';
+
+            $regex = new \RegexIterator($iterator, $pattern);
+
+            $items = array_values(iterator_to_array($regex));
+
+            foreach ((array) $items as $item) {
+                $file = $item->isDir() === false;
+
+                $file && $files[] = $item->getRealpath();
+            }
+        }
+
+        return $files;
     }
 
     /**
@@ -146,9 +177,9 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     {
         $message = 'Running script "' . $scripts . '"...';
 
-        ! $scripts || $this->output->writeln('<info>' . $message . '</info>');
+        $scripts && $this->output->writeln('<info>' . $message . '</info>');
 
-        ! $scripts || exec('cd ' . $source . ' && ' . $scripts);
+        $scripts && exec('cd ' . $source . ' && ' . $scripts);
     }
 
     /**
@@ -162,7 +193,9 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
 
         $build = realpath($this->input->getOption('path')) ?: $site . '/build';
 
-        $settings = (new Settings)->load($site . '/staticka.php');
+        $settings = new Settings;
+
+        $settings = $settings->load($site . '/staticka.php');
 
         return array($site, $build, $settings);
     }

@@ -7,15 +7,17 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Staticka is yet another static site generator written in PHP. It uses [`Markdown`](https://en.wikipedia.org/wiki/Markdown) format for the content files and the [`Laravel Blade`](https://laravel.com/docs/5.5/blade) engine for managing the view files. It is also written using [Slytherin](https://github.com/rougin/slytherin).
+Staticka is yet another static site generator written in PHP. It uses [Markdown](https://en.wikipedia.org/wiki/Markdown) format for the content files and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine for managing the view files. It is also written using [Slytherin](https://github.com/rougin/slytherin).
 
 ## Install
 
 Via Composer
 
 ``` bash
-$ composer require rougin/staticka
+$ composer require rougin/staticka illuminate/blade
 ```
+
+**NOTE**: Laravel Blade is only available in PHP v5.4.0. You can use Twig as a replacement (`twig/twig`) or the Renderer instance (the default one) from Slytherin.
 
 ## Usage
 
@@ -216,8 +218,9 @@ If you have a filter or a helper that contains dependencies or needs to be confi
 ``` php
 namespace Rougin\Staticka\Helper;
 
-use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\IntegrationInterface;
 
 /**
  * Helper Integration
@@ -227,7 +230,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class HelperIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+class HelperIntegration implements IntegrationInterface
 {
     /**
      * Defines the specified integration.
@@ -262,13 +265,13 @@ To include your customized integration, add an `integration` key in the `statick
         'Acme\Integrations\NewIntegration',
         'Rougin\Staticka\Content\MarkdownIntegration',
         'Rougin\Staticka\Helper\HelperIntegration',
-        'Rougin\Weasley\Integrations\Illuminate\ViewIntegration',
+        'Rougin\Staticka\Renderer\RendererIntegration',
     ),
 
     ...
 ```
 
-**NOTE**: `MarkdownIntegration` and `ViewIntegration` are implemented in `Rougin\Staticka\Content\ContentInterface` and `Rougin\Slytherin\Template\RendererInterface` respectively which are required by Staticka to generate the content and view files. So if you don't want to use the [`Markdown`](https://en.wikipedia.org/wiki/Markdown) format and the [`Laravel Blade`](https://laravel.com/docs/5.5/blade) engine, you can replace them by implementing it to their mentioned interfaces.
+**NOTE**: `MarkdownIntegration` and `ViewIntegration` are implemented in `Rougin\Staticka\Content\ContentInterface` and `Rougin\Slytherin\Template\RendererInterface` respectively which are required by Staticka to generate the content and view files. So if you don't want to use the [Markdown](https://en.wikipedia.org/wiki/Markdown) format and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine, you can replace them by implementing it to their mentioned interfaces.
 
 ## Change log
 
