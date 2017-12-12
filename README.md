@@ -17,7 +17,7 @@ Via Composer
 $ composer require rougin/staticka illuminate/blade
 ```
 
-**NOTE**: Laravel Blade is only available in PHP v5.4.0. You can use Twig as a replacement (`twig/twig`) or the Renderer instance (the default one) from Slytherin.
+**NOTE**: Laravel Blade is only available in PHP v5.4.0 and later. For PHP v5.3.0, you can use Twig as a replacement (`twig/twig`) or the Renderer instance (the default one) from Slytherin.
 
 ## Usage
 
@@ -35,6 +35,8 @@ static-site/
 ```
 
 The contents of the `routes.php` file must return an array of `Rougin\Staticka\Route` instances:
+
+**routes.php**
 
 ``` php
 $routes = array();
@@ -76,7 +78,9 @@ static-site/
 
 ### Customization
 
-To customize the directory structure of the static site, add a file named `staticka.php` to specify the paths of the required files/directories:
+To customize the directory structure of the static site, add a file named `staticka.php` to specify the paths of the required files/directories and its other settings. The settings specified below will be discussed later.
+
+**staticka.php**
 
 ``` php
 return array(
@@ -107,10 +111,44 @@ return array(
      * @var array|string
      */
     'routes' => __DIR__ . '/routes.php',
+
+    /**
+     * Looks for file changes from the specified directories.
+     *
+     * @var array
+     */
+    'watch' => array(),
+
+    /**
+     * Scripts needed to be run before or after the building.
+     *
+     * @var array
+     */
+    'scripts' => array('before' => '', 'after' => ''),
+
+    /**
+     * Returns a listing of helpers to be used in the view files.
+     *
+     * @var array
+     */
+    'filters' => array(
+        'url' => 'Rougin\Staticka\Helper\UrlHelper',
+    ),
+
+    /**
+     * Returns a listing of integrations to be used.
+     *
+     * @var array
+     */
+    'integrations' => array(
+        'Rougin\Staticka\Content\MarkdownIntegration',
+        'Rougin\Staticka\Helper\HelperIntegration',
+        'Rougin\Staticka\Renderer\RendererIntegration',
+    ),
 );
 ```
 
-**NOTE:** You could also define an array of `routes` in `staticka.php` instead on specifying it to a `routes.php` file. You can do also the same thing in `config`.
+**NOTE:** You could also define an array of `Route` instances in the `routes` key of `staticka.php` instead on specifying it to a `routes.php` file. You can do also the same thing in the `config` key.
 
 ### Watch file/s for changes
 
@@ -120,13 +158,15 @@ To run the `build` command if there is a file change, you need to run this comma
 $ vendor/bin/staticka watch --site="static-site" --path="static-site/build"
 ```
 
-By default, Staticka will watch the keys specified from the settings file (`staticka.php`):
+By default, Staticka will watch the path of the keys specified from the settings file (`staticka.php`):
 
 * `config`
 * `content`
 * `views`
 
-If you want to add additional folders to be watched, add `watch` key in `staticka.php`:
+If you want to add additional folders to be watched, just find the `watch` key:
+
+**staticka.php**
 
 ``` php
     ...
@@ -143,7 +183,9 @@ If you want to add additional folders to be watched, add `watch` key in `statick
 
 ### Run scripts before or after building
 
-You may encounter a scenario wherein you need to compile your files first before or after building. An example for this one is running [Gulp](https://gulpjs.com/) commands. To run the required scripts, include a `scripts` key with `before` and `after` array in the `staticka.php`:
+You may encounter a scenario wherein you need to compile your files first before or after building. An example for this one is running [Gulp](https://gulpjs.com/) commands. To run the required scripts, find the `scripts` key with `before` and `after` values:
+
+**staticka.php**
 
 ``` php
     ...
@@ -160,7 +202,9 @@ You may encounter a scenario wherein you need to compile your files first before
 
 ### Helpers
 
-Staticka can use helpers in helping you to put functions into your view files. By default, `Rougin\Staticka\Helper\UrlHelper` is added in which can be used in the view by the `$url` variable. To add additional helpers to your site, include them in a `includes` key in the `staticka.php` file.
+Staticka can use helpers in helping you to put functions into your view files. By default, `Rougin\Staticka\Helper\UrlHelper` is added in which can be used in the view by the `$url` variable. To add additional helpers to your site, include them in a `includes` key:
+
+**staticka.php**
 
 ``` php
     ...
@@ -175,11 +219,35 @@ Staticka can use helpers in helping you to put functions into your view files. B
          * The "key" is the alias to the view while the "value" is the class related to it.
          */
         'url' => 'Rougin\Staticka\Helper\UrlHelper',
+
         'array' => 'Acme\Helper\ArrayHelper',
         'dir' => 'Acme\Helper\DirectoryFilter',
     ),
 
     ...
+```
+
+**views/index.blade.php**
+
+``` html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Staticka - yet another static site generator written in PHP.</title>
+  <!-- You can now use the URL helper as "$url" inside a view template -->
+  <link rel="stylesheet" href="{{ $url->set('css/styles.css') }}">
+</head>
+<body>
+  <p>The ting goes skrrrahh (ah)</p>
+  <p>Pap, pap, ka-ka-ka (ka)</p>
+  <p>Skidiki-pap-pap (pap)</p>
+  <p>And a pu-pu-pudrrrr-boom (boom)</p>
+  <p>Skya (ah), du-du-ku-ku-dun-dun (dun)</p>
+  <p>Poom, poom, you don' know</p>
+  <script src="{{ $url->set('js/scripts.js') }}" async></script>
+</body>
+</html>
 ```
 
 ### Filters
@@ -189,7 +257,9 @@ Staticka can also use filters to modify the contents generated in the built path
 * `Rougin\Staticka\Filter\CssMinifier`
 * `Rougin\Staticka\Filter\HtmlMinifier`
 
-To modify the list of filters you want to use, just add a `filters` key in `staticka.php` file:
+To modify the list of filters you want to use, just find the `filters` key:
+
+**staticka.php**
 
 ``` php
     ...
@@ -202,6 +272,7 @@ To modify the list of filters you want to use, just add a `filters` key in `stat
     'filters' => array(
         'Rougin\Staticka\Filter\CssMinifier',
         'Rougin\Staticka\Filter\HtmlMinifier',
+
         'Acme\Filter\MyFilter',
         'Acme\Filter\AnotherFilter',
     ),
@@ -213,7 +284,9 @@ To create your own filter, you must implement it in [`FilterInterface`](src/Filt
 
 ### Integrations
 
-If you have a filter or a helper that contains dependencies or needs to be configured first, it is better to add them into an integration in order for Staticka to use it properly. The example below contains the integration of the `Rougin\Staticka\Helper\UrlHelper`:
+If you have a filter or a helper that contains dependencies or needs to be configured first, it is better to add them into an integration in order for Staticka to use it properly. The example below contains the integration file of the `Rougin\Staticka\Helper\UrlHelper`:
+
+**HelperIntegration.php**
 
 ``` php
 namespace Rougin\Staticka\Helper;
@@ -241,16 +314,18 @@ class HelperIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        $helper = 'Rougin\Staticka\Helper\UrlHelper';
+
         $url = new UrlHelper($config->get('app.base_url'));
 
-        $container->set('Rougin\Staticka\Helper\UrlHelper', $url);
-
-        return $container;
+        return $container->set($helper, $url);
     }
 }
 ```
 
-To include your customized integration, add an `integration` key in the `staticka.php` file:
+To include your own integration/s, just find the `integration` key:
+
+**staticka.php**
 
 ``` php
     ...

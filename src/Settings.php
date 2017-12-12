@@ -20,23 +20,6 @@ class Settings
     /**
      * @var array
      */
-    protected $filters = array(
-        'Rougin\Staticka\Filter\CssMinifier',
-        'Rougin\Staticka\Filter\HtmlMinifier',
-    );
-
-    /**
-     * @var array
-     */
-    protected $integrations = array(
-        'Rougin\Staticka\Content\MarkdownIntegration',
-        'Rougin\Staticka\Helper\HelperIntegration',
-        'Rougin\Staticka\Renderer\RendererIntegration',
-    );
-
-    /**
-     * @var array
-     */
     protected $settings = array();
 
     /**
@@ -162,20 +145,62 @@ class Settings
     {
         $source = $source ?: (string) getcwd();
 
-        list($includes, $settings) = array(array(), array());
-
-        $includes['url'] = 'Rougin\Staticka\Helper\UrlHelper';
+        $settings = array('watch' => array());
 
         $settings['config'] = $source . '/config';
         $settings['content'] = $source . '/content';
-        $settings['includes'] = $includes;
-        $settings['integrations'] = $this->integrations;
+        $settings['filters'] = $this->filters();
+        $settings['includes'] = $this->includes();
+        $settings['integrations'] = $this->integrations();
         $settings['routes'] = $source . '/routes.php';
         $settings['scripts'] = array('before' => '', 'after' => '');
         $settings['views'] = $source . '/views';
-        $settings['watch'] = array();
-        $settings['filters'] = $this->filters;
 
         return $settings;
+    }
+
+    /**
+     * Returns a listing of default filters.
+     *
+     * @return array
+     */
+    protected function filters()
+    {
+        $filters = array();
+
+        array_push($filters, 'Rougin\Staticka\Filter\CssMinifier');
+        array_push($filters, 'Rougin\Staticka\Filter\HtmlMinifier');
+
+        return $filters;
+    }
+
+    /**
+     * Returns a listing of default includes.
+     *
+     * @return array
+     */
+    protected function includes()
+    {
+        $includes = array();
+
+        $includes['url'] = 'Rougin\Staticka\Helper\UrlHelper';
+
+        return $includes;
+    }
+
+    /**
+     * Returns a listing of default integrations.
+     *
+     * @return array
+     */
+    protected function integrations()
+    {
+        $integrations = array();
+
+        $integrations[] = 'Rougin\Staticka\Content\MarkdownIntegration';
+        $integrations[] = 'Rougin\Staticka\Helper\HelperIntegration';
+        $integrations[] = 'Rougin\Staticka\Renderer\RendererIntegration';
+
+        return $integrations;
     }
 }

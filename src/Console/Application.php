@@ -2,6 +2,7 @@
 
 namespace Rougin\Staticka\Console;
 
+use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
 
 /**
@@ -26,7 +27,7 @@ class Application extends \Symfony\Component\Console\Application
     {
         parent::__construct('Staticka', $this->version);
 
-        $container = $container ?: new \Rougin\Slytherin\Container\Container;
+        $container = $container ?: new Container;
 
         $this->add(new Commands\BuildCommand($container));
         $this->add(new Commands\WatchCommand);

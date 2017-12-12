@@ -24,10 +24,10 @@ class MarkdownIntegration implements \Rougin\Slytherin\Integration\IntegrationIn
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        $interface = 'Rougin\Staticka\Content\ContentInterface';
+
         $content = new MarkdownContent;
 
-        $container->set('Rougin\Staticka\Content\ContentInterface', $content);
-
-        return $container;
+        return $container->set($interface, $content);
     }
 }

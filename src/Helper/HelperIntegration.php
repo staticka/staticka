@@ -24,10 +24,10 @@ class HelperIntegration implements \Rougin\Slytherin\Integration\IntegrationInte
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        $helper = 'Rougin\Staticka\Helper\UrlHelper';
+
         $url = new UrlHelper($config->get('app.base_url'));
 
-        $container->set('Rougin\Staticka\Helper\UrlHelper', $url);
-
-        return $container;
+        return $container->set($helper, $url);
     }
 }
