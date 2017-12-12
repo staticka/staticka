@@ -21,6 +21,17 @@ $ composer require rougin/staticka illuminate/blade
 
 ## Usage
 
+### Table Of Contents
+
+* [Preparation](#preparation)
+* [Building](#building)
+* [Customization](#customization)
+* [Watch file/s for changes](#watch-files-for-changes)
+* [Run scripts before or after building](#run-scripts-before-or-after-building)
+* [Helpers](#helpers)
+* [Filters](#filters)
+* [Integrations](#integrations)
+
 ### Preparation
 
 To generate a simple static site, you must have at least this file structure:
@@ -52,6 +63,8 @@ It maps to the `index` file by default (the `index.blade.php`) from the `views` 
 
 **NOTE:** `/` is a special character that means it is the landing page of the site.
 
+[Back to Table Of Contents](#table-of-contents)
+
 ### Building
 
 To build your static site, you need to run this command:
@@ -75,6 +88,8 @@ static-site/
 
 * `--site` - path of the source files. If not specified, it will use the current working directory as its default.
 * `--path` - path on which the static files will be built. If not defined, the current working directory or the `--site` + `build` directory (if specified) will be used.
+
+[Back to Table Of Contents](#table-of-contents)
 
 ### Customization
 
@@ -150,6 +165,8 @@ return array(
 
 **NOTE:** You could also define an array of `Route` instances in the `routes` key of `staticka.php` instead on specifying it to a `routes.php` file. You can do also the same thing in the `config` key.
 
+[Back to Table Of Contents](#table-of-contents)
+
 ### Watch file/s for changes
 
 To run the `build` command if there is a file change, you need to run this command:
@@ -181,6 +198,8 @@ If you want to add additional folders to be watched, just find the `watch` key:
     ...
 ```
 
+[Back to Table Of Contents](#table-of-contents)
+
 ### Run scripts before or after building
 
 You may encounter a scenario wherein you need to compile your files first before or after building. An example for this one is running [Gulp](https://gulpjs.com/) commands. To run the required scripts, find the `scripts` key with `before` and `after` values:
@@ -199,6 +218,8 @@ You may encounter a scenario wherein you need to compile your files first before
 
     ...
 ```
+
+[Back to Table Of Contents](#table-of-contents)
 
 ### Helpers
 
@@ -250,6 +271,8 @@ Staticka can use helpers in helping you to put functions into your view files. B
 </html>
 ```
 
+[Back to Table Of Contents](#table-of-contents)
+
 ### Filters
 
 Staticka can also use filters to modify the contents generated in the built path. By default, these two filters are available and added:
@@ -281,6 +304,8 @@ To modify the list of filters you want to use, just find the `filters` key:
 ```
 
 To create your own filter, you must implement it in [`FilterInterface`](src/Filter/FilterInterface.php).
+
+[Back to Table Of Contents](#table-of-contents)
 
 ### Integrations
 
@@ -347,6 +372,8 @@ To include your own integration/s, just find the `integration` key:
 ```
 
 **NOTE**: `MarkdownIntegration` and `ViewIntegration` are implemented in `Rougin\Staticka\Content\ContentInterface` and `Rougin\Slytherin\Template\RendererInterface` respectively which are required by Staticka to generate the content and view files. So if you don't want to use the [Markdown](https://en.wikipedia.org/wiki/Markdown) format and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine, you can replace them by implementing it to their mentioned interfaces.
+
+[Back to Table Of Contents](#table-of-contents)
 
 ## Change log
 
