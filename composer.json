@@ -1,7 +1,7 @@
 {
     "name": "rougin/staticka",
-    "description": "Yet another static site generator written in PHP.",
-    "keywords": [ "static site", "static cms", "php library", "staticka" ],
+    "description": "Yet another PHP static site generator.",
+    "keywords": ["static site", "static cms", "php library", "staticka"],
     "homepage": "https://github.com/rougin/staticka",
     "license": "MIT",
     "authors": [
