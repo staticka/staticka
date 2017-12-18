@@ -14,7 +14,7 @@ Staticka is yet another static site generator written in PHP. It uses [Markdown]
 Via Composer
 
 ``` bash
-$ composer require rougin/staticka illuminate/blade
+$ composer require rougin/staticka illuminate/view
 ```
 
 **NOTE**: Laravel Blade is only available in PHP v5.4.0 and later. For PHP v5.3.0, you can use Twig as a replacement (`twig/twig`) or the Renderer instance (the default one) from Slytherin.
@@ -70,7 +70,7 @@ It maps to the `index` file by default (the `index.blade.php`) from the `views` 
 To build your static site, you need to run this command:
 
 ``` bash
-$ vendor/bin/staticka build --site="static-site" --path="static-site/build"
+$ vendor/bin/staticka build --source="static-site" --path="static-site/build"
 ```
 
 After running the command, it will render all routes listed in `routes.php` and it should look like this:
@@ -86,8 +86,8 @@ static-site/
 
 #### Command Options
 
-* `--site` - path of the source files. If not specified, it will use the current working directory as its default.
-* `--path` - path on which the static files will be built. If not defined, the current working directory or the `--site` + `build` directory (if specified) will be used.
+* `--source` - path of the source files. If not specified, it will use the current working directory as its default.
+* `--path` - path on which the static files will be built. If not defined, the current working directory or the `--source` + `build` directory (if specified) will be used.
 
 [Back to Table Of Contents](#table-of-contents)
 
@@ -172,7 +172,7 @@ return array(
 To run the `build` command if there is a file change, you need to run this command:
 
 ``` bash
-$ vendor/bin/staticka watch --site="static-site" --path="static-site/build"
+$ vendor/bin/staticka watch --source="static-site" --path="static-site/build"
 ```
 
 By default, Staticka will watch the path of the keys specified from the settings file (`staticka.php`):
