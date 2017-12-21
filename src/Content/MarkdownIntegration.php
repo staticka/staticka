@@ -1,9 +1,10 @@
 <?php
 
-namespace Rougin\Staticka\Content;
+namespace Staticka\Content;
 
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\IntegrationInterface;
 
 /**
  * Markdown Integration
@@ -13,7 +14,7 @@ use Rougin\Slytherin\Integration\Configuration;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class MarkdownIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+class MarkdownIntegration implements IntegrationInterface
 {
     /**
      * Defines the specified integration.
@@ -24,7 +25,7 @@ class MarkdownIntegration implements \Rougin\Slytherin\Integration\IntegrationIn
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $interface = 'Rougin\Staticka\Content\ContentInterface';
+        $interface = 'Staticka\Content\ContentInterface';
 
         $content = new MarkdownContent;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka\Helper;
+namespace Staticka\Helper;
 
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
@@ -24,7 +24,7 @@ class HelperIntegration implements \Rougin\Slytherin\Integration\IntegrationInte
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $helper = 'Rougin\Staticka\Helper\UrlHelper';
+        $helper = 'Staticka\Helper\UrlHelper';
 
         $url = new UrlHelper($config->get('app.base_url'));
 

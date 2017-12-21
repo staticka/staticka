@@ -1,12 +1,12 @@
 <?php
 
-namespace Rougin\Staticka\Console\Commands;
+namespace Staticka\Console\Commands;
 
+use Staticka\Settings;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use Rougin\Staticka\Settings;
 
 /**
  * Watch Command
@@ -14,7 +14,7 @@ use Rougin\Staticka\Settings;
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class WatchCommand extends \Symfony\Component\Console\Command\Command
+class WatchCommand extends Command
 {
     /**
      * @var \Symfony\Component\Console\Input\InputInterface
@@ -101,7 +101,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Returns a listing of available files.
      *
-     * @param  \Rougin\Staticka\Settings $settings
+     * @param  \Staticka\Settings $settings
      * @return array
      */
     protected function files(Settings $settings)
@@ -134,7 +134,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
      */
     protected function filenames($source, $items = array())
     {
-        $files = \Rougin\Staticka\Utility::files($source, 1);
+        $files = \Staticka\Utility::files($source, 1);
 
         foreach ($files as $file) {
             $filepath = $file->getRealPath();
@@ -148,7 +148,7 @@ class WatchCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Watches the specified files for changes.
      *
-     * @param  \Rougin\Staticka\Settings $settings
+     * @param  \Staticka\Settings $settings
      * @param  array                     $files
      * @return array
      */

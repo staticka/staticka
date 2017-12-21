@@ -1,6 +1,8 @@
 <?php
 
-namespace Rougin\Staticka\Filter;
+namespace Staticka\Filter;
+
+use voku\helper\HtmlMin;
 
 /**
  * HTML Minifier
@@ -8,7 +10,7 @@ namespace Rougin\Staticka\Filter;
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class HtmlMinifier extends \voku\helper\HtmlMin implements FilterInterface
+class HtmlMinifier extends HtmlMin implements FilterInterface
 {
     /**
      * Modifies the given code.

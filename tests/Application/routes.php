@@ -1,6 +1,6 @@
 <?php
 
-use Rougin\Staticka\Route;
+use Staticka\Route;
 
 $routes = array();
 

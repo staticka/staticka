@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka\Renderer;
+namespace Staticka\Renderer;
 
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;

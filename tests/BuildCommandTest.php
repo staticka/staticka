@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka;
+namespace Staticka;
 
 use Symfony\Component\Console\Tester\CommandTester;
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Staticka\Console\Commands;
+namespace Staticka\Console\Commands;
 
 use Rougin\Slytherin\Container\ContainerInterface;
+use Staticka\Generator;
+use Staticka\Settings;
+use Staticka\Utility;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use Rougin\Staticka\Generator;
-use Rougin\Staticka\Settings;
-use Rougin\Staticka\Utility;
 
 /**
  * Build Command
@@ -16,7 +16,7 @@ use Rougin\Staticka\Utility;
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class BuildCommand extends \Symfony\Component\Console\Command\Command
+class BuildCommand extends Command
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -91,7 +91,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Runs the specified filters to the built site.
      *
-     * @param  \Rougin\Staticka\Settings $settings
+     * @param  \Staticka\Settings $settings
      * @param  string                    $path
      * @return void
      */
@@ -117,7 +117,7 @@ class BuildCommand extends \Symfony\Component\Console\Command\Command
     /**
      * Adds all defined integrations and runs the generator.
      *
-     * @param  \Rougin\Staticka\Settings $settings
+     * @param  \Staticka\Settings $settings
      * @param  string                    $site
      * @param  string                    $build
      * @return void

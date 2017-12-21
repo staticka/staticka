@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka;
+namespace Staticka;
 
 /**
  * Test Case
@@ -11,7 +11,7 @@ namespace Rougin\Staticka;
 class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Rougin\Staticka\Console\Application
+     * @var \Staticka\Console\Application
      */
     protected $application;
 

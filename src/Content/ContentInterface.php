@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka\Content;
+namespace Staticka\Content;
 
 /**
  * Content Interface
