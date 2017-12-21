@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka;
+namespace Staticka;
 
 use Psr\Container\ContainerInterface;
 
@@ -18,17 +18,17 @@ class Generator
     protected $container;
 
     /**
-     * @var \Rougin\Staticka\Content\ContentInterface
+     * @var \Staticka\Content\ContentInterface
      */
     protected $content;
 
     /**
-     * @var \Rougin\Staticka\Renderer\RendererInterface
+     * @var \Staticka\Renderer\RendererInterface
      */
     protected $renderer;
 
     /**
-     * @var \Rougin\Staticka\Settings
+     * @var \Staticka\Settings
      */
     protected $settings;
 
@@ -36,13 +36,13 @@ class Generator
      * Initializes the generator instance.
      *
      * @param \Psr\Container\ContainerInterface $container
-     * @param \Rougin\Staticka\Settings         $settings
+     * @param \Staticka\Settings         $settings
      */
     public function __construct(ContainerInterface $container, Settings $settings)
     {
         $this->container = $container;
 
-        $this->content = $container->get('Rougin\Staticka\Content\ContentInterface');
+        $this->content = $container->get('Staticka\Content\ContentInterface');
 
         $this->renderer = $container->get('Rougin\Slytherin\Template\RendererInterface');
 
@@ -102,7 +102,7 @@ class Generator
     /**
      * Converts the specified route into a minified HTML.
      *
-     * @param  \Rougin\Staticka\Route $route
+     * @param  \Staticka\Route $route
      * @param  string                 $source
      * @return string
      */

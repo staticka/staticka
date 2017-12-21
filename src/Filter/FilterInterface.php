@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka\Filter;
+namespace Staticka\Filter;
 
 /**
  * Filter Interface

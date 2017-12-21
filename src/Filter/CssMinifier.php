@@ -1,6 +1,8 @@
 <?php
 
-namespace Rougin\Staticka\Filter;
+namespace Staticka\Filter;
+
+use MatthiasMullie\Minify\CSS;
 
 /**
  * CSS Minifier
@@ -8,7 +10,7 @@ namespace Rougin\Staticka\Filter;
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class CssMinifier extends \MatthiasMullie\Minify\CSS implements FilterInterface
+class CssMinifier extends CSS implements FilterInterface
 {
     /**
      * Modifies the given code.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka;
+namespace Staticka;
 
 use Rougin\Slytherin\Integration\Configuration;
 
@@ -168,8 +168,8 @@ class Settings
     {
         $filters = array();
 
-        array_push($filters, 'Rougin\Staticka\Filter\CssMinifier');
-        array_push($filters, 'Rougin\Staticka\Filter\HtmlMinifier');
+        array_push($filters, 'Staticka\Filter\CssMinifier');
+        array_push($filters, 'Staticka\Filter\HtmlMinifier');
 
         return $filters;
     }
@@ -183,7 +183,7 @@ class Settings
     {
         $includes = array();
 
-        $includes['url'] = 'Rougin\Staticka\Helper\UrlHelper';
+        $includes['url'] = 'Staticka\Helper\UrlHelper';
 
         return $includes;
     }
@@ -197,9 +197,9 @@ class Settings
     {
         $integrations = array();
 
-        $integrations[] = 'Rougin\Staticka\Content\MarkdownIntegration';
-        $integrations[] = 'Rougin\Staticka\Helper\HelperIntegration';
-        $integrations[] = 'Rougin\Staticka\Renderer\RendererIntegration';
+        $integrations[] = 'Staticka\Content\MarkdownIntegration';
+        $integrations[] = 'Staticka\Helper\HelperIntegration';
+        $integrations[] = 'Staticka\Renderer\RendererIntegration';
 
         return $integrations;
     }

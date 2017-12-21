@@ -1,15 +1,15 @@
 {
-    "name": "rougin/staticka",
+    "name": "staticka/staticka",
     "description": "Yet another PHP static site generator.",
     "keywords": ["static site", "static cms", "php library", "staticka"],
-    "homepage": "https://github.com/rougin/staticka",
+    "homepage": "https://github.com/staticka/staticka",
     "license": "MIT",
     "authors": [
         {
             "name": "Rougin Royce Gutib",
             "email": "rougingutib@gmail.com",
             "homepage": "https://rougin.github.io",
-            "role": "Developer"
+            "role": "Software Engineer"
         }
     ],
     "require": {
@@ -29,12 +29,12 @@
     "bin": ["bin/staticka", "bin/staticka.php"],
     "autoload": {
         "psr-4": {
-            "Rougin\\Staticka\\": "src"
+            "Staticka\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rougin\\Staticka\\": "tests"
+            "Staticka\\": "tests"
         }
     },
     "scripts": {

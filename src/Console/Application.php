@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka\Console;
+namespace Staticka\Console;
 
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;

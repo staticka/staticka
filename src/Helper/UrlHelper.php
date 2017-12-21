@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Staticka\Helper;
+namespace Staticka\Helper;
 
 /**
  * URL Helper
