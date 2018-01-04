@@ -55,8 +55,8 @@ class BuildCommand extends Command
     {
         $this->setName('build')->setDescription('Build a site from source');
 
-        $this->addOption('source', null, 4, 'Source of the site', getcwd());
-        $this->addOption('path', null, 4, 'Path of the site to be built', getcwd() . '/build');
+        $this->addOption('source', null, 4, 'Source of the site');
+        $this->addOption('path', null, 4, 'Path of the site to be built');
     }
 
     /**
@@ -189,9 +189,11 @@ class BuildCommand extends Command
      */
     protected function settings()
     {
-        $site = realpath($this->input->getOption('source'));
+        $site = getcwd() . '/' . $this->input->getOption('source');
 
-        $build = realpath($this->input->getOption('path')) ?: $site . '/build';
+        $path = $this->input->getOption('path');
+
+        $build = $path ? getcwd() . '/' . $path : $site . '/build';
 
         $settings = new Settings;
 
