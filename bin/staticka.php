@@ -2,6 +2,6 @@
 
 require 'vendor/autoload.php';
 
-$app = new Rougin\Staticka\Console\Application;
+$app = new Staticka\Console\Application;
 
 $app->run();

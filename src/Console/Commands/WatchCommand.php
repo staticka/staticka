@@ -43,10 +43,10 @@ class WatchCommand extends Command
      */
     public function configure()
     {
-        $this->setName('watch')->setDescription('Watch changes from source');
+        $this->setName('watch')->setDescription('Watch changes from the source directory');
 
-        $this->addOption('source', null, 4, 'Source of the site', getcwd());
-        $this->addOption('path', null, 4, 'Path of the site to be built', getcwd() . '/build');
+        $this->addOption('source', null, 4, 'Source of the site');
+        $this->addOption('path', null, 4, 'Path of the site to be built');
         $this->addOption('test', null, 1, 'Option to be use for unit testing');
     }
 
@@ -78,14 +78,13 @@ class WatchCommand extends Command
     {
         list($this->input, $this->output) = array($input, $output);
 
-        list($counter, $source) = array(1, realpath($input->getOption('source')));
+        $source = getcwd() . '/' . $input->getOption('source');
 
-        $settings = new Settings;
+        list($counter, $settings) = array(1, new Settings);
 
         $settings = $settings->load($source . '/staticka.php');
 
-        $output->writeln('<info>Watching ' . $source . ' for changes...</info>');
-        $output->writeln('');
+        $output->writeln('<info>Watching ' . $source . ' for changes...' . PHP_EOL . '</info>');
 
         $files = $this->files($settings);
 
