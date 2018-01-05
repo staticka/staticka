@@ -64,11 +64,11 @@ class Utility
      */
     public static function realpath($path, $default = null)
     {
-        $default === null && $default = getcwd() . '/' . $path;
+        $default === null && $default = self::path(getcwd() . '/' . $path);
 
         $path = realpath($path);
 
-        return $path !== getcwd() ? $path : self::path($default);
+        return ! empty($path) && $path !== getcwd() ? $path : $default;
     }
 
     /**

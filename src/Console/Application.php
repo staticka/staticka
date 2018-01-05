@@ -16,7 +16,7 @@ class Application extends \Symfony\Component\Console\Application
     /**
      * @var string
      */
-    protected $version = '0.1.0';
+    protected $version = '0.1.1';
 
     /**
      * Initializes the console application instance.

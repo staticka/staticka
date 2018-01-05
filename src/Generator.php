@@ -58,14 +58,12 @@ class Generator
      */
     public function make($from, $to)
     {
-        Utility::clear($to);
-
         list($to, $from) = array(Utility::path($to), Utility::path($from));
 
         foreach ($this->settings->routes() as $route) {
-            $uris = $route->uri(true);
+            list($folder, $uris) = array('', $route->uri(true));
 
-            $folder = empty($uris) ? '' : $this->folder($to, $uris);
+            empty($uris) || $folder = $this->folder($to, $uris);
 
             $path = Utility::path($to . '/' . $folder);
 
