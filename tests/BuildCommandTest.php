@@ -30,5 +30,7 @@ class BuildCommandTest extends TestCase
         $output = $command->getDisplay();
 
         $this->assertContains('Site built successfully', $output);
+
+        Utility::clear($options['--path']);
     }
 }

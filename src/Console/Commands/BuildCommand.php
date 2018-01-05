@@ -124,7 +124,7 @@ class BuildCommand extends Command
     {
         list($config, $container) = array($settings->config(), $this->container);
 
-        foreach ((array) $settings->get('integrations') as $integration) {
+        foreach ($settings->get('integrations') as $integration) {
             $integration = new $integration;
 
             $container = $integration->define($container, $config);
@@ -132,7 +132,7 @@ class BuildCommand extends Command
 
         $generator = new Generator($container, $settings);
 
-        $generator->make($site, $build);
+        Utility::clear($build) && $generator->make($site, $build);
     }
 
     /**

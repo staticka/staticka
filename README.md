@@ -7,7 +7,14 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Staticka is yet another PHP static site generator on top of [Slytherin](https://github.com/rougin/slytherin). It uses [Markdown](https://en.wikipedia.org/wiki/Markdown) format for the content files and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine for managing the template files.
+Staticka is yet another PHP static site generator on top of [Slytherin](https://github.com/rougin/slytherin).
+
+## Features
+
+* Uses [Markdown](https://en.wikipedia.org/wiki/Markdown) as the default format for the content files
+* Native support for [Laravel Blade](https://laravel.com/docs/5.5/blade) and [Twig](https://twig.symfony.com/) for managing the template files
+* No fixed directory structure for the content and template files, enables you to design the structure of the static site as you want
+* Fully extensible, can change the default `Markdown` format into a format of your choice 
 
 ## Install
 
