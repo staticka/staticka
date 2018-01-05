@@ -1,6 +1,6 @@
 <?php
 
-namespace Staticka\Console\Commands;
+namespace Staticka\Console;
 
 use Rougin\Slytherin\Container\ContainerInterface;
 use Staticka\Generator;
@@ -22,16 +22,6 @@ class BuildCommand extends Command
      * @var \Rougin\Slytherin\Container\ContainerInterface
      */
     protected $container;
-
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface
-     */
-    protected $input;
-
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
-     */
-    protected $output;
 
     /**
      * Initializes the command instance.
@@ -67,7 +57,7 @@ class BuildCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        list($site, $build, $settings) = $this->settings($input, $output);
+        list($site, $build, $settings) = $this->settings($input);
 
         $output->writeln('<info>Building the new site...</info>');
 
@@ -132,7 +122,9 @@ class BuildCommand extends Command
 
         $generator = new Generator($container, $settings);
 
-        Utility::clear($build) && $generator->make($site, $build);
+        Utility::clear($build);
+
+        $generator->make($site, $build);
     }
 
     /**
@@ -184,11 +176,10 @@ class BuildCommand extends Command
     /**
      * Returns the source path, build path, and a Settings instance.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface   $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @param  \Symfony\Component\Console\Input\InputInterface $input
      * @return array
      */
-    protected function settings(InputInterface $input, OutputInterface $output)
+    protected function settings(InputInterface $input)
     {
         $site = Utility::realpath($input->getOption('source'));
 

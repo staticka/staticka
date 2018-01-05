@@ -12,9 +12,9 @@ Staticka is yet another PHP static site generator on top of [Slytherin](https://
 ## Features
 
 * Uses [Markdown](https://en.wikipedia.org/wiki/Markdown) as the default format for the content files
+* No fixed file and directory structure for the content and template files (see [Customization](#customization))
 * Native support for [Laravel Blade](https://laravel.com/docs/5.5/blade) and [Twig](https://twig.symfony.com/) for managing the template files
-* No fixed directory structure for the content and template files, enables you to design the structure of the static site as you want
-* Fully extensible, can change the default `Markdown` format into a format of your choice 
+* Fully extensible, can change the default `Markdown` format into a format of your choice (see [Integrations](#integrations))
 
 ## Install
 
@@ -100,7 +100,7 @@ static-site/
 
 ### Customization
 
-To customize the directory structure of the static site, add a file named `staticka.php` to specify the paths of the required files/directories and its other settings. The settings specified below will be discussed later.
+To customize the file and directory structure of the static site, add a file named `staticka.php` to specify the paths of the required files/directories and its other settings. The settings specified below will be discussed later.
 
 **staticka.php**
 
@@ -108,6 +108,7 @@ To customize the directory structure of the static site, add a file named `stati
 return array(
     /**
      * Directory path for the configurations.
+     * Could also contain an array of items.
      *
      * @var array|string
      */
@@ -128,7 +129,8 @@ return array(
     'views' => __DIR__ . '/source/views',
 
     /**
-     * A listing of available routes.
+     * File path for the array of routes.
+     * Could also contain an array of items.
      *
      * @var array|string
      */
@@ -149,16 +151,14 @@ return array(
     'scripts' => array('before' => '', 'after' => ''),
 
     /**
-     * Returns a listing of helpers to be used inside the templates.
+     * Returns an array of helpers to be used inside the templates.
      *
      * @var array
      */
-    'filters' => array(
-        'url' => 'Staticka\Helper\UrlHelper',
-    ),
+    'filters' => array('url' => 'Staticka\Helper\UrlHelper'),
 
     /**
-     * Returns a listing of integrations to be used.
+     * Returns an array of integrations to be used.
      *
      * @var array
      */
@@ -238,7 +238,7 @@ Staticka can use helpers in helping you to put functions into your templates. By
     ...
 
     /**
-     * Returns a listing of helpers to be used in the templates.
+     * Returns an array of helpers to be used in the templates.
      *
      * @var array
      */
@@ -295,7 +295,7 @@ To modify the list of filters you want to use, just find the `filters` key:
     ...
 
     /**
-     * Returns a listing of filters to be used in the built site.
+     * Returns an array of filters to be used in the built site.
      *
      * @var array
      */
@@ -363,7 +363,7 @@ To include your own integration/s, just find the `integration` key:
     ...
 
     /**
-     * Returns a listing of integrations to be used.
+     * Returns an array of integrations to be used.
      *
      * @var array
      */
