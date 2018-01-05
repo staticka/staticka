@@ -23,6 +23,8 @@ class Settings
     protected $settings = array();
 
     /**
+     * Initializes the settings instance.
+     *
      * @param array $settings
      */
     public function __construct(array $settings = array())
@@ -73,9 +75,9 @@ class Settings
      */
     public function load($file = null)
     {
-        $file = $file ?: getcwd() . '/staticka.php';
+        $file = $file ?: Utility::realpath('staticka.php');
 
-        $source = str_replace('/staticka.php', '', $file);
+        $source = str_replace('staticka.php', '', $file);
 
         $default = $this->defaults($source);
 
@@ -108,15 +110,18 @@ class Settings
      * Returns the before/after script during building.
      *
      * @param  string $type
+     * @param  string $scripts
      * @return string
      */
-    public function scripts($type)
+    public function scripts($type, $scripts = '')
     {
         $exists = isset($this->settings['scripts'][$type]);
 
-        $scripts = $exists ? $this->settings['scripts'][$type] : '';
+        $exists && $scripts = $this->settings['scripts'][$type];
 
-        return is_array($scripts) ? implode(' && ', $scripts) : $scripts;
+        is_array($scripts) && $scripts = implode('&&', $scripts);
+
+        return $scripts;
     }
 
     /**
@@ -139,13 +144,12 @@ class Settings
      * Loads the default values for the "staticka.php" file.
      *
      * @param  string $source
+     * @param  array  $settings
      * @return array
      */
-    protected function defaults($source = null)
+    protected function defaults($source = null, $settings = array())
     {
         $source = $source ?: (string) getcwd();
-
-        $settings = array('watch' => array());
 
         $settings['config'] = $source . '/config';
         $settings['content'] = $source . '/content';
@@ -155,6 +159,7 @@ class Settings
         $settings['routes'] = $source . '/routes.php';
         $settings['scripts'] = array('before' => '', 'after' => '');
         $settings['views'] = $source . '/views';
+        $settings['watch'] = array();
 
         return $settings;
     }

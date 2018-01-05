@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Staticka\Utility;
 
 /**
  * Watch Command
@@ -27,16 +28,6 @@ class WatchCommand extends Command
     protected $output;
 
     /**
-     * Initializes the command instance.
-     *
-     * @param string|null $name
-     */
-    public function __construct($name = null)
-    {
-        parent::__construct($name);
-    }
-
-    /**
      * Configures the current command.
      *
      * @return void
@@ -53,19 +44,18 @@ class WatchCommand extends Command
     /**
      * Runs the "build" command.
      *
-     * @return void
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
      */
-    protected function build()
+    protected function build(InputInterface $input, OutputInterface $output)
     {
         $command = $this->getApplication()->find('build');
 
-        $inputs = array('--source' => $this->input->getOption('source'));
+        $inputs = array('--source' => $input->getOption('source'));
 
-        $inputs['--path'] = $this->input->getOption('path');
+        $inputs['--path'] = $input->getOption('path');
 
-        $command->run(new ArrayInput($inputs), $this->output);
-
-        $this->output->writeln('');
+        $command->run(new ArrayInput($inputs), $output) && $output->writeln('');
     }
 
     /**
@@ -76,20 +66,18 @@ class WatchCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        list($this->input, $this->output) = array($input, $output);
-
-        $source = getcwd() . '/' . $input->getOption('source');
+        $source = Utility::realpath($input->getOption('source'));
 
         list($counter, $settings) = array(1, new Settings);
 
-        $settings = $settings->load($source . '/staticka.php');
+        $settings = $settings->load(Utility::path($source . '/staticka.php'));
 
-        $output->writeln('<info>Watching ' . $source . ' for changes...' . PHP_EOL . '</info>');
+        $output->writeln('<info>Watching ' . $source . ' for changes..</info>');
 
-        $files = $this->files($settings);
+        ($files = $this->files($settings)) && $output->writeln('');
 
         while ($counter === 1) {
-            $files = $this->watch($settings, $files);
+            $files = $this->watch($input, $output, $settings, $files);
 
             sleep(2);
 
@@ -113,7 +101,7 @@ class WatchCommand extends Command
             $items = array_merge($items, $names);
         }
 
-        foreach ($items as $item) {
+        foreach ((array) $items as $item) {
             $file = array('file' => (string) $item);
 
             $file['contents'] = file_get_contents($item);
@@ -133,10 +121,8 @@ class WatchCommand extends Command
      */
     protected function filenames($source, $items = array())
     {
-        $files = \Staticka\Utility::files($source, 1);
-
-        foreach ($files as $file) {
-            $filepath = $file->getRealPath();
+        foreach (Utility::files($source, 1) as $file) {
+            $filepath = (string) $file->getRealPath();
 
             $file->isDir() || array_push($items, $filepath);
         }
@@ -147,23 +133,25 @@ class WatchCommand extends Command
     /**
      * Watches the specified files for changes.
      *
-     * @param  \Staticka\Settings $settings
-     * @param  array                     $files
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @param  \Staticka\Settings                                $settings
+     * @param  array                                             $files
      * @return array
      */
-    protected function watch(Settings $settings, $files)
+    protected function watch(InputInterface $input, OutputInterface $output, Settings $settings, $files)
     {
         list($length, $updated) = array(count($files), $files);
 
-        $test = $this->input->getOption('test');
+        $test = $input->getOption('test');
 
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < (integer) $length; $i++) {
             $size = file_get_contents($updated[$i]['file']);
 
             $updated[$i]['contents'] = (string) $size;
         }
 
-        ($files === $updated && ! $test) || $this->build();
+        ($files === $updated && ! $test) || $this->build($input, $output);
 
         return $this->files($settings);
     }
