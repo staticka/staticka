@@ -56,6 +56,22 @@ class Utility
     }
 
     /**
+     * Returns the realpath or from the current working directory.
+     *
+     * @param  string      $path
+     * @param  string|null $default
+     * @return string
+     */
+    public static function realpath($path, $default = null)
+    {
+        $default === null && $default = getcwd() . '/' . $path;
+
+        $path = realpath($path);
+
+        return $path !== getcwd() ? $path : self::path($default);
+    }
+
+    /**
      * Transfers the specified files into another path.
      *
      * @param  string $source

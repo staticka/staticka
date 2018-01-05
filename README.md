@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Staticka is yet another PHP static site generator on top of [Slytherin](https://github.com/rougin/slytherin). It uses [Markdown](https://en.wikipedia.org/wiki/Markdown) format for the content files and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine for managing the view files.
+Staticka is yet another PHP static site generator on top of [Slytherin](https://github.com/rougin/slytherin). It uses [Markdown](https://en.wikipedia.org/wiki/Markdown) format for the content files and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine for managing the template files.
 
 ## Install
 
@@ -58,7 +58,7 @@ array_push($routes, new Staticka\Route('/hello-world', 'hello-world'));
 return $routes;
 ```
 
-There is a third parameter in the `Route` class wherein you could specify the view it should use.
+There is a third parameter in the `Route` class wherein you could specify the template it should use.
 It maps to the `index` file by default (the `index.blade.php`) from the `views` directory.
 
 **NOTE:** `/` is a special character that means it is the landing page of the site.
@@ -114,7 +114,7 @@ return array(
     'content' => __DIR__ . '/content',
 
     /**
-     * Directory path for the views.
+     * Directory path for the view templates.
      *
      * @var string
      */
@@ -142,7 +142,7 @@ return array(
     'scripts' => array('before' => '', 'after' => ''),
 
     /**
-     * Returns a listing of helpers to be used in the view files.
+     * Returns a listing of helpers to be used inside the templates.
      *
      * @var array
      */
@@ -223,7 +223,7 @@ You may encounter a scenario wherein you need to compile your files first before
 
 ### Helpers
 
-Staticka can use helpers in helping you to put functions into your view files. By default, `Staticka\Helper\UrlHelper` is added in which can be used in the view by the `$url` variable. To add additional helpers to your site, include them in a `includes` key:
+Staticka can use helpers in helping you to put functions into your templates. By default, `Staticka\Helper\UrlHelper` is added in which can be used inside the template by the `$url` variable. To add additional helpers to your site, include them in a `includes` key:
 
 **staticka.php**
 
@@ -231,13 +231,13 @@ Staticka can use helpers in helping you to put functions into your view files. B
     ...
 
     /**
-     * Returns a listing of helpers to be used in the view files.
+     * Returns a listing of helpers to be used in the templates.
      *
      * @var array
      */
     'filters' => array(
         /**
-         * The "key" is the alias to the view while the "value" is the class related to it.
+         * The "key" is the alias that can be used inside a template while the "value" is the class related to it.
          */
         'url' => 'Staticka\Helper\UrlHelper',
 
@@ -256,7 +256,7 @@ Staticka can use helpers in helping you to put functions into your view files. B
 <head>
   <meta charset="UTF-8">
   <title>Staticka - yet another static site generator written in PHP.</title>
-  <!-- You can now use the URL helper as "$url" inside a view template -->
+  <!-- You can now use the URL helper as "$url" in this template -->
   <link rel="stylesheet" href="{{ $url->set('css/styles.css') }}">
 </head>
 <body>
@@ -371,7 +371,7 @@ To include your own integration/s, just find the `integration` key:
     ...
 ```
 
-**NOTE**: `MarkdownIntegration` and `ViewIntegration` are implemented in `Staticka\Content\ContentInterface` and `Rougin\Slytherin\Template\RendererInterface` respectively which are required by Staticka to generate the content and view files. So if you don't want to use the [Markdown](https://en.wikipedia.org/wiki/Markdown) format and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine, you can replace them by implementing it to their mentioned interfaces.
+**NOTE**: `MarkdownIntegration` and `ViewIntegration` are implemented in `Staticka\Content\ContentInterface` and `Rougin\Slytherin\Template\RendererInterface` respectively which are required by Staticka to generate the content and templates. So if you don't want to use the [Markdown](https://en.wikipedia.org/wiki/Markdown) format and the [Laravel Blade](https://laravel.com/docs/5.5/blade) or [Twig](https://twig.symfony.com/) engine, you can replace them by implementing it to their mentioned interfaces.
 
 [Back to Table Of Contents](#table-of-contents)
 

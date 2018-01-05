@@ -67,13 +67,11 @@ class BuildCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        list($this->input, $this->output) = array($input, $output);
-
-        list($site, $build, $settings) = $this->settings();
+        list($site, $build, $settings) = $this->settings($input, $output);
 
         $output->writeln('<info>Building the new site...</info>');
 
-        $this->script($site, $settings->scripts('before'));
+        $this->script($output, $site, $settings->scripts('before'));
 
         $this->generate($settings, $site, $build);
 
@@ -81,7 +79,9 @@ class BuildCommand extends Command
 
         file_exists($assets) && Utility::transfer($assets, $build);
 
-        $this->script($site, $settings->scripts('after'));
+        $this->script($output, $site, $settings->scripts('after'));
+
+        $output->writeln('<info>Running filters...</info>');
 
         $this->filters($settings, $build);
 
@@ -92,14 +92,12 @@ class BuildCommand extends Command
      * Runs the specified filters to the built site.
      *
      * @param  \Staticka\Settings $settings
-     * @param  string                    $path
+     * @param  string             $path
      * @return void
      */
     protected function filters(Settings $settings, $path)
     {
-        $this->output->writeln('<info>Running filters...</info>');
-
-        foreach ($settings->get('filters') as $filter) {
+        foreach ((array) $settings->get('filters') as $filter) {
             $filter = $this->container->get($filter);
 
             $files = $this->match($path, $filter->tags());
@@ -118,15 +116,15 @@ class BuildCommand extends Command
      * Adds all defined integrations and runs the generator.
      *
      * @param  \Staticka\Settings $settings
-     * @param  string                    $site
-     * @param  string                    $build
+     * @param  string             $site
+     * @param  string             $build
      * @return void
      */
     protected function generate(Settings $settings, $site, $build)
     {
         list($config, $container) = array($settings->config(), $this->container);
 
-        foreach ($settings->get('integrations') as $integration) {
+        foreach ((array) $settings->get('integrations') as $integration) {
             $integration = new $integration;
 
             $container = $integration->define($container, $config);
@@ -169,15 +167,16 @@ class BuildCommand extends Command
     /**
      * Displays the script and run it using exec().
      *
-     * @param  string $source
-     * @param  string $scripts
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     * @param  string                                            $source
+     * @param  string                                            $scripts
      * @return void
      */
-    protected function script($source, $scripts)
+    protected function script(OutputInterface $output, $source, $scripts)
     {
         $message = 'Running script "' . $scripts . '"...';
 
-        $scripts && $this->output->writeln('<info>' . $message . '</info>');
+        $scripts && $output->writeln('<info>' . $message . '</info>');
 
         $scripts && exec('cd ' . $source . ' && ' . $scripts);
     }
@@ -185,19 +184,17 @@ class BuildCommand extends Command
     /**
      * Returns the source path, build path, and a Settings instance.
      *
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
      * @return array
      */
-    protected function settings()
+    protected function settings(InputInterface $input, OutputInterface $output)
     {
-        $site = getcwd() . '/' . $this->input->getOption('source');
+        $site = Utility::realpath($input->getOption('source'));
 
-        $path = $this->input->getOption('path');
+        $build = Utility::realpath($input->getOption('path'), $site . '/build');
 
-        $build = $path ? getcwd() . '/' . $path : $site . '/build';
-
-        $settings = new Settings;
-
-        $settings = $settings->load($site . '/staticka.php');
+        ($settings = new Settings) && $settings->load($site . '/staticka.php');
 
         return array($site, $build, $settings);
     }

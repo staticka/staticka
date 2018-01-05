@@ -36,7 +36,7 @@ class Generator
      * Initializes the generator instance.
      *
      * @param \Psr\Container\ContainerInterface $container
-     * @param \Staticka\Settings         $settings
+     * @param \Staticka\Settings                $settings
      */
     public function __construct(ContainerInterface $container, Settings $settings)
     {
@@ -88,7 +88,7 @@ class Generator
      */
     protected function folder($path, $uris, $folder = '')
     {
-        foreach ($uris as $uri) {
+        foreach ((array) $uris as $uri) {
             $directory = $path . '/' . $folder;
 
             file_exists($directory) ?: mkdir($directory);
@@ -103,7 +103,7 @@ class Generator
      * Converts the specified route into a minified HTML.
      *
      * @param  \Staticka\Route $route
-     * @param  string                 $source
+     * @param  string          $source
      * @return string
      */
     protected function html(Route $route, $source)
