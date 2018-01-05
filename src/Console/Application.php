@@ -29,7 +29,7 @@ class Application extends \Symfony\Component\Console\Application
 
         $container = $container ?: new Container;
 
-        $this->add(new Commands\BuildCommand($container));
-        $this->add(new Commands\WatchCommand);
+        $this->add(new BuildCommand($container));
+        $this->add(new WatchCommand);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Staticka\Console\Commands;
+namespace Staticka\Console;
 
 use Staticka\Settings;
+use Staticka\Utility;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Staticka\Utility;
 
 /**
  * Watch Command
@@ -17,16 +17,6 @@ use Staticka\Utility;
  */
 class WatchCommand extends Command
 {
-    /**
-     * @var \Symfony\Component\Console\Input\InputInterface
-     */
-    protected $input;
-
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
-     */
-    protected $output;
-
     /**
      * Configures the current command.
      *
