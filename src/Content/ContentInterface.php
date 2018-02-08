@@ -16,5 +16,5 @@ interface ContentInterface
      * @param  string $code
      * @return string
      */
-    public function convert($code);
+    public function make($code);
 }

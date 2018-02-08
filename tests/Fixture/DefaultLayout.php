@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Staticka</title>
-  <link rel="stylesheet" href="{{ $url->set('/test.min.css') }}">
 </head>
 <body>
-  {!! $content !!}
+  <a href="<?php echo $url->set('home') ?>">Home</a>
+  <?php echo $content; ?>
 </body>
 </html>

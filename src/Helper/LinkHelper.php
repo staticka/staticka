@@ -3,12 +3,12 @@
 namespace Staticka\Helper;
 
 /**
- * URL Helper
+ * Link Helper
  *
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class UrlHelper
+class LinkHelper implements HelperInterface
 {
     /**
      * @var string
@@ -23,6 +23,16 @@ class UrlHelper
     public function __construct($base)
     {
         $this->base = $base;
+    }
+
+    /**
+     * Returns the name of the helper.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return 'url';
     }
 
     /**

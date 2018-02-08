@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendor/autoload.php" stderr="true">
     <testsuites>
-        <testsuite name="Slytherin Test Suite">
+        <testsuite name="Staticka Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
