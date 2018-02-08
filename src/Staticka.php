@@ -28,7 +28,7 @@ class Staticka extends Configuration
     protected $content;
 
     /**
-     * @var \Staticka\Renderer\RendererInterface
+     * @var \Zapheus\Renderer\RendererInterface
      */
     protected $renderer;
 
