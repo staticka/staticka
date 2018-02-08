@@ -46,7 +46,7 @@ class Staticka extends Configuration
      * Initializes the Staticka instance.
      *
      * @param \Staticka\Content\ContentInterface|null   $content
-     * @param \Staticka\Renderer\RendererInterface|null $renderer
+     * @param \Zapheus\Renderer\RendererInterface|null  $renderer
      */
     public function __construct(ContentInterface $content = null, RendererInterface $renderer = null)
     {
@@ -163,7 +163,7 @@ class Staticka extends Configuration
      * Returns the whole folder path based from specified URIs.
      * Also creates the specified folder if it doesn't exists.
      *
-     * @param  string $path
+     * @param  string $output
      * @param  array  $uris
      * @return string
      */
