@@ -3,6 +3,7 @@
 namespace Staticka;
 
 use Staticka\Content\MarkdownContent;
+use Staticka\Filter\HtmlMinifier;
 use Staticka\Helper\LinkHelper;
 use Zapheus\Renderer\Renderer;
 
@@ -82,6 +83,26 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
         $expected = $content->make($contents);
 
         $output = $this->output . '/hello/index.html';
+
+        $result = file_get_contents($output);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Staticka::compile with a filter.
+     *
+     * @return void
+     */
+    public function testCompileMethodWithFilter()
+    {
+        $this->app->filter(new HtmlMinifier);
+
+        $this->app->compile($this->output);
+
+        $expected = '<h1>Hello World</h1>';
+
+        $output = $this->output . '/index.html';
 
         $result = file_get_contents($output);
 

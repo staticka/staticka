@@ -4,6 +4,7 @@ namespace Staticka;
 
 use Staticka\Content\ContentInterface;
 use Staticka\Content\MarkdownContent;
+use Staticka\Filter\FilterInterface;
 use Staticka\Helper\HelperInterface;
 use Zapheus\Provider\Configuration;
 use Zapheus\Renderer\Renderer;
@@ -18,19 +19,19 @@ use Zapheus\Renderer\RendererInterface;
 class Staticka extends Configuration
 {
     /**
-     * @var \Staticka\Helper\HelperInterface[]
-     */
-    protected $helpers = array();
-
-    /**
      * @var \Staticka\Content\ContentInterface
      */
     protected $content;
 
     /**
-     * @var \Zapheus\Renderer\RendererInterface
+     * @var \Staticka\Helper\HelperInterface[]
      */
-    protected $renderer;
+    protected $helpers = array();
+
+    /**
+     * @var \Staticka\Filter\FilterInterface[]
+     */
+    protected $filters = array();
 
     /**
      * @var string
@@ -41,6 +42,11 @@ class Staticka extends Configuration
      * @var \Staticka\Page[]
      */
     protected $pages = array();
+
+    /**
+     * @var \Zapheus\Renderer\RendererInterface
+     */
+    protected $renderer;
 
     /**
      * Initializes the Staticka instance.
@@ -83,7 +89,7 @@ class Staticka extends Configuration
     }
 
     /**
-     * Adds a helper instance.
+     * Adds a HelperInterface instance.
      *
      * @param  \Staticka\Helper\HelperInterface $helper
      * @return self
@@ -91,6 +97,19 @@ class Staticka extends Configuration
     public function helper(HelperInterface $helper)
     {
         $this->helpers[$helper->name()] = $helper;
+
+        return $this;
+    }
+
+    /**
+     * Adds a FilterInterface instance.
+     *
+     * @param  \Staticka\Filter\FilterInterface $filter
+     * @return self
+     */
+    public function filter(FilterInterface $filter)
+    {
+        $this->filters[] = $filter;
 
         return $this;
     }
@@ -202,6 +221,10 @@ class Staticka extends Configuration
             $data['content'] = $html;
 
             $html = $this->renderer->render($name, $data);
+        }
+
+        foreach ($this->filters as $filter) {
+            $html = $filter->filter($html);
         }
 
         return $html;
