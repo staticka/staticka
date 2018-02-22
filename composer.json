@@ -1,7 +1,7 @@
 {
     "name": "staticka/staticka",
-    "description": "Yet another PHP static site generator.",
-    "keywords": ["static site", "static cms", "php library", "staticka"],
+    "description": "A simple and extensible PHP static site generator.",
+    "keywords": ["static site", "php library", "staticka"],
     "homepage": "https://github.com/staticka/staticka",
     "license": "MIT",
     "authors": [
@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.3.0",
         "erusev/parsedown": "~1.6",
-        "zapheus/zapheus": "dev-master"
+        "zapheus/zapheus": "~0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2",
