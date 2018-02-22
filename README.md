@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Staticka is yet another PHP static site generator on top of [Zapheus](https://github.com/zapheus/zapheus).
+Staticka converts Markdown content, HTML and PHP files into static HTML.
 
 ## Install
 
@@ -30,7 +30,7 @@ $app->page('/', function ()
 $app->compile(__DIR__ . '/build');
 ```
 
-To see the output, open the `build/index.html` in the web browser.
+To see the output, open the `build/index.html` in a web browser.
 
 ## Change log
 
