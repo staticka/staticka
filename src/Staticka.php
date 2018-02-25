@@ -120,11 +120,12 @@ class Staticka extends Configuration
      * @param  string      $uri
      * @param  string      $content
      * @param  string|null $template
+     * @param  array       $data
      * @return self
      */
-    public function page($uri, $content, $template = null)
+    public function page($uri, $content, $template = null, array $data = array())
     {
-        $this->pages[] = new Page($uri, $content, $template);
+        $this->pages[] = new Page($uri, $content, $template, $data);
 
         return $this;
     }
@@ -216,9 +217,11 @@ class Staticka extends Configuration
         if (($name = $page->template()) !== null) {
             $data = (array) $this->helpers;
 
+            $data = array_merge($data, $page->data());
+
             $data['config'] = $this;
 
-            $data['content'] = $html;
+            $data['content'] = (string) $html;
 
             $html = $this->renderer->render($name, $data);
         }

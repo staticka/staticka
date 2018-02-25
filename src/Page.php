@@ -16,6 +16,11 @@ class Page
     protected $content;
 
     /**
+     * @var array
+     */
+    protected $data = array();
+
+    /**
      * @var string
      */
     protected $uri;
@@ -31,9 +36,12 @@ class Page
      * @param string          $uri
      * @param string|callable $content
      * @param string|null     $template
+     * @param array           $data
      */
-    public function __construct($uri, $content, $template = null)
+    public function __construct($uri, $content, $template = null, array $data = array())
     {
+        $this->data = (array) $data;
+
         $this->uri = $uri[0] !== '/' ? '/' . $uri : $uri;
 
         $this->content = $content;
@@ -57,6 +65,16 @@ class Page
         }
 
         return $content;
+    }
+
+    /**
+     * Returns the data for the template.
+     *
+     * @return array
+     */
+    public function data()
+    {
+        return $this->data;
     }
 
     /**
