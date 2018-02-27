@@ -215,9 +215,7 @@ class Staticka extends Configuration
         $html = $this->content->make((string) $content);
 
         if (($name = $page->template()) !== null) {
-            $data = (array) $this->helpers;
-
-            $data = array_merge($data, $page->data());
+            $data = array_merge($this->helpers, $page->data());
 
             $data['config'] = $this;
 
