@@ -89,19 +89,6 @@ class Staticka extends Configuration
     }
 
     /**
-     * Adds a HelperInterface instance.
-     *
-     * @param  \Staticka\Helper\HelperInterface $helper
-     * @return self
-     */
-    public function helper(HelperInterface $helper)
-    {
-        $this->helpers[$helper->name()] = $helper;
-
-        return $this;
-    }
-
-    /**
      * Adds a FilterInterface instance.
      *
      * @param  \Staticka\Filter\FilterInterface $filter
@@ -110,6 +97,19 @@ class Staticka extends Configuration
     public function filter(FilterInterface $filter)
     {
         $this->filters[] = $filter;
+
+        return $this;
+    }
+
+    /**
+     * Adds a HelperInterface instance.
+     *
+     * @param  \Staticka\Helper\HelperInterface $helper
+     * @return self
+     */
+    public function helper(HelperInterface $helper)
+    {
+        $this->helpers[$helper->name()] = $helper;
 
         return $this;
     }
