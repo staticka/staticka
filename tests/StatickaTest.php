@@ -144,6 +144,34 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests Staticka::content.
+     *
+     * @return void
+     */
+    public function testContentMethod()
+    {
+        $expected = 'Staticka\Content\ContentInterface';
+
+        $result = $this->app->content();
+
+        $this->assertInstanceOf($expected, $result);
+    }
+
+    /**
+     * Tests Staticka::renderer.
+     *
+     * @return void
+     */
+    public function testRendererMethod()
+    {
+        $expected = 'Zapheus\Renderer\RendererInterface';
+
+        $result = $this->app->renderer();
+
+        $this->assertInstanceOf($expected, $result);
+    }
+
+    /**
      * Tests Staticka::transfer.
      *
      * @return void

@@ -89,6 +89,16 @@ class Staticka extends Configuration
     }
 
     /**
+     * Returns the content instance.
+     *
+     * @return \Staticka\Content\ContentInterface
+     */
+    public function content()
+    {
+        return $this->content;
+    }
+
+    /**
      * Adds a FilterInterface instance.
      *
      * @param  \Staticka\Filter\FilterInterface $filter
@@ -115,6 +125,16 @@ class Staticka extends Configuration
     }
 
     /**
+     * Returns an array of helpers.
+     *
+     * @return \Staticka\Helper\HelperInterface[]
+     */
+    public function helpers()
+    {
+        return $this->helpers;
+    }
+
+    /**
      * Creates a new page.
      *
      * @param  string      $uri
@@ -128,6 +148,16 @@ class Staticka extends Configuration
         $this->pages[] = new Page($uri, $content, $template, $data);
 
         return $this;
+    }
+
+    /**
+     * Returns the renderer instance.
+     *
+     * @return \Zapheus\Renderer\RendererInterface
+     */
+    public function renderer()
+    {
+        return $this->renderer;
     }
 
     /**
@@ -215,7 +245,7 @@ class Staticka extends Configuration
         $html = $this->content->make((string) $content);
 
         if (($name = $page->template()) !== null) {
-            $data = array_merge($this->helpers, $page->data());
+            $data = array_merge($this->helpers(), $page->data());
 
             $data['config'] = $this;
 
