@@ -70,7 +70,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompileMethodWithFile()
     {
-        $file = __DIR__ . '/Fixture/HelloWorld.md';
+        $file = __DIR__ . '/Fixture/World.md';
 
         $content = new MarkdownContent;
 
@@ -118,15 +118,15 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
     {
         $content = new MarkdownContent;
 
-        $file = __DIR__ . '/Fixture/HelloWorld.md';
+        $file = __DIR__ . '/Fixture/World.md';
 
         $renderer = new Renderer(__DIR__ . '/Fixture');
 
-        $app = new Staticka(null, $renderer);
+        $app = new Staticka($renderer);
 
         $app->helper($url = new LinkHelper('https://rougin.github.io'));
 
-        $app->page('template', $file, 'defaultlayout');
+        $app->page('template', $file, 'layout');
 
         $app->compile($this->output);
 
@@ -134,7 +134,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $data = array('content' => $content, 'url' => $url);
 
-        $expected = $renderer->render('defaultlayout', $data);
+        $expected = $renderer->render('layout', $data);
 
         $output = $this->output . '/template/index.html';
 

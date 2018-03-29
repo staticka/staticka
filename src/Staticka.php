@@ -51,10 +51,10 @@ class Staticka extends Configuration
     /**
      * Initializes the Staticka instance.
      *
-     * @param \Staticka\Content\ContentInterface|null   $content
-     * @param \Zapheus\Renderer\RendererInterface|null  $renderer
+     * @param \Zapheus\Renderer\RendererInterface|null $renderer
+     * @param \Staticka\Content\ContentInterface|null  $content
      */
-    public function __construct(ContentInterface $content = null, RendererInterface $renderer = null)
+    public function __construct(RendererInterface $renderer = null, ContentInterface $content = null)
     {
         $this->renderer = $renderer === null ? new Renderer(getcwd()) : $renderer;
 
@@ -74,6 +74,8 @@ class Staticka extends Configuration
         $this->clear($output);
 
         $this->output = (string) $output;
+
+        file_exists($this->output) || mkdir($this->output);
 
         foreach ((array) $this->pages as $page) {
             $folder = $this->folder($output, $page->uris());
@@ -99,7 +101,7 @@ class Staticka extends Configuration
     }
 
     /**
-     * Adds a FilterInterface instance.
+     * Adds a filter instance.
      *
      * @param  \Staticka\Filter\FilterInterface $filter
      * @return self
@@ -112,7 +114,7 @@ class Staticka extends Configuration
     }
 
     /**
-     * Adds a HelperInterface instance.
+     * Adds a helper instance.
      *
      * @param  \Staticka\Helper\HelperInterface $helper
      * @return self
@@ -163,19 +165,17 @@ class Staticka extends Configuration
     /**
      * Transfers files from a directory into another path.
      *
-     * @param  string $source
-     * @param  string $path
+     * @param  string      $source
+     * @param  string|null $path
      * @return void
      */
     public function transfer($source, $path = null)
     {
-        $path = $path === null ? $this->output : $path;
+        $path = $path === null ? $this->output : (string) $path;
 
         $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
 
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-
-        file_exists($path) || mkdir($path);
 
         $directory = new \RecursiveDirectoryIterator($source, 4096);
 
@@ -222,7 +222,7 @@ class Staticka extends Configuration
         $folder = (string) '';
 
         foreach ((array) $uris as $uri) {
-            $directory = $output . '/' . $folder;
+            $directory = $output . '/' . (string) $folder;
 
             file_exists($directory) ?: mkdir($directory);
 
@@ -242,7 +242,7 @@ class Staticka extends Configuration
     {
         $content = (string) $page->content();
 
-        $html = $this->content->make((string) $content);
+        $html = $this->content->make($content);
 
         if (($name = $page->template()) !== null) {
             $data = array_merge($this->helpers(), $page->data());
@@ -272,7 +272,7 @@ class Staticka extends Configuration
     {
         $separator = (string) DIRECTORY_SEPARATOR;
 
-        $search = array('\\', '/', '\\\\');
+        $search = array('\\', '/', (string) '\\\\');
 
         $path = str_replace($search, $separator, $folder);
 

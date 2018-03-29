@@ -11,6 +11,16 @@ namespace Staticka\Content;
 class MarkdownContent extends \Parsedown implements ContentInterface
 {
     /**
+     * File name extension to be used.
+     *
+     * @return string
+     */
+    public function extension()
+    {
+        return 'md';
+    }
+
+    /**
      * Converts the specified code.
      *
      * @param  string $code

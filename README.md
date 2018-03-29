@@ -1,7 +1,7 @@
 # Staticka
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
+[![Software License][ico-license]][link-license]
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
@@ -53,7 +53,7 @@ If you discover any security related issues, please email rougingutib@gmail.com 
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [LICENSE.md][link-license] for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/staticka/staticka.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
@@ -62,10 +62,11 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/staticka/staticka.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/staticka/staticka.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/staticka/staticka
-[link-travis]: https://travis-ci.org/staticka/staticka
-[link-scrutinizer]: https://scrutinizer-ci.com/g/staticka/staticka/code-structure
+[link-author]: https://rougin.github.io
 [link-code-quality]: https://scrutinizer-ci.com/g/staticka/staticka
+[link-contributors]: https://github.com/staticka/staticka/contributors
 [link-downloads]: https://packagist.org/packages/staticka/staticka
-[link-author]: https://github.com/rougin
-[link-contributors]: ../../contributors
+[link-license]: https://github.com/staticka/staticka/LICENSE.md
+[link-packagist]: https://packagist.org/packages/staticka/staticka
+[link-scrutinizer]: https://scrutinizer-ci.com/g/staticka/staticka/code-structure
+[link-travis]: https://travis-ci.org/staticka/staticka

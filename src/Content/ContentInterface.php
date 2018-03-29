@@ -11,6 +11,13 @@ namespace Staticka\Content;
 interface ContentInterface
 {
     /**
+     * File name extension to be used.
+     *
+     * @return string
+     */
+    public function extension();
+
+    /**
      * Converts the specified code.
      *
      * @param  string $code
