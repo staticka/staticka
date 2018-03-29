@@ -71,11 +71,9 @@ class Staticka extends Configuration
     {
         file_exists($output) || mkdir($output);
 
-        $this->clear($output);
+        $this->clear((string) $output);
 
         $this->output = (string) $output;
-
-        file_exists($this->output) || mkdir($this->output);
 
         foreach ((array) $this->pages as $page) {
             $folder = $this->folder($output, $page->uris());

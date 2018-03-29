@@ -70,9 +70,9 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompileMethodWithFile()
     {
-        $file = __DIR__ . '/Fixture/World.md';
-
         $content = new MarkdownContent;
+
+        $file = __DIR__ . '/Fixture/World.' . $content->extension();
 
         $this->app->page('hello', $file);
 
@@ -118,7 +118,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
     {
         $content = new MarkdownContent;
 
-        $file = __DIR__ . '/Fixture/World.md';
+        $file = __DIR__ . '/Fixture/World.' . $content->extension();
 
         $renderer = new Renderer(__DIR__ . '/Fixture');
 
