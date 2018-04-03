@@ -6,6 +6,7 @@ All notable changes to `Staticka` will be documented in this file.
 
 ### Added
 - `Matter` to parse files with `Front Matter`
+- Support [Jekyll's Front Matter](https://jekyllrb.com/docs/frontmatter/) in `Page::__construct`
 
 ## 0.1.0 - 2018-03-30
 
