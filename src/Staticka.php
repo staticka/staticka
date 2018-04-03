@@ -239,7 +239,7 @@ class Staticka extends Configuration
         $html = $this->content->make($content = $page->content());
 
         if (($name = $page->layout()) !== null) {
-            $data = array_merge($this->helpers(), $page->data());
+            $data = array_merge($this->helpers(), (array) $page->data());
 
             $layout = new Layout($this->renderer, $this, $data);
 
