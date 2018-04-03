@@ -40,11 +40,15 @@ class Page
      */
     public function __construct($uri, $content, $template = null, array $data = array())
     {
+        isset($data['permalink']) && $uri = $data['permalink'];
+
         $this->data = (array) $data;
 
         $this->uri = $uri[0] !== '/' ? '/' . $uri : $uri;
 
         $this->content = $content;
+
+        isset($data['layout']) && $template = $data['layout'];
 
         $this->template = $template;
     }
