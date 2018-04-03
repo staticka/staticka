@@ -14,11 +14,6 @@ use Zapheus\Renderer\RendererInterface;
 class Layout
 {
     /**
-     * @var \Zapheus\Provider\ConfigurationInterface
-     */
-    protected $config;
-
-    /**
      * @var array
      */
     protected $data = array();
@@ -27,6 +22,11 @@ class Layout
      * @var \Staticka\Matter
      */
     protected $matter;
+
+    /**
+     * @var \Staticka\Staticka
+     */
+    protected $staticka;
 
     /**
      * @var \Zapheus\Renderer\RendererInterface
@@ -42,6 +42,8 @@ class Layout
      */
     public function __construct(RendererInterface $renderer, Staticka $staticka, array $data)
     {
+        $data['config'] = $staticka;
+
         $this->staticka = $staticka;
 
         $this->renderer = $renderer;
@@ -75,8 +77,6 @@ class Layout
         }
 
         $data['content'] = (string) $output;
-
-        $data['config'] = $this->staticka;
 
         return $this->renderer->render($name, $data);
     }
