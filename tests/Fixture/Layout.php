@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Staticka</title>
+  <title><?php echo $title; ?></title>
 </head>
 <body>
   <a href="<?php echo $url->set('home') ?>">Home</a>

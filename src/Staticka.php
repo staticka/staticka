@@ -238,18 +238,14 @@ class Staticka extends Configuration
      */
     protected function html(Page $page)
     {
-        $content = (string) $page->content();
-
-        $html = $this->content->make($content);
+        $html = $this->content->make($content = $page->content());
 
         if (($name = $page->template()) !== null) {
             $data = array_merge($this->helpers(), $page->data());
 
-            $data['config'] = $this;
+            $layout = new Layout($this->renderer, $this, $data);
 
-            $data['content'] = (string) $html;
-
-            $html = $this->renderer->render($name, $data);
+            $html = (string) $layout->render($name, (string) $content);
         }
 
         foreach ($this->filters as $filter) {

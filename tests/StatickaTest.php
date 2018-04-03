@@ -132,7 +132,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $content = $content->make(file_get_contents($file));
 
-        $data = array('content' => $content, 'url' => $url);
+        $data = array('content' => $content, 'url' => $url, 'title' => 'Hello World');
 
         $expected = $renderer->render('layout', $data);
 
