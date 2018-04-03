@@ -57,7 +57,7 @@ class Layout
      * Renders the specified HTML content with a template.
      *
      * @param  string $name
-     * @param  string $html
+     * @param  string $content
      * @return string
      */
     public function render($name, $content)
