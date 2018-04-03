@@ -11,7 +11,7 @@ namespace Staticka;
 class Page
 {
     /**
-     * @var string|callable
+     * @var string
      */
     protected $content;
 
@@ -40,7 +40,9 @@ class Page
         if (file_exists($file) === true) {
             $original = (string) file_get_contents($file);
 
-            $this->uri = pathinfo($file, 8);
+            $this->uri = strtolower(pathinfo($file, 8));
+
+            $this->uri === 'index' && $this->uri = '/';
 
             list($matter, $content) = Matter::parse($original);
 
