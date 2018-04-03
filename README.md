@@ -89,6 +89,19 @@ $data = array('permalink' => 'brave-world');
 $app->page(__DIR__ . '/index.md', $data);
 ```
 
+### Customization
+
+The `Staticka` instance by default contains a `Renderer` from [Zapheus](https://zapheus.github.io) and a `MarkdownContent` based from [Parsedown](http://parsedown.org). To customize said instances (either change the path of the template files or use different content parser and template engine), the new instances must be implemented in [`RendererInterface`](https://github.com/zapheus/zapheus/blob/master/src/Renderer/RendererInterface.php) and [`ContentInterface`](https://github.com/staticka/staticka/blob/master/src/Content/ContentInterface.php) respectively.
+
+``` php
+use Zapheus\Renderer\Renderer;
+
+// Changes the path for the templates.
+$renderer = new Renderer(__DIR__ . '/pages');
+
+$staticka = new Staticka\Staticka($renderer);
+```
+
 ## Change log
 
 Please see [CHANGELOG][link-changelog] for more information what has changed recently.
@@ -106,11 +119,11 @@ If you discover any security related issues, please email rougingutib@gmail.com 
 ## Credits
 
 - [Rougin Royce Gutib][link-author]
-- [All Contributors][link-contributors]
+- [All contributors][link-contributors]
 
 ## License
 
-The MIT License (MIT). Please see [LICENSE.md][link-license] for more information.
+The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/staticka/staticka.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
