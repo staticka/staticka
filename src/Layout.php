@@ -19,11 +19,6 @@ class Layout
     protected $data = array();
 
     /**
-     * @var \Staticka\Matter
-     */
-    protected $matter;
-
-    /**
      * @var \Staticka\Staticka
      */
     protected $staticka;
@@ -48,9 +43,7 @@ class Layout
 
         $this->renderer = $renderer;
 
-        $this->data = $data;
-
-        $this->matter = new Matter;
+        $this->data = (array) $data;
     }
 
     /**
@@ -62,7 +55,7 @@ class Layout
      */
     public function render($name, $content)
     {
-        list($data, $content) = $this->matter->parse($content);
+        list($data, $content) = (array) Matter::parse($content);
 
         $data = array_merge($data, (array) $this->data);
 

@@ -137,15 +137,13 @@ class Staticka extends Configuration
     /**
      * Creates a new page.
      *
-     * @param  string      $uri
-     * @param  string      $content
-     * @param  string|null $template
-     * @param  array       $data
+     * @param  string $file
+     * @param  array  $data
      * @return self
      */
-    public function page($uri, $content, $template = null, array $data = array())
+    public function page($file, array $data = array())
     {
-        $this->pages[] = new Page($uri, $content, $template, $data);
+        $this->pages[] = new Page($file, $data);
 
         return $this;
     }
@@ -240,7 +238,7 @@ class Staticka extends Configuration
     {
         $html = $this->content->make($content = $page->content());
 
-        if (($name = $page->template()) !== null) {
+        if (($name = $page->layout()) !== null) {
             $data = array_merge($this->helpers(), $page->data());
 
             $layout = new Layout($this->renderer, $this, $data);

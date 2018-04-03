@@ -26,31 +26,28 @@ class Page
     protected $uri;
 
     /**
-     * @var string|null
-     */
-    protected $template;
-
-    /**
      * Initializes the page instance.
      *
-     * @param string          $uri
-     * @param string|callable $content
-     * @param string|null     $template
-     * @param array           $data
+     * @param string $file
+     * @param array  $data
      */
-    public function __construct($uri, $content, $template = null, array $data = array())
+    public function __construct($file, array $data = array())
     {
-        isset($data['permalink']) && $uri = $data['permalink'];
+        $this->content = (string) $file;
 
         $this->data = (array) $data;
 
-        $this->uri = $uri[0] !== '/' ? '/' . $uri : $uri;
+        if (file_exists($file) === true) {
+            $original = (string) file_get_contents($file);
 
-        $this->content = $content;
+            $this->uri = pathinfo($file, 8);
 
-        isset($data['layout']) && $template = $data['layout'];
+            list($matter, $content) = Matter::parse($original);
 
-        $this->template = $template;
+            $this->content = (string) $content;
+
+            $this->data = array_merge($data, $matter);
+        }
     }
 
     /**
@@ -60,19 +57,11 @@ class Page
      */
     public function content()
     {
-        $content = $this->content;
-
-        is_callable($content) && $content = $content();
-
-        if (is_string($content) && file_exists($content)) {
-            $content = (string) file_get_contents($content);
-        }
-
-        return $content;
+        return $this->content;
     }
 
     /**
-     * Returns the data for the template.
+     * Returns the data to be inserted in the layout.
      *
      * @return array
      */
@@ -88,7 +77,13 @@ class Page
      */
     public function uris()
     {
-        $items = explode('/', $this->uri);
+        $uri = (string) $this->uri;
+
+        $exists = isset($this->data['permalink']);
+
+        $exists && $uri = $this->data['permalink'];
+
+        $items = explode('/', (string) $uri);
 
         $items = array_filter((array) $items);
 
@@ -96,12 +91,14 @@ class Page
     }
 
     /**
-     * Returns the template of the page.
+     * Returns the layout of the page.
      *
      * @return string|null
      */
-    public function template()
+    public function layout()
     {
-        return $this->template;
+        $exists = (boolean) isset($this->data['layout']);
+
+        return $exists ? $this->data['layout'] : null;
     }
 }

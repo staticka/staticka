@@ -32,17 +32,13 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->output = __DIR__ . DIRECTORY_SEPARATOR . 'build';
+        $separator = (string) DIRECTORY_SEPARATOR;
 
-        $app = new Staticka(null, null);
+        $this->output = __DIR__ . $separator . 'build';
 
-        $app->page('/', function () {
-            $text = '# Hello World';
+        $this->app = new Staticka(null, null);
 
-            return $text . PHP_EOL;
-        });
-
-        $this->app = $app;
+        $this->app->page((string) '# Hello World');
     }
 
     /**
@@ -74,7 +70,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $file = __DIR__ . '/Fixture/World.' . $content->extension();
 
-        $this->app->page('hello', $file);
+        $this->app->page($file);
 
         $this->app->compile($this->output);
 
@@ -82,7 +78,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $expected = $content->make($contents);
 
-        $output = $this->output . '/hello/index.html';
+        $output = $this->output . '/world/index.html';
 
         $result = file_get_contents($output);
 
@@ -126,7 +122,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $app->helper($url = new LinkHelper('https://rougin.github.io'));
 
-        $app->page('template', $file, 'layout');
+        $app->page($file, array('layout' => 'layout', 'permalink' => 'template'));
 
         $app->compile($this->output);
 
@@ -136,9 +132,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $expected = $renderer->render('layout', $data);
 
-        $output = $this->output . '/template/index.html';
-
-        $result = file_get_contents($output);
+        $result = file_get_contents($this->output . '/template/index.html');
 
         $this->assertEquals($expected, $result);
     }

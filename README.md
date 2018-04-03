@@ -19,13 +19,20 @@ $ composer require staticka/staticka
 
 ## Usage
 
+**index.md**
+
+```
+# Hello World!
+
+This is a sample Markdown file.
+```
+
+**index.php**
+
 ``` php
 $app = new Staticka\Staticka;
 
-$app->page('/', function ()
-{
-    return '# Hello world!';
-});
+$app->page(__DIR__ . '/index.md');
 
 $app->compile(__DIR__ . '/build');
 ```

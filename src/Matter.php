@@ -20,7 +20,7 @@ class Matter
      * @param  string $content
      * @return array
      */
-    public function parse($content)
+    public static function parse($content)
     {
         $parts = preg_split(self::PATTERN, PHP_EOL . ltrim($content));
 
