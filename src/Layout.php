@@ -19,9 +19,9 @@ class Layout
     protected $data = array();
 
     /**
-     * @var \Staticka\Staticka
+     * @var \Staticka\Website
      */
-    protected $staticka;
+    protected $website;
 
     /**
      * @var \Zapheus\Renderer\RendererInterface
@@ -32,14 +32,14 @@ class Layout
      * Initializes the layout instance.
      *
      * @param \Zapheus\Renderer\RendererInterface $renderer
-     * @param \Staticka\Staticka                  $staticka
+     * @param \Staticka\Website                   $website
      * @param array                               $data
      */
-    public function __construct(RendererInterface $renderer, Staticka $staticka, array $data)
+    public function __construct(RendererInterface $renderer, Website $website, array $data)
     {
-        $data['config'] = $staticka;
+        $data['config'] = $website;
 
-        $this->staticka = $staticka;
+        $this->website = $website;
 
         $this->renderer = $renderer;
 
@@ -61,7 +61,7 @@ class Layout
 
         $data['title'] = isset($data['title']) ? $data['title'] : '';
 
-        $output = $this->staticka->content()->make($content);
+        $output = $this->website->content()->make($content);
 
         if ($data['title'] === '') {
             preg_match('/<h1>(.*?)<\/h1>/', $output, $matches);

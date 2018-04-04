@@ -11,12 +11,12 @@ use Zapheus\Renderer\Renderer;
 use Zapheus\Renderer\RendererInterface;
 
 /**
- * Staticka
+ * Website
  *
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Staticka extends Configuration
+class Website extends Configuration
 {
     /**
      * @var \Staticka\Content\ContentInterface

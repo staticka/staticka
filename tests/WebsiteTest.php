@@ -8,17 +8,17 @@ use Staticka\Helper\LinkHelper;
 use Zapheus\Renderer\Renderer;
 
 /**
- * Staticka Test
+ * Website Test
  *
  * @package Staticka
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class StatickaTest extends \PHPUnit_Framework_TestCase
+class WebsiteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Staticka\Staticka
+     * @var \Staticka\Website
      */
-    protected $app;
+    protected $site;
 
     /**
      * @var string
@@ -36,9 +36,9 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $this->output = __DIR__ . $separator . 'build';
 
-        $this->app = new Staticka(null, null);
+        $this->site = new Website(null, null);
 
-        $this->app->page((string) '# Hello World');
+        $this->site->page((string) '# Hello World');
     }
 
     /**
@@ -48,7 +48,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompileMethod()
     {
-        $this->app->compile($this->output);
+        $this->site->compile($this->output);
 
         $expected = '<h1>Hello World</h1>';
 
@@ -70,9 +70,9 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $file = __DIR__ . '/Fixture/World.' . $content->extension();
 
-        $this->app->page($file);
+        $this->site->page($file);
 
-        $this->app->compile($this->output);
+        $this->site->compile($this->output);
 
         $contents = file_get_contents($file);
 
@@ -92,9 +92,9 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompileMethodWithFilter()
     {
-        $this->app->filter(new HtmlMinifier);
+        $this->site->filter(new HtmlMinifier);
 
-        $this->app->compile($this->output);
+        $this->site->compile($this->output);
 
         $expected = '<h1>Hello World</h1>';
 
@@ -118,13 +118,13 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
 
         $renderer = new Renderer(__DIR__ . '/Fixture');
 
-        $app = new Staticka($renderer);
+        $site = new Website($renderer);
 
-        $app->helper($url = new LinkHelper('https://rougin.github.io'));
+        $site->helper($url = new LinkHelper('https://rougin.github.io'));
 
-        $app->page($file, array('layout' => 'layout', 'permalink' => 'template'));
+        $site->page($file, array('layout' => 'layout', 'permalink' => 'template'));
 
-        $app->compile($this->output);
+        $site->compile($this->output);
 
         $content = $content->make(file_get_contents($file));
 
@@ -146,7 +146,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'Staticka\Content\ContentInterface';
 
-        $result = $this->app->content();
+        $result = $this->site->content();
 
         $this->assertInstanceOf($expected, $result);
     }
@@ -160,7 +160,7 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'Zapheus\Renderer\RendererInterface';
 
-        $result = $this->app->renderer();
+        $result = $this->site->renderer();
 
         $this->assertInstanceOf($expected, $result);
     }
@@ -172,9 +172,9 @@ class StatickaTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransferMethod()
     {
-        $this->app->compile($this->output);
+        $this->site->compile($this->output);
 
-        $this->app->transfer(__DIR__ . '/Sample');
+        $this->site->transfer(__DIR__ . '/Sample');
 
         $file = __DIR__ . '/build/Styles.css';
 

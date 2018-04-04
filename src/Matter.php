@@ -12,8 +12,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Matter
 {
-    const PATTERN = '/^[\s\r\n]?---[\s\r\n]?$/sm';
-
     /**
      * Retrieves the contents from a YAML format.
      *
@@ -22,12 +20,22 @@ class Matter
      */
     public static function parse($content)
     {
-        $parts = preg_split(self::PATTERN, PHP_EOL . ltrim($content));
+        $matter = array();
 
-        $matter = count($parts) < 3 ? array() : Yaml::parse(trim($parts[1]));
+        $text = str_replace(PHP_EOL, $id = uniqid(), $content);
 
-        $body = implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2));
+        $regex = '/^---' . $id . '(.*?)' . $id . '---/';
 
-        return array((array) $matter, (string) $body ?: (string) $content);
+        if (preg_match($regex, $text, $matches) === 1) {
+            $yaml = str_replace($id, PHP_EOL, $matches[1]);
+
+            $matter = (array) Yaml::parse(trim($yaml));
+
+            $body = str_replace($matches[0], '', $text);
+
+            $content = str_replace($id, PHP_EOL, $body);
+        }
+
+        return array($matter, (string) trim($content));
     }
 }

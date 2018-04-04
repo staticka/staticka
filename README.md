@@ -9,9 +9,15 @@
 
 Staticka converts Markdown content, HTML and PHP files into static HTML.
 
+## Features
+
+* Uses [Markdown](https://en.wikipedia.org/wiki/Markdown) as the default format for the content files
+* No fixed file and directory structure for the content and template files
+* Fully extensible, can even change the default Markdown format into a chosen format
+
 ## Install
 
-Via Composer
+Via [Composer](https://getcomposer.org)
 
 ``` bash
 $ composer require staticka/staticka
@@ -36,14 +42,14 @@ Then add it as a page to `Staticka` instance:
 **index.php**
 
 ``` php
-$staticka = new Staticka\Staticka;
+$site = new Staticka\Website;
 
-$staticka->page(__DIR__ . '/index.md');
+$site->page(__DIR__ . '/index.md');
 
-$staticka->compile(__DIR__ . '/build');
+$site->compile(__DIR__ . '/build');
 ```
 
-To compile the pages, run the `index.php` file:
+To compile the pages, run the `php index.php` command:
 
 ``` bash
 $ php index.php
@@ -81,14 +87,16 @@ This is a sample Markdown file.
 <p>This is a sample Markdown file.</p>
 ```
 
-The second parameter of `$staticka->page()` method can also be inserted of variables to be included in the page:
+The second parameter of `$site->page()` method can also be inserted of variables to be included in the page:
+
+**index.php**
 
 ``` php
 $data = array('permalink' => 'brave-world');
 
-$staticka->page(__DIR__ . '/index.md', $data);
+$site->page(__DIR__ . '/index.md', $data);
 
-$staticka->compile(__DIR__ . '/build');
+$site->compile(__DIR__ . '/build');
 ```
 
 ## Customization
@@ -101,11 +109,11 @@ use Zapheus\Renderer\Renderer;
 // Changes the path for the templates.
 $renderer = new Renderer(__DIR__ . '/pages');
 
-$staticka = new Staticka\Staticka($renderer);
+$site = new Staticka\Website($renderer);
 
-$staticka->page(__DIR__ . '/index.md');
+$site->page(__DIR__ . '/index.md');
 
-$staticka->compile(__DIR__ . '/build');
+$site->compile(__DIR__ . '/build');
 ```
 
 ### Filters
@@ -117,13 +125,13 @@ Staticka can use filters to modify the contents of the specified page. Creating 
 ``` php
 use Staticka\Filter\HtmlMinifier;
 
-$staticka = new Staticka\Staticka;
+$site = new Staticka\Website;
 
-$staticka->filter(new HtmlMinifier);
+$site->filter(new HtmlMinifier);
 
-$staticka->page(__DIR__ . '/index.md');
+$site->page(__DIR__ . '/index.md');
 
-$staticka->compile(__DIR__ . '/build');
+$site->compile(__DIR__ . '/build');
 ```
 
 **build/brave-world/index.html** (after running `php index.php` in the terminal)
@@ -170,15 +178,15 @@ This is a sample Markdown file.
 ``` php
 use Staticka\Helper\LinkHelper;
 
-$staticka = new Staticka\Staticka;
+$site = new Staticka\Website;
 
 $helper = new LinkHelper('https://staticka.github.io');
 
-$staticka->helper($helper);
+$site->helper($helper);
 
-$staticka->page(__DIR__ . '/index.md');
+$site->page(__DIR__ . '/index.md');
 
-$staticka->compile(__DIR__ . '/build');
+$site->compile(__DIR__ . '/build');
 ```
 
 **build/brave-world/index.html** (after running `php index.php` in the terminal)
