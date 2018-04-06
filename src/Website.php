@@ -80,7 +80,7 @@ class Website extends Configuration
 
             $html = (string) $this->html($page);
 
-            $path = $this->path($output . '/' . $folder);
+            $path = $this->realpath($output . '/' . $folder);
 
             file_put_contents($path . 'index.html', $html);
         }
@@ -167,11 +167,11 @@ class Website extends Configuration
      */
     public function transfer($source, $path = null)
     {
-        $path = $path === null ? $this->output : (string) $path;
+        $path = $path === null ? $this->output : $path;
 
-        $source = str_replace('/', DIRECTORY_SEPARATOR, $source);
+        $path = $this->realpath($path);
 
-        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+        $source = $this->realpath($source);
 
         $directory = new \RecursiveDirectoryIterator($source, 4096);
 
@@ -260,7 +260,7 @@ class Website extends Configuration
      * @param  string $folder
      * @return string
      */
-    protected function path($folder)
+    protected function realpath($folder)
     {
         $separator = (string) DIRECTORY_SEPARATOR;
 

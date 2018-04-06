@@ -176,7 +176,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $this->site->transfer(__DIR__ . '/Sample');
 
-        $file = __DIR__ . '/build/Styles.css';
+        $file = __DIR__ . '/build/Styles/Site.css';
 
         $this->assertFileExists($file);
     }
