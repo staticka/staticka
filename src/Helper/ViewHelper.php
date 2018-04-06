@@ -28,15 +28,15 @@ class ViewHelper implements HelperInterface
     }
 
     /**
-     * Returns the partial template.
+     * Renders the partial template.
      *
      * @param  string $template
      * @param  array  $data
      * @return string
      */
-    public function include($template, array $data = array())
+    public function render($template, array $data = array())
     {
-        $data = (array) $this->website->helpers();
+        $data = array_merge($data, $this->website->helpers());
 
         $data['config'] = $this->website;
 

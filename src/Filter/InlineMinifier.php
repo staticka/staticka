@@ -36,7 +36,7 @@ class InlineMinifier implements FilterInterface
         $elements = (array) $this->elements($code);
 
         if (count($elements) === 0) {
-            $code = trim(preg_replace('/\s\s+/', '', $code));
+            $code = preg_replace('/\s+/', ' ', trim($code));
 
             return (string) ltrim($this->minify($code));
         }

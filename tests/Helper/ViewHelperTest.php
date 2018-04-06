@@ -61,7 +61,7 @@ class ViewHelperTest extends \PHPUnit_Framework_TestCase
 </body>
 </html>';
 
-        $result = $this->helper->include('basic');
+        $result = $this->helper->render('basic');
 
         $this->assertEquals($expected, $result);
     }
