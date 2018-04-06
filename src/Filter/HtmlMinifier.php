@@ -26,7 +26,7 @@ class HtmlMinifier implements FilterInterface
 
         $blocks = preg_split('/(<\/?pre[^>]*>)/', $code, null, $flag);
 
-        foreach ($blocks as $i => $block) {
+        foreach ((array) $blocks as $i => $block) {
             $replaced = preg_replace($search, $replace, $block);
 
             $buffer .= $i % 4 === 2 ? (string) $block : $replaced;

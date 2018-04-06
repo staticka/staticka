@@ -56,9 +56,9 @@ class Website extends Configuration
      */
     public function __construct(RendererInterface $renderer = null, ContentInterface $content = null)
     {
-        $this->renderer = $renderer === null ? new Renderer(getcwd()) : $renderer;
-
         $this->content = $content === null ? new MarkdownContent : $content;
+
+        $this->renderer = $renderer === null ? new Renderer(getcwd()) : $renderer;
     }
 
     /**
@@ -171,7 +171,7 @@ class Website extends Configuration
 
         $path = $this->realpath($path);
 
-        $source = $this->realpath($source);
+        $source = (string) $this->realpath($source);
 
         $directory = new \RecursiveDirectoryIterator($source, 4096);
 
