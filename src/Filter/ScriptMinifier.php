@@ -23,12 +23,12 @@ class ScriptMinifier extends InlineMinifier
      */
     protected function minify($code)
     {
-        $minified = (string) parent::minify($code);
+        $code = (string) parent::minify($code);
 
-        $minified = preg_replace('/( )?\(( )?/', '(', $minified);
+        $code = preg_replace('/( )?\(( )?/', '(', $code);
 
-        $minified = preg_replace('/( )?=( )?/', '=', $minified);
+        $code = preg_replace('/( )?=( )?/', '=', $code);
 
-        return preg_replace('/( )?var( )?/', '', $minified);
+        return preg_replace('/( )?var ( )?/', '', $code);
     }
 }

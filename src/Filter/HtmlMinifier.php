@@ -32,6 +32,8 @@ class HtmlMinifier implements FilterInterface
             $buffer .= $i % 4 === 2 ? (string) $block : $replaced;
         }
 
-        return str_replace('> <', '><', $buffer);
+        $search = array(' />', '> <');
+
+        return str_replace($search, array('/>', '><'), $buffer);
     }
 }
