@@ -29,7 +29,7 @@ class StyleMinifierTest extends \PHPUnit_Framework_TestCase
 
         $this->filter = new StyleMinifier;
 
-        $this->code = file_get_contents($name . '/Style.css');
+        $this->code = file_get_contents($name . '/Style.html');
     }
 
     /**
@@ -39,7 +39,16 @@ class StyleMinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterMethod()
     {
-        $expected = 'body{margin:0px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',\'Roboto\',\'Oxygen\',\'Ubuntu\',\'Cantarell\',\'Fira Sans\',\'Droid Sans\',\'Helvetica Neue\',sans-serif;line-height:1.5em;}@media screen and (min-width:576px){body{font-size:1.5em;}}p,small,.form-control{font-family:Georgia,serif;}p,.form-control{font-size:inherit;}.btn{font-size:inherit;font-family:inherit;}.content{margin:1em auto;max-width:40em;padding:0 .62em;line-height:1.5;}@media print{body{max-width:none}}a{color:#23241f;}a:hover{color:#666;}';
+        $expected = '<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>body{margin:0px;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',\'Roboto\',\'Oxygen\',\'Ubuntu\',\'Cantarell\',\'Fira Sans\',\'Droid Sans\',\'Helvetica Neue\',sans-serif;line-height:1.5em;}@media screen and (min-width:576px){body{font-size:1.5em;}}p,small,.form-control{font-family:Georgia,serif;}p,.form-control{font-size:inherit;}.btn{font-size:inherit;font-family:inherit;}.content{margin:1em auto;max-width:40em;padding:0 .62em;line-height:1.5;}@media print{body{max-width:none}}a{color:#23241f;}a:hover{color:#666;}</style>
+</head>
+<body>
+</body>
+</html>';
 
         $result = $this->filter->filter($this->code);
 

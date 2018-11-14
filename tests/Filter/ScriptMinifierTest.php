@@ -29,7 +29,7 @@ class ScriptMinifierTest extends \PHPUnit_Framework_TestCase
 
         $this->filter = new ScriptMinifier;
 
-        $this->code = file_get_contents($name . '/Script.js');
+        $this->code = file_get_contents($name . '/Script.html');
     }
 
     /**
@@ -39,7 +39,16 @@ class ScriptMinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterMethod()
     {
-        $expected = 'map=function(){element=document.getElementById(\'rs-map\');place={lat:7.074744,lng:125.619585};map=new google.maps.Map(element,{zoom:17,center:place});marker=new google.maps.Marker({position:place,map:map});};';
+        $expected = '<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script>map=function(){element=document.getElementById(\'rs-map\');place={lat:7.074744,lng:125.619585};map=new google.maps.Map(element,{zoom:17,center:place});marker=new google.maps.Marker({position:place,map:map});};</script>
+</body>
+</html>';
 
         $result = $this->filter->filter($this->code);
 
