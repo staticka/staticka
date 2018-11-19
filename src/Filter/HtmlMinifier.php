@@ -18,22 +18,46 @@ class HtmlMinifier implements FilterInterface
      */
     public function filter($code)
     {
-        $flag = PREG_SPLIT_DELIM_CAPTURE;
+        $xml = '<?xml encoding="UTF-8">';
 
-        $search = array('/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s');
+        $dom = new \DOMDocument;
 
-        list($buffer, $replace) = array('', array('>', '<', '\\1'));
+        $dom->loadHTML((string) $xml . $code);
 
-        $blocks = preg_split('/(<\/?pre[^>]*>)/', $code, null, $flag);
+        $items = $dom->getElementsByTagName('*');
 
-        foreach ((array) $blocks as $i => $block) {
-            $replaced = preg_replace($search, $replace, $block);
+        $elements = array();
 
-            $buffer .= $i % 4 === 2 ? (string) $block : $replaced;
+        foreach ($items as $index => $node)
+        {
+            if ($node->nodeName === 'textarea')
+            {
+                $elements[$index] = $node->nodeValue;
+
+                $node->nodeValue = '$' . $index . '$';
+            }
         }
 
-        $search = array(' />', '> <');
+        $html = $this->minify($dom->saveHTML());
 
-        return str_replace($search, array('/>', '><'), $buffer);
+        foreach ($elements as $index => $item)
+        {
+            $html = str_replace('$' . $index . '$', $item, $html);
+        }
+
+        file_put_contents('test.html', trim($html));
+
+        return trim($html);
+    }
+
+    protected function minify($html)
+    {
+        $html = str_replace('<?xml encoding="UTF-8">', '', $html);
+
+        $html = preg_replace('/\s+/', ' ', $html);
+
+        $html = str_replace('> <', '><', $html);
+
+        return str_replace(array(' />', '/>'), '>', $html);
     }
 }
