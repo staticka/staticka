@@ -46,7 +46,7 @@ class ScriptMinifierTest extends \PHPUnit_Framework_TestCase
   <title>Document</title>
 </head>
 <body>
-  <script>map=function(){element=document.getElementById(\'rs-map\');place={lat:7.074744,lng:125.619585};map=new google.maps.Map(element,{zoom:17,center:place});marker=new google.maps.Marker({position:place,map:map});};</script>
+  <script>map=function(){variable=null;element=document.getElementById(\'rs-map\');place={lat:7.074744,lng:125.619585};map=new google.maps.Map(element,{zoom:17,center:place});marker=new google.maps.Marker({position:place,map:map});};</script>
 </body>
 </html>';
 

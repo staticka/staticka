@@ -4,8 +4,8 @@ All notable changes to `Staticka` will be documented in this file.
 
 ## [0.2.1](https://github.com/staticka/staticka/compare/v0.2.0...v0.2.1) - Unreleased
 
-### Fixed
-- `Filter\InlineMinifier`
+### Changed
+- `Filter\HtmlMinifier`
 - `Filter\ScriptMinifier`
 - `Filter\StyleMinifier`
 

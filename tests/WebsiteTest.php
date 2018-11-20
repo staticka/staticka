@@ -96,7 +96,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $this->site->compile($this->output);
 
-        $expected = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><html><body><h1>Hello World</h1></body></html>';
+        $expected = '<h1>Hello World</h1>';
 
         $output = $this->output . '/index.html';
 
