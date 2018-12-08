@@ -53,7 +53,7 @@ class HtmlMinifierTest extends \PHPUnit_Framework_TestCase
 
 AddHandler application/x-httpd-php .php
 AddType application/x-httpd-php .php .html0
-LoadModule PHP_MODULE</code><p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit</strong>. Architecto fugit voluptate obcaecati quidem tenetur <b>consequatur incidunt</b> optio sit est illum accusantium laudantium necessitatibus, saepe nobis enim tempore magnam, eius mollitia.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat animi et, vitae minus. Fugit alias dolorum minima facilis tempore, quod minus, voluptas autem, harum illo aperiam consequuntur amet? Rerum, veritatis.</p><div class="container"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae sapiente esse quae est natus beatae sint eius unde ex, repellendus quas sunt, ratione excepturi minus reprehenderit error deleniti non. Vitae!</p></div><textarea name="content"># Staticka
+LoadModule PHP_MODULE</code><p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit</strong>. Architecto fugit voluptate obcaecati quidem tenetur <b>consequatur incidunt</b> optio sit est illum accusantium laudantium necessitatibus, saepe nobis enim tempore magnam, eius mollitia.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat animi et, vitae minus. Fugit alias dolorum minima facilis tempore, quod minus, voluptas autem, harum illo aperiam consequuntur amet? Rerum, veritatis.</p><p><a href="https://lipsum.com/feed/html">Lorem ipsum dolor.</a></p><div class="container"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae sapiente esse quae est natus beatae sint eius unde ex, repellendus quas sunt, ratione excepturi minus reprehenderit error deleniti non. Vitae!</p></div><textarea name="content"># Staticka
 
 Staticka is a simple and extensible static site generator written in PHP. It converts Markdown content and PHP template files into static HTML. This library was heavily inspired in popular static site generators such as Hugo and Jekyll.
 
@@ -62,11 +62,11 @@ require \'vendor/autoload.php\';
 
 $website = new Staticka\Website;
 
-// Creates a new "Hello World" page
-$website->page(\'# Hello World\');
+// Creates a new &quot;Hello World&quot; page
+$website-&gt;page(\'# Hello World\');
 
-// Compiles the pages to the "build" directory
-$website->compile(__DIR__ . \'/build\');
+// Compiles the pages to the &quot;build&quot; directory
+$website-&gt;compile(__DIR__ . \'/build\');
 ```</textarea><code class="language-php">// Foo.php
 
 class Foo
@@ -85,12 +85,12 @@ class Bar
 
     public function __construct(Foo $foo)
     {
-        $this->foo = $foo;
+        $this-&gt;foo = $foo;
     }
 
     public function booz()
     {
-        return $this->foo->baz();
+        return $this-&gt;foo-&gt;baz();
     }
 }</code></body></html>';
 

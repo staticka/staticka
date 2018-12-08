@@ -32,7 +32,7 @@ class HtmlMinifier implements FilterInterface
 
         $dom = new \DOMDocument;
 
-        $dom->loadHTML((string) $utf8 . $code);
+        @$dom->loadHTML((string) $utf8 . $code);
 
         $elements = $dom->getElementsByTagName('*');
 
@@ -44,12 +44,34 @@ class HtmlMinifier implements FilterInterface
     }
 
     /**
+     * Checks if a specified node has children.
+     *
+     * @param  \DOMNode $node
+     * @return boolean
+     */
+    protected function childbearing(\DOMNode $node)
+    {
+        if ($node->hasChildNodes())
+        {
+            foreach ($node->childNodes as $child)
+            {
+                if ($child->nodeType === XML_ELEMENT_NODE)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Minifies the specified HTML.
      *
      * @param  string $html
      * @return string
      */
-    protected function minify($html, $uniqid = null)
+    protected function minify($html)
     {
         $html = str_replace('<?xml encoding="UTF-8">', '', $html);
 
@@ -68,16 +90,23 @@ class HtmlMinifier implements FilterInterface
      */
     protected function remove(\DOMNodeList $elements)
     {
+        $encoded = array('textarea', 'code');
+
         foreach ($elements as $element)
         {
-            $length = $element->childNodes->length;
-
-            if ($length > 1)
+            if ($this->childbearing($element))
             {
                 continue;
             }
 
-            array_push($this->data, $element->nodeValue);
+            $output = (string) $element->nodeValue;
+
+            if (in_array($element->nodeName, $encoded))
+            {
+                $output = htmlentities($element->nodeValue);
+            }
+
+            array_push($this->data, (string) $output);
 
             $current = count($this->data) - 1;
 

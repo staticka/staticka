@@ -29,8 +29,6 @@ class ScriptMinifier extends InlineMinifier
 
         $code = preg_replace('/( )?\(( )?/', '(', $code);
 
-        $code = str_replace(';', '', (string) $code);
-
         return preg_replace('/( )?var ( )?/', '', $code);
     }
 }
