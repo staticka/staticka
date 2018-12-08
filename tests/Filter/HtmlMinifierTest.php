@@ -6,7 +6,7 @@ namespace Staticka\Filter;
  * HTML Minifier Test
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class HtmlMinifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,17 +39,62 @@ class HtmlMinifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterMethod()
     {
-        $expected = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style> body { background: #fff; }</style></head><body><h1>Brave World</h1><p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit</strong>. Architecto fugit voluptate obcaecati quidem tenetur <b>consequatur incidunt</b> optio sit est illum accusantium laudantium necessitatibus, saepe nobis enim tempore magnam, eius mollitia.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat animi et, vitae minus. Fugit alias dolorum minima facilis tempore, quod minus, voluptas autem, harum illo aperiam consequuntur amet? Rerum, veritatis.</p><div class="container"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae sapiente esse quae est natus beatae sint eius unde ex, repellendus quas sunt, ratione excepturi minus reprehenderit error deleniti non. Vitae!</p></div><textarea name="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore deleniti incidunt ea id quae ipsam dolores temporibus aspernatur nisi provident distinctio natus odit, magnam architecto recusandae earum, est unde iure.
+        $expected = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style>
+    body
+    {
+      background: #fff;
+    }
+  </style></head><body><h1>Brave World</h1><code class="language-apache">#
+# Note that from this point forward you must specifically allow
+# particular features to be enabled - so if something\'s not working as
+# you might expect, make sure that you have specifically enabled it
+# below.
+#
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, maxime soluta sapiente quos sunt inventore! Fugiat nisi itaque dolorem aperiam, cum rerum officiis, laboriosam! Quidem illum quam nam architecto ullam.</textarea></body></html>';
+AddHandler application/x-httpd-php .php
+AddType application/x-httpd-php .php .html0
+LoadModule PHP_MODULE</code><p><strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit</strong>. Architecto fugit voluptate obcaecati quidem tenetur <b>consequatur incidunt</b> optio sit est illum accusantium laudantium necessitatibus, saepe nobis enim tempore magnam, eius mollitia.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat animi et, vitae minus. Fugit alias dolorum minima facilis tempore, quod minus, voluptas autem, harum illo aperiam consequuntur amet? Rerum, veritatis.</p><div class="container"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae sapiente esse quae est natus beatae sint eius unde ex, repellendus quas sunt, ratione excepturi minus reprehenderit error deleniti non. Vitae!</p></div><textarea name="content"># Staticka
 
-        $expected = str_replace(array("\r\n", "\n"), "\n", $expected);
+Staticka is a simple and extensible static site generator written in PHP. It converts Markdown content and PHP template files into static HTML. This library was heavily inspired in popular static site generators such as Hugo and Jekyll.
+
+``` php
+require \'vendor/autoload.php\';
+
+$website = new Staticka\Website;
+
+// Creates a new "Hello World" page
+$website->page(\'# Hello World\');
+
+// Compiles the pages to the "build" directory
+$website->compile(__DIR__ . \'/build\');
+```</textarea><code class="language-php">// Foo.php
+
+class Foo
+{
+    public function baz()
+    {
+        // ...
+    }
+}
+
+// Bar.php
+
+class Bar
+{
+    protected $foo;
+
+    public function __construct(Foo $foo)
+    {
+        $this->foo = $foo;
+    }
+
+    public function booz()
+    {
+        return $this->foo->baz();
+    }
+}</code></body></html>';
 
         $result = $this->filter->filter($this->code);
-
-        file_put_contents('test0.html', json_encode($expected));
-
-        file_put_contents('test1.html', json_encode($result));
 
         $this->assertEquals($expected, $result);
     }

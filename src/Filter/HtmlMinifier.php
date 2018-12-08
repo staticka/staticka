@@ -6,10 +6,15 @@ namespace Staticka\Filter;
  * HTML Minifier
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class HtmlMinifier implements FilterInterface
 {
+    /**
+     * @var array
+     */
+    protected $data = array();
+
     /**
      * Filters the specified code.
      *
@@ -23,103 +28,78 @@ class HtmlMinifier implements FilterInterface
             return $this->minify($code);
         }
 
-        list($uniqid, $code) = $this->parse($code);
-
-        $excluded = (array) $this->excluded($code);
-
-        $html = $this->minify($code, (string) $uniqid);
-
-        foreach ((array) $excluded as $item)
-        {
-            $original = str_replace($uniqid, "\n", $item);
-
-            $current = $this->minify(htmlspecialchars($item));
-
-            if ($current && strpos($html, $current) === false)
-            {
-                $encoded = htmlspecialchars($item, ENT_QUOTES);
-
-                $current = $this->minify((string) $encoded);
-            }
-
-            $html = str_replace($current, $original, $html);
-        }
-
-        $html = str_replace($uniqid, '', trim($html));
-
-        return str_replace('> <', '><', (string) $html);
-    }
-
-    /**
-     * Returns elements to be excluded when minifying.
-     *
-     * @param  string $html
-     * @return array
-     */
-    protected function excluded($html)
-    {
-        libxml_use_internal_errors(true);
-
-        $data = array();
-
         $utf8 = (string) '<?xml encoding="UTF-8">';
 
         $dom = new \DOMDocument;
 
-        $dom->loadHTML((string) $utf8 . $html);
+        $dom->loadHTML((string) $utf8 . $code);
 
-        $allowed = array('code', 'textarea', 'pre');
+        $elements = $dom->getElementsByTagName('*');
 
-        $items = $dom->getElementsByTagName('*');
+        $this->remove($elements);
 
-        foreach ($items as $node)
-        {
-            if (in_array($node->nodeName, $allowed))
-            {
-                array_push($data, $node->nodeValue);
-            }
-        }
+        $html = $this->minify($dom->saveHTML());
 
-        return (array) $data;
+        return $this->restore((string) $html);
     }
 
     /**
      * Minifies the specified HTML.
      *
-     * @param  string      $html
-     * @param  string|null $uniqid
+     * @param  string $html
      * @return string
      */
     protected function minify($html, $uniqid = null)
     {
         $html = str_replace('<?xml encoding="UTF-8">', '', $html);
 
-        $html = preg_replace('/\s+/', ' ', $html);
+        $html = trim(preg_replace('/\s+/', ' ', $html));
 
-        $html = str_replace('> <', '><', (string) $html);
-
-        if ($uniqid)
-        {
-            $html = str_replace($uniqid . ' <', $uniqid . '<', $html);
-        }
+        $html = str_replace('> <', '><', $html);
 
         return str_replace(array(' />', '/>'), '>', $html);
     }
 
     /**
-     * Parses the spaces to the entire HTML.
+     * Removes the content of single elements.
+     *
+     * @param  \DOMNodeList $elements
+     * @return void
+     */
+    protected function remove(\DOMNodeList $elements)
+    {
+        foreach ($elements as $element)
+        {
+            $length = $element->childNodes->length;
+
+            if ($length > 1)
+            {
+                continue;
+            }
+
+            array_push($this->data, $element->nodeValue);
+
+            $current = count($this->data) - 1;
+
+            $element->nodeValue = '$' . $current . '$';
+        }
+    }
+
+    /**
+     * Restores the data into the minified HTML.
      *
      * @param  string $html
      * @return string
      */
-    protected function parse($html)
+    protected function restore($html)
     {
-        $search = (array) array("\r\n", "\n");
+        foreach ($this->data as $index => $item)
+        {
+            $key = (string) '$' . $index . '$';
 
-        $uniqid = (string) uniqid();
+            $html = str_replace($key, $item, $html);
+        }
 
-        $code = str_replace($search, $uniqid, $html);
-
-        return array($uniqid, (string) $code);
+        return (string) $html;
     }
 }
