@@ -6,7 +6,7 @@ namespace Staticka\Filter;
  * Script Minifier
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ScriptMinifier extends InlineMinifier
 {
@@ -25,9 +25,11 @@ class ScriptMinifier extends InlineMinifier
     {
         $code = (string) parent::minify($code);
 
+        $code = preg_replace('/( )?=( )?/', '=', $code);
+
         $code = preg_replace('/( )?\(( )?/', '(', $code);
 
-        $code = preg_replace('/( )?=( )?/', '=', $code);
+        $code = str_replace(';', '', (string) $code);
 
         return preg_replace('/( )?var ( )?/', '', $code);
     }

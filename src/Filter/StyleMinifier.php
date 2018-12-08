@@ -6,7 +6,7 @@ namespace Staticka\Filter;
  * Style Minifier
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class StyleMinifier extends InlineMinifier
 {

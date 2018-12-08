@@ -6,7 +6,7 @@ namespace Staticka\Filter;
  * Script Minifier Test
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ScriptMinifierTest extends \PHPUnit_Framework_TestCase
 {

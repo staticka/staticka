@@ -15,15 +15,15 @@
 * No fixed file and directory structure for the content and template files
 * Fully extensible, can even change the default markup (Markdown) into a chosen markup language
 
-## Install
+## Installation
 
-Via [Composer](https://getcomposer.org)
+Install `Staticka` via [Composer](https://getcomposer.org/):
 
 ``` bash
 $ composer require staticka/staticka
 ```
 
-## Usage
+## Basic Usage
 
 ### Compile Markdown files
 
@@ -205,7 +205,7 @@ $site->compile(__DIR__ . '/build');
 </html>
 ```
 
-## Change log
+## Changelog
 
 Please see [CHANGELOG][link-changelog] for more information what has changed recently.
 
@@ -215,27 +215,21 @@ Please see [CHANGELOG][link-changelog] for more information what has changed rec
 $ composer test
 ```
 
-## Security
-
-If you discover any security related issues, please email rougingutib@gmail.com instead of using the issue tracker.
-
 ## Credits
 
-- [Rougin Royce Gutib][link-author]
 - [All contributors][link-contributors]
 
 ## License
 
 The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/staticka/staticka.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/staticka/staticka/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/staticka/staticka.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/staticka/staticka.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/staticka/staticka.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/staticka/staticka.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/staticka/staticka/master.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/staticka/staticka.svg?style=flat-square
 
-[link-author]: https://rougin.github.io
 [link-changelog]: https://github.com/staticka/staticka/blob/master/CHANGELOG.md
 [link-code-quality]: https://scrutinizer-ci.com/g/staticka/staticka
 [link-contributors]: https://github.com/staticka/staticka/contributors

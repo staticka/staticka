@@ -6,7 +6,7 @@ namespace Staticka\Helper;
  * Link Helper Test
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class LinkHelperTest extends \PHPUnit_Framework_TestCase
 {

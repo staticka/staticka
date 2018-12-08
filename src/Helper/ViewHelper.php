@@ -8,7 +8,7 @@ use Staticka\Website;
  * View Helper
  *
  * @package Rouginsons
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ViewHelper implements HelperInterface
 {

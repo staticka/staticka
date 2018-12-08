@@ -6,7 +6,7 @@ namespace Staticka\Filter;
  * Style Minifier Test
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class StyleMinifierTest extends \PHPUnit_Framework_TestCase
 {

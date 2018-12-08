@@ -6,7 +6,7 @@ namespace Staticka\Filter;
  * Inline Minifier
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class InlineMinifier implements FilterInterface
 {
@@ -35,7 +35,8 @@ class InlineMinifier implements FilterInterface
     {
         $elements = (array) $this->elements($code);
 
-        foreach ((array) $elements as $element) {
+        foreach ((array) $elements as $element)
+        {
             $original = (string) $element->nodeValue;
 
             $minified = $this->minify($original);

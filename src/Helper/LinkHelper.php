@@ -6,7 +6,7 @@ namespace Staticka\Helper;
  * Link Helper
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class LinkHelper implements HelperInterface
 {

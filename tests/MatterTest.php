@@ -6,7 +6,7 @@ namespace Staticka;
  * Matter Test
  *
  * @package Staticka
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class MatterTest extends \PHPUnit_Framework_TestCase
 {
