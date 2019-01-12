@@ -1,7 +1,7 @@
 {
     "name": "staticka/staticka",
-    "description": "A simple and extensible static site generator.",
-    "keywords": ["generator", "simple", "static site", "staticka"],
+    "description": "A simple yet extensible \"do-it-yourself\" static site generator.",
+    "keywords": ["do-it-yourself", "generator", "simple", "static site", "staticka"],
     "homepage": "https://staticka.github.io/",
     "license": "MIT",
     "authors":
