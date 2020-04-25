@@ -78,7 +78,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $expected = $content->make($contents);
 
-        $output = $this->output . '/world/index.html';
+        $output = $this->output . '/World/index.html';
 
         $result = file_get_contents($output);
 
