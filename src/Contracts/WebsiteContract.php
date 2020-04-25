@@ -23,7 +23,7 @@ interface WebsiteContract
      * @param  string $output
      * @return self
      */
-    public function build(string $output);
+    public function build($output);
 
     /**
      * Transfers files from a directory into another path.

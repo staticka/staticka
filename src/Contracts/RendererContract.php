@@ -22,5 +22,5 @@ interface RendererContract extends RendererInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function render($template, array $data = array());
+    public function render($template, $data = array());
 }
