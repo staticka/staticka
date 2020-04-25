@@ -32,7 +32,7 @@ class Layout implements LayoutContract
     /**
      * @var string $body
      */
-    public function __construct(string $body = self::BODY_DEFAULT)
+    public function __construct($body = self::BODY_DEFAULT)
     {
         $this->body = $body;
     }

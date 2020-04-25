@@ -129,7 +129,7 @@ class Website implements WebsiteContract
      * @param  string $output
      * @return self
      */
-    public function build(string $output)
+    public function build($output)
     {
         return $this->compile($output);
     }
@@ -155,7 +155,7 @@ class Website implements WebsiteContract
      * @param  string $output
      * @return self
      */
-    public function compile(string $output)
+    public function compile($output)
     {
         if (file_exists($output))
         {
@@ -268,7 +268,7 @@ class Website implements WebsiteContract
      * @param  array  $data
      * @return self
      */
-    public function page($file, array $data = array())
+    public function page($file, $data = array())
     {
         $page = new PageFactory($this->layout);
 

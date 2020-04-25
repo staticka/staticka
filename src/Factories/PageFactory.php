@@ -27,7 +27,7 @@ class PageFactory
      * @param  array  $data
      * @return \Staticka\Contracts\PageContract
      */
-    public function body(string $body, array $data = array())
+    public function body($body, $data = array())
     {
         $data[PageContract::DATA_BODY] = (string) $body;
 
@@ -39,7 +39,7 @@ class PageFactory
         return $this->make((array) $data);
     }
 
-    public function file(string $file, array $data = array())
+    public function file($file, $data = array())
     {
         // TODO: Remove this on v1.0.0.
         // Use $this->parse() instead.
@@ -65,7 +65,7 @@ class PageFactory
         return $this->make($data);
     }
 
-    protected function make(array $data)
+    protected function make($data)
     {
         // TODO: Remove this on v1.0.0.
         // Use DATA_PATH instead of DATA_LAYOUT.

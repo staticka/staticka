@@ -29,7 +29,7 @@ class Page implements PageContract
      * @param \Staticka\Contracts\LayoutContract $layout
      * @param array                              $data
      */
-    public function __construct(LayoutContract $layout, array $data = array())
+    public function __construct(LayoutContract $layout, $data = array())
     {
         $this->data = (array) $data;
 
