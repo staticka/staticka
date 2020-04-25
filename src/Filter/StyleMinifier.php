@@ -2,29 +2,16 @@
 
 namespace Staticka\Filter;
 
+use Staticka\Filters\StyleMinifier as Filter;
+
 /**
+ * TODO: Remove this file after v1.0.0.
+ *
  * Style Minifier
  *
  * @package Staticka
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class StyleMinifier extends InlineMinifier
+class StyleMinifier extends Filter
 {
-    /**
-     * @var string
-     */
-    protected $tagname = 'style';
-
-    /**
-     * Minifies the specified code.
-     *
-     * @param  string $code
-     * @return string
-     */
-    protected function minify($code)
-    {
-        $minified = (string) parent::minify($code);
-
-        return str_replace(' > ', '>', $minified);
-    }
 }

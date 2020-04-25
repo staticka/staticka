@@ -2,7 +2,7 @@
 
 namespace Staticka\Helper;
 
-use Staticka\Website;
+use Staticka\Helpers\ViewHelper as Helper;
 
 /**
  * View Helper
@@ -10,48 +10,6 @@ use Staticka\Website;
  * @package Rouginsons
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ViewHelper implements HelperInterface
+class ViewHelper extends Helper
 {
-    /**
-     * @var \Staticka\Website
-     */
-    protected $website;
-
-    /**
-     * Initializes the helper instance.
-     *
-     * @param \Staticka\Website $website
-     */
-    public function __construct(Website $website)
-    {
-        $this->website = $website;
-    }
-
-    /**
-     * Renders the partial template.
-     *
-     * @param  string $template
-     * @param  array  $data
-     * @return string
-     */
-    public function render($template, array $data = array())
-    {
-        $data = array_merge($data, $this->website->helpers());
-
-        $data['config'] = $this->website;
-
-        $renderer = $this->website->renderer();
-
-        return $renderer->render($template, $data);
-    }
-
-    /**
-     * Returns the name of the helper.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return 'view';
-    }
 }

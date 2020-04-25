@@ -3,7 +3,7 @@
 namespace Staticka\Helper;
 
 use Staticka\Website;
-use Zapheus\Renderer\Renderer;
+use Staticka\Renderer;
 
 /**
  * View Helper Test

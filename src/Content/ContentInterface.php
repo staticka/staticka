@@ -3,6 +3,8 @@
 namespace Staticka\Content;
 
 /**
+ * TODO: Remove this file after v1.0.0.
+ *
  * Content Interface
  *
  * @package Staticka

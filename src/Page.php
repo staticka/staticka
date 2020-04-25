@@ -2,68 +2,58 @@
 
 namespace Staticka;
 
+use Staticka\Contracts\FilterContract;
+use Staticka\Contracts\HelperContract;
+use Staticka\Contracts\LayoutContract;
+use Staticka\Contracts\PageContract;
+
 /**
  * Page
  *
  * @package Staticka
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Page
+class Page implements PageContract
 {
-    /**
-     * @var string
-     */
-    protected $content;
-
     /**
      * @var array
      */
     protected $data = array();
 
     /**
-     * @var string
+     * @var \Staticka\Contracts\LayoutContract
      */
-    protected $uri;
+    protected $layout;
 
     /**
-     * Initializes the page instance.
-     *
-     * @param string $file
-     * @param array  $data
+     * @param \Staticka\Contracts\LayoutContract $layout
+     * @param array                              $data
      */
-    public function __construct($file, array $data = array())
+    public function __construct(LayoutContract $layout, array $data = array())
     {
-        $this->content = (string) $file;
-
         $this->data = (array) $data;
 
-        if (file_exists($file) === true) {
-            $original = (string) file_get_contents($file);
+        $this->layout = $layout;
 
-            $this->uri = strtolower(pathinfo($file, 8));
+        if (isset($data['filters']))
+        {
+            foreach ($data['filters'] as $filter)
+            {
+                $this->filter($filter);
+            }
+        }
 
-            $this->uri === 'index' && $this->uri = '/';
-
-            list($matter, $content) = Matter::parse($original);
-
-            $this->content = (string) $content;
-
-            $this->data = array_merge($data, $matter);
+        if (isset($data['helpers']))
+        {
+            foreach ($data['helpers'] as $helper)
+            {
+                $this->helper($helper);
+            }
         }
     }
 
     /**
-     * Returns the page content.
-     *
-     * @return string
-     */
-    public function content()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Returns the data to be inserted in the layout.
+     * Returns the details of the page instance.
      *
      * @return array
      */
@@ -73,34 +63,58 @@ class Page
     }
 
     /**
-     * Returns an array of URI segments.
+     * Adds a filter instance in the layout.
      *
-     * @return array
+     * @param  \Staticka\Contracts\FilterContract $filter
+     * @return self
      */
-    public function uris()
+    public function filter(FilterContract $filter)
     {
-        $uri = (string) $this->uri;
+        $this->layout->filter($filter);
 
-        $exists = isset($this->data['permalink']);
-
-        $exists && $uri = $this->data['permalink'];
-
-        $items = explode('/', (string) $uri);
-
-        $items = array_filter((array) $items);
-
-        return (array) array_values($items);
+        return $this;
     }
 
     /**
-     * Returns the layout of the page.
+     * Returns all available filters.
      *
-     * @return string|null
+     * @return \Staticka\Contracts\FilterContract[]
+     */
+    public function filters()
+    {
+        return $this->layout->filters();
+    }
+
+    /**
+     * Adds a helper instance in the layout.
+     *
+     * @param  \Staticka\Contracts\HelperContract $helper
+     * @return self
+     */
+    public function helper(HelperContract $helper)
+    {
+        $this->layout->helper($helper);
+
+        return $this;
+    }
+
+    /**
+     * Returns all available helpers.
+     *
+     * @return \Staticka\Contracts\HelperContract[]
+     */
+    public function helpers()
+    {
+        return $this->layout->helpers();
+    }
+
+    /**
+     * Returns the layout instance.
+     *
+     * @return \Staticka\Contracts\LayoutContract
      */
     public function layout()
     {
-        $exists = (boolean) isset($this->data['layout']);
-
-        return $exists ? $this->data['layout'] : null;
+        return $this->layout;
     }
 }

@@ -5,6 +5,9 @@ namespace Staticka;
 use Symfony\Component\Yaml\Yaml;
 
 /**
+ * TODO: Remove this file after v1.0.0.
+ * Move the code to PageFactory::parse instead.
+ *
  * YAML Front Matter Parser
  *
  * @package Staticka

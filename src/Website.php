@@ -4,10 +4,14 @@ namespace Staticka;
 
 use Staticka\Content\ContentInterface;
 use Staticka\Content\MarkdownContent;
-use Staticka\Filter\FilterInterface;
-use Staticka\Helper\HelperInterface;
-use Zapheus\Provider\Configuration;
-use Zapheus\Renderer\Renderer;
+use Staticka\Contracts\BuilderContract;
+use Staticka\Contracts\FilterContract;
+use Staticka\Contracts\HelperContract;
+use Staticka\Contracts\LayoutContract;
+use Staticka\Contracts\PageContract;
+use Staticka\Contracts\WebsiteContract;
+use Staticka\Factories\PageFactory;
+use Staticka\Renderer;
 use Zapheus\Renderer\RendererInterface;
 
 /**
@@ -16,173 +20,29 @@ use Zapheus\Renderer\RendererInterface;
  * @package Staticka
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Website extends Configuration
+class Website implements WebsiteContract
 {
     /**
+     * @var \Staticka\Contracts\Builder
+     */
+    protected $builder;
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
      * @var \Staticka\Content\ContentInterface
      */
     protected $content;
 
     /**
-     * @var \Staticka\Helper\HelperInterface[]
+     * @var \Staticka\Factories\PageFactory
      */
-    protected $helpers = array();
+    protected $factory;
 
     /**
-     * @var \Staticka\Filter\FilterInterface[]
+     * @var \Staticka\Contracts\PageContract[]
      */
-    protected $filters = array();
-
-    /**
-     * @var string
-     */
-    protected $output = '';
-
-    /**
-     * @var \Staticka\Page[]
-     */
-    protected $pages = array();
-
-    /**
-     * @var \Zapheus\Renderer\RendererInterface
-     */
-    protected $renderer;
-
-    /**
-     * Initializes the Staticka instance.
-     *
-     * @param \Zapheus\Renderer\RendererInterface|null $renderer
-     * @param \Staticka\Content\ContentInterface|null  $content
-     */
-    public function __construct(RendererInterface $renderer = null, ContentInterface $content = null)
-    {
-        $this->content = $content === null ? new MarkdownContent : $content;
-
-        $this->renderer = $renderer === null ? new Renderer(getcwd()) : $renderer;
-    }
-
-    /**
-     * Compiles the specified pages into HTML output.
-     *
-     * @param  string $output
-     * @return self
-     */
-    public function compile($output)
-    {
-        file_exists($output) || mkdir($output);
-
-        $this->clear((string) $output);
-
-        $this->output = (string) $output;
-
-        foreach ((array) $this->pages as $page) {
-            $folder = $this->folder($output, $page->uris());
-
-            $html = (string) $this->html($page);
-
-            $path = $this->realpath($output . '/' . $folder);
-
-            file_put_contents($path . 'index.html', $html);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Returns the content instance.
-     *
-     * @return \Staticka\Content\ContentInterface
-     */
-    public function content()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Adds a filter instance.
-     *
-     * @param  \Staticka\Filter\FilterInterface $filter
-     * @return self
-     */
-    public function filter(FilterInterface $filter)
-    {
-        $this->filters[] = $filter;
-
-        return $this;
-    }
-
-    /**
-     * Adds a helper instance.
-     *
-     * @param  \Staticka\Helper\HelperInterface $helper
-     * @return self
-     */
-    public function helper(HelperInterface $helper)
-    {
-        $this->helpers[$helper->name()] = $helper;
-
-        return $this;
-    }
-
-    /**
-     * Returns an array of helpers.
-     *
-     * @return \Staticka\Helper\HelperInterface[]
-     */
-    public function helpers()
-    {
-        return $this->helpers;
-    }
-
-    /**
-     * Creates a new page.
-     *
-     * @param  string $file
-     * @param  array  $data
-     * @return self
-     */
-    public function page($file, array $data = array())
-    {
-        $this->pages[] = new Page($file, $data);
-
-        return $this;
-    }
-
-    /**
-     * Returns the renderer instance.
-     *
-     * @return \Zapheus\Renderer\RendererInterface
-     */
-    public function renderer()
-    {
-        return $this->renderer;
-    }
-
-    /**
-     * Transfers files from a directory into another path.
-     *
-     * @param  string      $source
-     * @param  string|null $path
-     * @return void
-     */
-    public function transfer($source, $path = null)
-    {
-        $path = $path === null ? $this->output : $path;
-
-        $path = $this->realpath($path);
-
-        $source = (string) $this->realpath($source);
-
-        $directory = new \RecursiveDirectoryIterator($source, 4096);
-
-        $iterator = new \RecursiveIteratorIterator($directory, 1);
-
-        foreach ($iterator as $file) {
-            $to = str_replace($source, $path, $from = $file->getRealPath());
-
-            $file->isDir() ? $this->transfer($from, $to) : copy($from, $to);
-        }
-    }
+    protected $pages;
 
     /**
      * Removes the files recursively from the specified directory.
@@ -196,82 +56,278 @@ class Website extends Configuration
 
         $iterator = new \RecursiveIteratorIterator($directory, 2);
 
-        foreach ($iterator as $file) {
-            $git = strpos($file->getRealPath(), '.git') !== false;
+        foreach ($iterator as $file)
+        {
+            $path = $file->getRealPath();
 
-            $path = (string) $file->getRealPath();
+            if (strpos($path, '.git') !== false)
+            {
+                continue;
+            }
 
-            $git || ($file->isDir() ? rmdir($path) : unlink($path));
+            if ($file->isDir())
+            {
+                rmdir($path);
+
+                continue;
+            }
+
+            unlink($path);
         }
     }
 
     /**
-     * Returns the whole folder path based from specified URIs.
-     * Also creates the specified folder if it doesn't exists.
+     * TODO: Use contracts in v1.0.0 instead.
+     *
+     * @param \Zapheus\Renderer\RendererInterface|\Staticka\Contracts\BuilderContract|null $renderer
+     * @param \Staticka\Content\ContentInterface|Staticka\Contracts\LayoutContract|null  $content
+     */
+    public function __construct($builder = null, $layout = null)
+    {
+        // TODO: Remove this after v1.0.0.
+        $this->content = new MarkdownContent;
+
+        // TODO: Remove this after v1.0.0.
+        $this->renderer = new Renderer(getcwd());
+
+        // TODO: Remove this after v1.0.0.
+        if ($builder instanceof RendererInterface)
+        {
+            $this->builder = new Builder($builder);
+        }
+        else
+        {
+            $this->builder = $builder ?: new Builder($this->renderer);
+        }
+
+        // TODO: Remove this after v1.0.0.
+        if ($layout instanceof ContentInterface)
+        {
+            $this->content = $layout;
+
+            $this->layout = new Layout;
+        }
+        else
+        {
+            $this->layout = $layout ?: new Layout;
+        }
+    }
+
+    /**
+     * Add a new page instance in the website.
+     *
+     * @param \Staticka\Contracts\PageContract $page
+     */
+    public function add(PageContract $page)
+    {
+        $this->pages[] = $page;
+    }
+
+    /**
+     * Compiles the specified pages into HTML output.
      *
      * @param  string $output
-     * @param  array  $uris
-     * @return string
+     * @return self
      */
-    protected function folder($output, array $uris)
+    public function build(string $output)
     {
-        $folder = (string) '';
-
-        foreach ((array) $uris as $uri) {
-            $directory = $output . '/' . (string) $folder;
-
-            file_exists($directory) ?: mkdir($directory);
-
-            $folder === $uri ?: $folder .= '/' . $uri;
-        }
-
-        return $folder;
+        return $this->compile($output);
     }
 
     /**
-     * Converts the specified page into HTML.
+     * TODO: To be removed in v1.0.0.
      *
-     * @param  \Staticka\Page $page
-     * @return string
+     * Returns the builder instance.
+     *
+     * @return \Staticka\Contracts\BuilderContract
      */
-    protected function html(Page $page)
+    public function builder()
     {
-        $html = $this->content->make($content = $page->content());
-
-        if (($name = $page->layout()) !== null) {
-            $data = array_merge($this->helpers(), (array) $page->data());
-
-            $layout = new Layout($this->renderer, $this, $data);
-
-            $html = (string) $layout->render($name, (string) $content);
-        }
-
-        foreach ($this->filters as $filter) {
-            $html = $filter->filter($html);
-        }
-
-        return $html;
+        return $this->builder;
     }
 
     /**
-     * Replaces the slashes with the DIRECTORY_SEPARATOR.
-     * Also creates the directory if it doesn't exists.
+     * TODO: To be removed in v1.0.0.
+     * Use $this->build() instead.
      *
-     * @param  string $folder
-     * @return string
+     * Compiles the specified pages into HTML output.
+     *
+     * @param  string $output
+     * @return self
      */
-    protected function realpath($folder)
+    public function compile(string $output)
     {
-        $separator = (string) DIRECTORY_SEPARATOR;
+        if (file_exists($output))
+        {
+            $this->clear($output);
+        }
 
-        $search = array('\\', '/', (string) '\\\\');
+        $this->output = (string) $output;
 
-        $path = str_replace($search, $separator, $folder);
+        foreach ($this->pages as $page)
+        {
+            $data = (array) $page->data();
 
-        file_exists($path) || mkdir((string) $path);
+            $link = $data[PageContract::DATA_LINK];
 
-        $exists = in_array(substr($path, -1), $search);
+            $folder = $output . '/' . $link;
 
-        return $exists ? $path : $path . $separator;
+            $html = (string) $this->builder->build($page);
+
+            if (! file_exists($folder))
+            {
+                mkdir($folder, 0700, true);
+            }
+
+            if ($link === 'index')
+            {
+                file_put_contents("$folder.html", $html);
+
+                continue;
+            }
+
+            $file = $folder . '/index.html';
+
+            file_put_contents($file, $html);
+        }
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * Returns the content instance.
+     *
+     * @return \Staticka\Content\ContentInterface
+     */
+    public function content()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Transfers files from a directory into another path.
+     *
+     * @param  string $source
+     * @param  string $path
+     * @return void
+     */
+    public function copy($source, $path)
+    {
+        return $this->transfer($source, $path);
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * Adds a filter instance.
+     *
+     * @param  \Staticka\Contracts\FilterContract $filter
+     * @return self
+     */
+    public function filter(FilterContract $filter)
+    {
+        $this->layout->filter($filter);
+
+        return $this;
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * Adds a helper instance.
+     *
+     * @param  \Staticka\Contracts\HelperContract $helper
+     * @return self
+     */
+    public function helper(HelperContract $helper)
+    {
+        $this->layout->helper($helper);
+
+        return $this;
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * Returns the layout instance.
+     *
+     * @return \Staticka\Contracts\LayoutContract
+     */
+    public function layout()
+    {
+        return $this->layout;
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     * Use $this->add() instead with a factory.
+     *
+     * Creates a new page.
+     *
+     * @param  string $file
+     * @param  array  $data
+     * @return self
+     */
+    public function page($file, array $data = array())
+    {
+        $page = new PageFactory($this->layout);
+
+        if (file_exists($file))
+        {
+            $this->pages[] = $page->file($file, $data);
+        }
+        else
+        {
+            // TODO: Remove this on v1.0.0.
+            // Should only be file-based.
+
+            $this->pages[] = $page->body($file, $data);
+        }
+
+        return $this;
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * Returns the renderer instance.
+     *
+     * @return \Zapheus\Renderer\RendererInterface
+     */
+    public function renderer()
+    {
+        return $this->renderer;
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     * Use $this->copy() instead.
+     *
+     * Transfers files from a directory into another path.
+     *
+     * @param  string      $source
+     * @param  string|null $path
+     * @return void
+     */
+    public function transfer($source, $path = null)
+    {
+        $path = $path ? $path : $this->output;
+
+        $source = realpath($source);
+
+        $this->clear((string) $path);
+
+        foreach (glob("$source/**/**.**") as $file)
+        {
+            $dirname = dirname(realpath($file));
+
+            $basename = basename(realpath($file));
+
+            $newpath = str_replace($source, $path, $dirname);
+
+            mkdir($newpath, 0777, true);
+
+            copy($file, "$newpath/$basename");
+        }
     }
 }

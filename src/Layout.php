@@ -2,8 +2,9 @@
 
 namespace Staticka;
 
-use Zapheus\Provider\ConfigurationInterface;
-use Zapheus\Renderer\RendererInterface;
+use Staticka\Contracts\LayoutContract;
+use Staticka\Contracts\FilterContract;
+use Staticka\Contracts\HelperContract;
 
 /**
  * Layout
@@ -11,66 +12,80 @@ use Zapheus\Renderer\RendererInterface;
  * @package Staticka
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Layout
+class Layout implements LayoutContract
 {
+    /**
+     * @var string
+     */
+    protected $body = self::BODY_DEFAULT;
+
     /**
      * @var array
      */
-    protected $data = array();
+    protected $filters = array();
 
     /**
-     * @var \Staticka\Website
+     * @var array
      */
-    protected $website;
+    protected $helpers = array();
 
     /**
-     * @var \Zapheus\Renderer\RendererInterface
+     * @var string $body
      */
-    protected $renderer;
-
-    /**
-     * Initializes the layout instance.
-     *
-     * @param \Zapheus\Renderer\RendererInterface $renderer
-     * @param \Staticka\Website                   $website
-     * @param array                               $data
-     */
-    public function __construct(RendererInterface $renderer, Website $website, array $data)
+    public function __construct(string $body = self::BODY_DEFAULT)
     {
-        $data['config'] = $website;
-
-        $this->website = $website;
-
-        $this->renderer = $renderer;
-
-        $this->data = (array) $data;
+        $this->body = $body;
     }
 
     /**
-     * Renders the specified HTML content with a template.
+     * Returns the body content of the layout if available.
      *
-     * @param  string $name
-     * @param  string $content
      * @return string
      */
-    public function render($name, $content)
+    public function body()
     {
-        list($data, $content) = (array) Matter::parse($content);
+        return $this->body;
+    }
 
-        $data = array_merge($data, (array) $this->data);
+    /**
+     * Adds a filter instance in the layout.
+     *
+     * @param  \Staticka\Contracts\FilterContract $filter
+     * @return self
+     */
+    public function filter(FilterContract $filter)
+    {
+        $this->filters[] = $filter;
+    }
 
-        $data['title'] = isset($data['title']) ? $data['title'] : '';
+    /**
+     * Returns all available filters.
+     *
+     * @return \Staticka\Contracts\FilterContract[]
+     */
+    public function filters()
+    {
+        return $this->filters;
+    }
 
-        $output = $this->website->content()->make($content);
+    /**
+     * Adds a helper instance in the layout.
+     *
+     * @param  \Staticka\Contracts\HelperContract $helper
+     * @return self
+     */
+    public function helper(HelperContract $helper)
+    {
+        $this->helpers[$helper->name()] = $helper;
+    }
 
-        if ($data['title'] === '') {
-            preg_match('/<h1>(.*?)<\/h1>/', $output, $matches);
-
-            isset($matches[1]) && $data['title'] = $matches[1];
-        }
-
-        $data['content'] = (string) $output;
-
-        return $this->renderer->render($name, $data);
+    /**
+     * Returns all available helpers.
+     *
+     * @return \Staticka\Contracts\HelperContract[]
+     */
+    public function helpers()
+    {
+        return $this->helpers;
     }
 }

@@ -20,7 +20,7 @@ class LinkHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $link = 'https://rougin.github.io';
+        $link = 'https://roug.in';
 
         $this->helper = new LinkHelper($link);
     }
@@ -32,7 +32,7 @@ class LinkHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetMethod()
     {
-        $expected = 'https://rougin.github.io/slytherin';
+        $expected = 'https://roug.in/slytherin';
 
         $result = $this->helper->set('slytherin');
 

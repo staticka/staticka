@@ -3,9 +3,9 @@
 namespace Staticka;
 
 use Staticka\Content\MarkdownContent;
+use Staticka\Factories\PageFactory;
 use Staticka\Filter\HtmlMinifier;
 use Staticka\Helper\LinkHelper;
-use Zapheus\Renderer\Renderer;
 
 /**
  * Website Test
@@ -34,7 +34,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     {
         $separator = (string) DIRECTORY_SEPARATOR;
 
-        $this->output = __DIR__ . $separator . 'build';
+        $this->output = __DIR__ . $separator . 'Output';
 
         $this->site = new Website(null, null);
 
@@ -118,9 +118,9 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $renderer = new Renderer(__DIR__ . '/Fixture');
 
-        $site = new Website($renderer);
+        $site = new Website($renderer, $content);
 
-        $site->helper($url = new LinkHelper('https://rougin.github.io'));
+        $site->helper($url = new LinkHelper('https://roug.in'));
 
         $site->page($file, array('layout' => 'layout', 'permalink' => 'template'));
 
@@ -176,8 +176,44 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $this->site->transfer(__DIR__ . '/Sample');
 
-        $file = __DIR__ . '/build/Styles/Site.css';
+        $file = __DIR__ . '/Output/Styles/Site.css';
 
         $this->assertFileExists($file);
+    }
+
+    /**
+     * Tests Staticka::compile.
+     *
+     * @return void
+     */
+    public function testAddMethod()
+    {
+        $page = new PageFactory(new Layout);
+
+        $file = __DIR__ . '/Fixture/World.md';
+
+        $data = array('filters' => array());
+        $data['filters'] = array(new HtmlMinifier);
+        $data['helpers'] = array(new LinkHelper('https://roug.in'));
+
+        $page = $page->file($file, $data);
+
+        $this->site->add($page);
+
+        $this->site->compile($this->output);
+
+        $content = new MarkdownContent;
+
+        $contents = file_get_contents($file);
+
+        $expected = $content->make($contents);
+
+        $expected = $data['filters'][0]->filter($expected);
+
+        $output = $this->output . '/World/index.html';
+
+        $result = file_get_contents($output);
+
+        $this->assertEquals($expected, $result);
     }
 }
