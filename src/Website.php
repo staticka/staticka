@@ -45,38 +45,6 @@ class Website implements WebsiteContract
     protected $pages;
 
     /**
-     * Removes the files recursively from the specified directory.
-     *
-     * @param  string $path
-     * @return void
-     */
-    protected function clear($path)
-    {
-        $directory = new \RecursiveDirectoryIterator($path, 4096);
-
-        $iterator = new \RecursiveIteratorIterator($directory, 2);
-
-        foreach ($iterator as $file)
-        {
-            $path = $file->getRealPath();
-
-            if (strpos($path, '.git') !== false)
-            {
-                continue;
-            }
-
-            if ($file->isDir())
-            {
-                rmdir($path);
-
-                continue;
-            }
-
-            unlink($path);
-        }
-    }
-
-    /**
      * TODO: Use contracts in v1.0.0 instead.
      *
      * @param \Zapheus\Renderer\RendererInterface|\Staticka\Contracts\BuilderContract|null $renderer
@@ -127,43 +95,10 @@ class Website implements WebsiteContract
      * Compiles the specified pages into HTML output.
      *
      * @param  string $output
-     * @return self
+     * @return void
      */
     public function build($output)
     {
-        return $this->compile($output);
-    }
-
-    /**
-     * TODO: To be removed in v1.0.0.
-     *
-     * Returns the builder instance.
-     *
-     * @return \Staticka\Contracts\BuilderContract
-     */
-    public function builder()
-    {
-        return $this->builder;
-    }
-
-    /**
-     * TODO: To be removed in v1.0.0.
-     * Use $this->build() instead.
-     *
-     * Compiles the specified pages into HTML output.
-     *
-     * @param  string $output
-     * @return self
-     */
-    public function compile($output)
-    {
-        if (file_exists($output))
-        {
-            $this->clear($output);
-        }
-
-        $this->output = (string) $output;
-
         foreach ($this->pages as $page)
         {
             $data = (array) $page->data();
@@ -195,6 +130,71 @@ class Website implements WebsiteContract
     /**
      * TODO: To be removed in v1.0.0.
      *
+     * Returns the builder instance.
+     *
+     * @return \Staticka\Contracts\BuilderContract
+     */
+    public function builder()
+    {
+        return $this->builder;
+    }
+
+    /**
+     * Removes the files recursively from the specified directory.
+     *
+     * @param  string $path
+     * @return void
+     */
+    public function clear($path)
+    {
+        $directory = new \RecursiveDirectoryIterator($path, 4096);
+
+        $iterator = new \RecursiveIteratorIterator($directory, 2);
+
+        foreach ($iterator as $file)
+        {
+            $path = $file->getRealPath();
+
+            if (strpos($path, '.git') !== false)
+            {
+                continue;
+            }
+
+            if ($file->isDir())
+            {
+                rmdir($path);
+
+                continue;
+            }
+
+            unlink($path);
+        }
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     * Use $this->build() instead.
+     *
+     * Compiles the specified pages into HTML output.
+     *
+     * @param  string $output
+     * @return void
+     */
+    public function compile($output)
+    {
+        if (file_exists($output))
+        {
+            $this->clear($output);
+        }
+
+        $this->output = (string) $output;
+
+        return $this->build($output);
+    }
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
      * Returns the content instance.
      *
      * @return \Staticka\Content\ContentInterface
@@ -213,7 +213,22 @@ class Website implements WebsiteContract
      */
     public function copy($source, $path)
     {
-        return $this->transfer($source, $path);
+        $source = realpath($source);
+
+        $this->clear((string) $path);
+
+        foreach (glob("$source/**/**.**") as $file)
+        {
+            $dirname = dirname(realpath($file));
+
+            $basename = basename(realpath($file));
+
+            $newpath = str_replace($source, $path, $dirname);
+
+            mkdir($newpath, 0777, true);
+
+            copy($file, "$newpath/$basename");
+        }
     }
 
     /**
@@ -313,21 +328,6 @@ class Website implements WebsiteContract
     {
         $path = $path ? $path : $this->output;
 
-        $source = realpath($source);
-
-        $this->clear((string) $path);
-
-        foreach (glob("$source/**/**.**") as $file)
-        {
-            $dirname = dirname(realpath($file));
-
-            $basename = basename(realpath($file));
-
-            $newpath = str_replace($source, $path, $dirname);
-
-            mkdir($newpath, 0777, true);
-
-            copy($file, "$newpath/$basename");
-        }
+        return $this->copy($source, $path);
     }
 }
