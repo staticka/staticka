@@ -42,6 +42,10 @@ class Builder extends \Parsedown implements BuilderContract
 
         $data[PageContract::DATA_BODY] = $this->text($body);
 
+        // TODO: Remove this on v1.0.0.
+        // Use DATA_BODY instead of "content".
+        $data['content'] = $data[PageContract::DATA_BODY];
+
         if (! isset($data[PageContract::DATA_TITLE]))
         {
             $output = $data[PageContract::DATA_BODY];
@@ -54,11 +58,11 @@ class Builder extends \Parsedown implements BuilderContract
             }
         }
 
-        if (isset($data[PageContract::DATA_PATH]))
+        if (isset($data[PageContract::DATA_PLATE]))
         {
-            $path = (string) $data[PageContract::DATA_PATH];
+            $plate = (string) $data[PageContract::DATA_PLATE];
 
-            $html = $this->renderer->render($path, $data);
+            $html = $this->renderer->render($plate, $data);
         }
         else
         {
@@ -77,17 +81,5 @@ class Builder extends \Parsedown implements BuilderContract
         }
 
         return (string) $html;
-    }
-
-    /**
-     * TODO: To be removed in v1.0.0.
-     *
-     * Returns the renderer instance.
-     *
-     * @return \Zapheus\Renderer\RendererInterface
-     */
-    public function renderer()
-    {
-        return $this->renderer;
     }
 }

@@ -34,11 +34,18 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     {
         $separator = (string) DIRECTORY_SEPARATOR;
 
-        $this->output = __DIR__ . $separator . 'Output';
+        $output = __DIR__ . $separator . 'Output';
 
-        $this->site = new Website(null, null);
+        $this->output = (string) $output;
 
-        $this->site->page((string) '# Hello World');
+        $this->site = new Website;
+
+        if (! file_exists($output . '/.git'))
+        {
+            mkdir($output . '/.git', 0700, true);
+        }
+
+        $this->site->page('# Hello World');
     }
 
     /**
@@ -78,7 +85,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $expected = $content->make($contents);
 
-        $output = $this->output . '/World/index.html';
+        $output = $this->output . '/index.html';
 
         $result = file_get_contents($output);
 
@@ -152,20 +159,6 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Staticka::renderer.
-     *
-     * @return void
-     */
-    public function testRendererMethod()
-    {
-        $expected = 'Zapheus\Renderer\RendererInterface';
-
-        $result = $this->site->renderer();
-
-        $this->assertInstanceOf($expected, $result);
-    }
-
-    /**
      * Tests Staticka::transfer.
      *
      * @return void
@@ -210,7 +203,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $expected = $data['filters'][0]->filter($expected);
 
-        $output = $this->output . '/World/index.html';
+        $output = $this->output . '/index.html';
 
         $result = file_get_contents($output);
 

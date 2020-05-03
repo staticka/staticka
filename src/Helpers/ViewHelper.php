@@ -3,7 +3,8 @@
 namespace Staticka\Helpers;
 
 use Staticka\Contracts\HelperContract;
-use Staticka\Website;
+use Staticka\Contracts\WebsiteContract;
+use Staticka\Contracts\RendererContract;
 
 /**
  * View Helper
@@ -14,9 +15,9 @@ use Staticka\Website;
 class ViewHelper implements HelperContract
 {
     /**
-     * @var \Staticka\Website
+     * @var \Staticka\Contracts\RendererContract
      */
-    protected $website;
+    protected $renderer;
 
     /**
      * TODO: Remove Website instance in v1.0.0.
@@ -24,33 +25,28 @@ class ViewHelper implements HelperContract
      *
      * Initializes the helper instance.
      *
-     * @param \Staticka\Website $website
+     * @param \Staticka\Contracts\WebsiteContract|\Staticka\Contracts\RendererContract $website
      */
-    public function __construct(Website $website)
+    public function __construct($renderer)
     {
-        $this->website = $website;
+        if ($renderer instanceof WebsiteContract)
+        {
+            $renderer = $renderer->renderer();
+        }
+
+        $this->renderer = $renderer;
     }
 
     /**
      * Renders the partial template.
      *
-     * @param  string $template
+     * @param  string $name
      * @param  array  $data
      * @return string
      */
-    public function render($template, array $data = array())
+    public function render($name, array $data = array())
     {
-        $layout = $this->website->layout();
-
-        $builder = $this->website->builder();
-
-        $data = array_merge($data, $layout->helpers());
-
-        $data['config'] = $this->website;
-
-        $renderer = $builder->renderer();
-
-        return $renderer->render($template, $data);
+        return $this->renderer->render($name, $data);
     }
 
     /**

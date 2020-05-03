@@ -4,17 +4,30 @@ namespace Staticka\Factories;
 
 use Staticka\Contracts\LayoutContract;
 use Staticka\Contracts\PageContract;
+use Staticka\Layout;
 use Staticka\Matter;
 use Staticka\Page;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Page Factory
+ *
+ * @package Staticka
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
 class PageFactory
 {
+    /**
+     * @var \Staticka\Contracts\LayoutContract
+     */
     protected $layout;
 
-    public function __construct(LayoutContract $layout)
+    /**
+     * @param \Staticka\Contracts\LayoutContract|null $layout
+     */
+    public function __construct(LayoutContract $layout = null)
     {
-        $this->layout = $layout;
+        $this->layout = $layout ? $layout : new Layout;
     }
 
     /**
@@ -29,77 +42,71 @@ class PageFactory
      */
     public function body($body, $data = array())
     {
-        $data[PageContract::DATA_BODY] = (string) $body;
+        $data[PageContract::DATA_BODY] = $body;
 
+        return $this->make((array) $data);
+    }
+
+    /**
+     * Creates a new page instance based on the file.
+     *
+     * @param  string $file
+     * @param  array  $data
+     * @return \Staticka\Contracts\PageContract
+     */
+    public function file($file, $data = array())
+    {
+        $result = file_get_contents($file);
+
+        $matter = $this->parse($result);
+
+        $data = array_merge($data, $matter);
+
+        return $this->make((array) $data);
+    }
+
+    /**
+     * Returns a new page instance.
+     *
+     * @param  array $data
+     * @return \Staticka\Contracts\PageContract
+     */
+    protected function make($data)
+    {
         if (! isset($data[PageContract::DATA_LINK]))
         {
             $data[PageContract::DATA_LINK] = 'index';
         }
 
-        return $this->make((array) $data);
-    }
-
-    public function file($file, $data = array())
-    {
         // TODO: Remove this on v1.0.0.
-        // Use $this->parse() instead.
-
-        $result = (string) file_get_contents($file);
-
-        list($result, $content) = $this->parse($result);
-
-        $data = array_merge($result, $data);
-
-        $data[PageContract::DATA_BODY] = (string) trim($content);
-
-        // TODO: Use this on v1.0.0.
-        // $data = $this->parse(file_get_contents($file));
-
-        $info = (array) pathinfo((string) $file);
-
-        if (! isset($data[PageContract::DATA_LINK]))
+        // Use DATA_PLATE instead of "layout".
+        if (isset($data['layout']))
         {
-            $data[PageContract::DATA_LINK] = $info['filename'];
+            $data[PageContract::DATA_PLATE] = $data['layout'];
         }
 
-        return $this->make($data);
-    }
-
-    protected function make($data)
-    {
         // TODO: Remove this on v1.0.0.
-        // Use DATA_PATH instead of DATA_LAYOUT.
-        if (isset($data[PageContract::DATA_LAYOUT]))
+        // Use DATA_LINK instead of "permalink".
+        if (isset($data['permalink']))
         {
-            $data[PageContract::DATA_PATH] = $data[PageContract::DATA_LAYOUT];
+            $data[PageContract::DATA_LINK] = $data['permalink'];
         }
 
         return new Page($this->layout, $data);
     }
 
+    /**
+     * Converts the Matter format into data.
+     *
+     * @param  string $content
+     * @return array
+     */
     protected function parse($content)
     {
-        return Matter::parse($content);
+        list($matter, $body) = Matter::parse($content);
 
-        // $matter = array();
+        $matter[PageContract::DATA_BODY] = trim($body);
 
-        // $text = str_replace(PHP_EOL, $id = uniqid(), $content);
-
-        // $regex = '/^---' . $id . '(.*?)' . $id . '---/';
-
-        // if (preg_match($regex, $text, $matches) === 1)
-        // {
-        //     $yaml = str_replace($id, PHP_EOL, $matches[1]);
-
-        //     $matter = (array) Yaml::parse(trim($yaml));
-
-        //     $body = str_replace($matches[0], '', $text);
-
-        //     $content = str_replace($id, PHP_EOL, $body);
-        // }
-
-        // $matter[PageContract::DATA_BODY] = trim($content);
-
-        // return (array) $matter;
+        return (array) $matter;
     }
 }

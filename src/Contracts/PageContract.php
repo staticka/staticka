@@ -10,19 +10,13 @@ namespace Staticka\Contracts;
  */
 interface PageContract
 {
-    // TODO: Change to "body" in v1.0.0
-    const DATA_BODY = 'content';
+    const DATA_BODY = 'body';
 
     const DATA_NAME = 'name';
 
-    // TODO: To be removed in v1.0.0
-    // Use DATA_PATH instead
-    const DATA_LAYOUT = 'layout';
+    const DATA_LINK = 'link';
 
-    // TODO: Change to "link" in v1.0.0
-    const DATA_LINK = 'permalink';
-
-    const DATA_PATH = 'path';
+    const DATA_PLATE = 'plate';
 
     const DATA_TITLE = 'title';
 

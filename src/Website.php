@@ -12,7 +12,7 @@ use Staticka\Contracts\PageContract;
 use Staticka\Contracts\WebsiteContract;
 use Staticka\Factories\PageFactory;
 use Staticka\Renderer;
-use Zapheus\Renderer\RendererInterface;
+use Staticka\Contracts\RendererContract;
 
 /**
  * Website
@@ -47,7 +47,7 @@ class Website implements WebsiteContract
     /**
      * TODO: Use contracts in v1.0.0 instead.
      *
-     * @param \Zapheus\Renderer\RendererInterface|\Staticka\Contracts\BuilderContract|null $renderer
+     * @param \Staticka\Contracts\RendererContract|\Staticka\Contracts\BuilderContract|null $renderer
      * @param \Staticka\Content\ContentInterface|Staticka\Contracts\LayoutContract|null  $content
      */
     public function __construct($builder = null, $layout = null)
@@ -59,9 +59,11 @@ class Website implements WebsiteContract
         $this->renderer = new Renderer(getcwd());
 
         // TODO: Remove this after v1.0.0.
-        if ($builder instanceof RendererInterface)
+        if ($builder instanceof RendererContract)
         {
             $this->builder = new Builder($builder);
+
+            $this->renderer = $builder;
         }
         else
         {
@@ -107,36 +109,24 @@ class Website implements WebsiteContract
 
             $folder = $output . '/' . $link;
 
-            $html = (string) $this->builder->build($page);
+            $html = $this->builder->build($page);
 
-            if (! file_exists($folder))
+            $path = str_replace('/index', '', $folder);
+
+            if (! file_exists($path))
             {
-                mkdir($folder, 0700, true);
+                mkdir($path, 0700, true);
             }
+
+            $file = "$folder/index.html";
 
             if ($link === 'index')
             {
-                file_put_contents("$folder.html", $html);
-
-                continue;
+                $file = "$folder.html";
             }
-
-            $file = $folder . '/index.html';
 
             file_put_contents($file, $html);
         }
-    }
-
-    /**
-     * TODO: To be removed in v1.0.0.
-     *
-     * Returns the builder instance.
-     *
-     * @return \Staticka\Contracts\BuilderContract
-     */
-    public function builder()
-    {
-        return $this->builder;
     }
 
     /**
@@ -263,18 +253,6 @@ class Website implements WebsiteContract
 
     /**
      * TODO: To be removed in v1.0.0.
-     *
-     * Returns the layout instance.
-     *
-     * @return \Staticka\Contracts\LayoutContract
-     */
-    public function layout()
-    {
-        return $this->layout;
-    }
-
-    /**
-     * TODO: To be removed in v1.0.0.
      * Use $this->add() instead with a factory.
      *
      * Creates a new page.
@@ -307,7 +285,7 @@ class Website implements WebsiteContract
      *
      * Returns the renderer instance.
      *
-     * @return \Zapheus\Renderer\RendererInterface
+     * @return \Staticka\Contracts\RendererContract
      */
     public function renderer()
     {

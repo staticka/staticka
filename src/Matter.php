@@ -29,7 +29,8 @@ class Matter
 
         $regex = '/^---' . $id . '(.*?)' . $id . '---/';
 
-        if (preg_match($regex, $text, $matches) === 1) {
+        if (preg_match($regex, $text, $matches) === 1)
+        {
             $yaml = str_replace($id, PHP_EOL, $matches[1]);
 
             $matter = (array) Yaml::parse(trim($yaml));

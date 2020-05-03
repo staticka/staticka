@@ -14,6 +14,9 @@ All notable changes to `Staticka` will be documented in this file.
 - `Page` implemented as `PageContract`
 - `Website` implemented as `WebsiteContract`
 
+### Deleted
+- `ViewHelper`
+
 ### Deprecated
 - `Content` (replaced by `BuilderContract`)
 - `Filter` (renamed as `Filters`)
