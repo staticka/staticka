@@ -30,7 +30,16 @@ interface WebsiteContract
      *
      * @param  string      $source
      * @param  string|null $path
-     * @return void
+     * @return self
      */
     public function copy($source, $path);
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * Returns the renderer instance.
+     *
+     * @return \Staticka\Contracts\RendererContract
+     */
+    public function renderer();
 }

@@ -23,7 +23,7 @@ use Staticka\Contracts\RendererContract;
 class Website implements WebsiteContract
 {
     /**
-     * @var \Staticka\Contracts\Builder
+     * @var \Staticka\Contracts\BuilderContract
      */
     protected $builder;
 
@@ -40,15 +40,36 @@ class Website implements WebsiteContract
     protected $factory;
 
     /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * @var \Staticka\Contracts\LayoutContract
+     */
+    protected $layout;
+
+    /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * @var string
+     */
+    protected $output;
+
+    /**
      * @var \Staticka\Contracts\PageContract[]
      */
     protected $pages;
 
     /**
+     * TODO: To be removed in v1.0.0.
+     *
+     * @var \Staticka\Contracts\RendererContract
+     */
+    protected $renderer;
+
+    /**
      * TODO: Use contracts in v1.0.0 instead.
      *
      * @param \Staticka\Contracts\RendererContract|\Staticka\Contracts\BuilderContract|null $renderer
-     * @param \Staticka\Content\ContentInterface|Staticka\Contracts\LayoutContract|null  $content
+     * @param \Staticka\Content\ContentInterface|\Staticka\Contracts\LayoutContract|null  $content
      */
     public function __construct($builder = null, $layout = null)
     {
@@ -56,7 +77,7 @@ class Website implements WebsiteContract
         $this->content = new MarkdownContent;
 
         // TODO: Remove this after v1.0.0.
-        $this->renderer = new Renderer(getcwd());
+        $this->renderer = new Renderer(array(getcwd()));
 
         // TODO: Remove this after v1.0.0.
         if ($builder instanceof RendererContract)
@@ -97,7 +118,7 @@ class Website implements WebsiteContract
      * Compiles the specified pages into HTML output.
      *
      * @param  string $output
-     * @return void
+     * @return self
      */
     public function build($output)
     {
@@ -127,6 +148,8 @@ class Website implements WebsiteContract
 
             file_put_contents($file, $html);
         }
+
+        return $this;
     }
 
     /**
@@ -168,7 +191,7 @@ class Website implements WebsiteContract
      * Compiles the specified pages into HTML output.
      *
      * @param  string $output
-     * @return void
+     * @return self
      */
     public function compile($output)
     {
@@ -199,7 +222,7 @@ class Website implements WebsiteContract
      *
      * @param  string $source
      * @param  string $path
-     * @return void
+     * @return self
      */
     public function copy($source, $path)
     {
@@ -219,6 +242,8 @@ class Website implements WebsiteContract
 
             copy($file, "$newpath/$basename");
         }
+
+        return $this;
     }
 
     /**
@@ -300,12 +325,10 @@ class Website implements WebsiteContract
      *
      * @param  string      $source
      * @param  string|null $path
-     * @return void
+     * @return self
      */
     public function transfer($source, $path = null)
     {
-        $path = $path ? $path : $this->output;
-
-        return $this->copy($source, $path);
+        return $this->copy($source, $path ? $path : $this->output);
     }
 }
