@@ -238,7 +238,10 @@ class Website implements WebsiteContract
 
             $newpath = str_replace($source, $path, $dirname);
 
-            mkdir($newpath, 0777, true);
+            if (! file_exists($newpath))
+            {
+                mkdir($newpath, 0777, true);
+            }
 
             copy($file, "$newpath/$basename");
         }
