@@ -5,8 +5,6 @@ namespace Staticka\Filter;
 use Staticka\Testcase;
 
 /**
- * Script Minifier Test
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -19,12 +17,12 @@ class ScriptMinifierTest extends Testcase
     protected $code;
 
     /**
-     * @var \Staticka\Filter\FilterInterface
+     * @var \Staticka\Contracts\FilterContract
      */
     protected $filter;
 
     /**
-     * Sets up the filter instance.
+     * @return void
      */
     protected function doSetUp()
     {
@@ -32,7 +30,10 @@ class ScriptMinifierTest extends Testcase
 
         $this->filter = new ScriptMinifier;
 
-        $this->code = file_get_contents($name . '/Script.html');
+        /** @var string */
+        $code = file_get_contents($name . '/Script.html');
+
+        $this->code = $code;
     }
 
     /**

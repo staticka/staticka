@@ -25,10 +25,13 @@ class ScriptMinifier extends InlineMinifier
     {
         $code = (string) parent::minify($code);
 
+        /** @var string */
         $code = preg_replace('/( )?=( )?/', '=', $code);
 
+        /** @var string */
         $code = preg_replace('/( )?\(( )?/', '(', $code);
 
+        /** @var string */
         return preg_replace('/( )?var ( )?/', '', $code);
     }
 }

@@ -36,7 +36,10 @@ class Page implements PageContract
 
         if (isset($data['filters']))
         {
-            foreach ($data['filters'] as $filter)
+            /** @var \Staticka\Contracts\FilterContract[] */
+            $filters = $data['filters'];
+
+            foreach ($filters as $filter)
             {
                 $this->filter($filter);
             }
@@ -44,7 +47,10 @@ class Page implements PageContract
 
         if (isset($data['helpers']))
         {
-            foreach ($data['helpers'] as $helper)
+            /** @var \Staticka\Contracts\HelperContract[] */
+            $helpers = $data['helpers'];
+
+            foreach ($helpers as $helper)
             {
                 $this->helper($helper);
             }

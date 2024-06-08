@@ -5,8 +5,6 @@ namespace Staticka\Helper;
 use Staticka\Testcase;
 
 /**
- * Link Helper Test
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -14,12 +12,12 @@ use Staticka\Testcase;
 class LinkHelperTest extends Testcase
 {
     /**
-     * @var \Staticka\Helper\HelperInterface
+     * @var \Staticka\Helper\LinkHelper
      */
     protected $helper;
 
     /**
-     * Sets up the helper instance.
+     * @return void
      */
     protected function doSetUp()
     {

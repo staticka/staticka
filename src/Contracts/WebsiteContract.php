@@ -13,6 +13,8 @@ interface WebsiteContract
      * Add a new page instance in the website.
      *
      * @param \Staticka\Contracts\PageContract $page
+     *
+     * @return self
      */
     public function add(PageContract $page);
 

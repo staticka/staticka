@@ -20,7 +20,7 @@ class Renderer implements RendererContract
     protected $zapheus;
 
     /**
-     * @param string[] $paths
+     * @param string|string[] $paths
      */
     public function __construct($paths)
     {

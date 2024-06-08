@@ -19,12 +19,12 @@ class HtmlMinifierTest extends Testcase
     protected $code;
 
     /**
-     * @var \Staticka\Filter\FilterInterface
+     * @var \Staticka\Contracts\FilterContract
      */
     protected $filter;
 
     /**
-     * Sets up the filter instance.
+     * @return void
      */
     protected function doSetUp()
     {
@@ -32,7 +32,10 @@ class HtmlMinifierTest extends Testcase
 
         $this->filter = new HtmlMinifier;
 
-        $this->code = file_get_contents($name . '/Sample.html');
+        /** @var string */
+        $code = file_get_contents($name . '/Sample.html');
+
+        $this->code = $code;
     }
 
     /**
@@ -98,6 +101,8 @@ class Bar
 }</code></body></html>';
 
         $result = $this->filter->filter($this->code);
+
+        $result = str_replace("\r", '', $result);
 
         $result = str_replace('&#039;', '\'', $result);
 

@@ -18,7 +18,7 @@ class Matter
      *
      * @param string $content
      *
-     * @return array<integer, string>
+     * @return array<integer, mixed>
      */
     public static function parse($content)
     {
@@ -32,6 +32,7 @@ class Matter
         {
             $yaml = str_replace($id, PHP_EOL, $matches[1]);
 
+            /** @var array<string, mixed> */
             $matter = (array) Yaml::parse(trim($yaml));
 
             $body = str_replace($matches[0], '', $text);

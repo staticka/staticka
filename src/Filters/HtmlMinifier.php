@@ -36,13 +36,17 @@ class HtmlMinifier implements FilterContract
 
         @$dom->loadHTML((string) $utf8 . $code);
 
+        /** @var \DOMElement[] */
         $elements = $dom->getElementsByTagName('*');
 
         $this->remove($elements);
 
-        $html = $this->minify($dom->saveHTML());
+        /** @var string */
+        $html = $dom->saveHTML();
 
-        return $this->restore((string) $html);
+        $html = $this->minify($html);
+
+        return $this->restore($html);
     }
 
     /**
@@ -56,6 +60,7 @@ class HtmlMinifier implements FilterContract
     {
         if ($node->hasChildNodes())
         {
+            /** @var \DOMElement $child */
             foreach ($node->childNodes as $child)
             {
                 if ($child->nodeType === XML_ELEMENT_NODE)
@@ -77,23 +82,29 @@ class HtmlMinifier implements FilterContract
      */
     protected function minify($html)
     {
-        $html = str_replace('<?xml encoding="UTF-8">', '', $html);
+        $encoding = '<?xml encoding="UTF-8">';
 
-        $html = trim(preg_replace('/\s+/', ' ', $html));
+        $html = str_replace($encoding, '', $html);
 
-        $html = str_replace('> <', '><', $html);
+        /** @var string */
+        $html = preg_replace('/\s+/', ' ', $html);
 
-        return str_replace(array(' />', '/>'), '>', $html);
+        /** @var string */
+        $html = str_replace('> <', '><', trim($html));
+
+        $search = array(' />', '/>');
+
+        return str_replace($search, '>', $html);
     }
 
     /**
      * Removes the content of single elements.
      *
-     * @param \DOMNodeList $elements
+     * @param \DOMElement[] $elements
      *
      * @return void
      */
-    protected function remove(\DOMNodeList $elements)
+    protected function remove($elements)
     {
         $encoded = array('textarea', 'code');
 
@@ -108,7 +119,10 @@ class HtmlMinifier implements FilterContract
 
             if (in_array($element->nodeName, $encoded))
             {
-                $output = htmlentities($element->nodeValue);
+                /** @var string */
+                $value = $element->nodeValue;
+
+                $output = htmlentities($value);
             }
 
             array_push($this->data, (string) $output);

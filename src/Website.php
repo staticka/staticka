@@ -64,16 +64,19 @@ class Website implements WebsiteContract
     protected $renderer;
 
     /**
-     * @param \Staticka\Contracts\BuilderContract|\Staticka\Contracts\RendererContract|null $renderer
-     * @param \Staticka\Content\ContentInterface|\Staticka\Contracts\LayoutContract|null    $content
+     * @param \Staticka\Contracts\BuilderContract|\Staticka\Contracts\RendererContract|null $builder
+     * @param \Staticka\Content\ContentInterface|\Staticka\Contracts\LayoutContract|null    $layout
      */
     public function __construct($builder = null, $layout = null)
     {
         /** @deprecated since ~0.3 */
         $this->content = new MarkdownContent;
 
+        /** @var string */
+        $path = getcwd();
+
         /** @deprecated since ~0.3 */
-        $this->renderer = new Renderer(array(getcwd()));
+        $this->renderer = new Renderer(array($path));
 
         /** @deprecated since ~0.3 */
         if ($builder instanceof RendererContract)
@@ -104,10 +107,14 @@ class Website implements WebsiteContract
      * Add a new page instance in the website.
      *
      * @param \Staticka\Contracts\PageContract $page
+     *
+     * @return self
      */
     public function add(PageContract $page)
     {
         $this->pages[] = $page;
+
+        return $this;
     }
 
     /**
@@ -162,6 +169,7 @@ class Website implements WebsiteContract
 
         $iterator = new \RecursiveIteratorIterator($directory, 2);
 
+        /** @var \SplFileInfo $file */
         foreach ($iterator as $file)
         {
             $path = $file->getRealPath();
@@ -225,16 +233,24 @@ class Website implements WebsiteContract
      */
     public function copy($source, $path)
     {
+        /** @var string */
         $source = realpath($source);
 
         $this->clear((string) $path);
 
-        foreach (glob("$source/**/**.**") as $file)
+        /** @var string[] */
+        $files = glob("$source/**/**.**");
+
+        foreach ($files as $file)
         {
-            $dirname = dirname(realpath($file));
+            /** @var string */
+            $real = realpath($file);
 
-            $basename = basename(realpath($file));
+            $basename = basename($real);
 
+            $dirname = dirname($real);
+
+            /** @var string */
             $newpath = str_replace($source, $path, $dirname);
 
             if (! file_exists($newpath))

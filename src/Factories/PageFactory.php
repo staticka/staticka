@@ -60,6 +60,7 @@ class PageFactory
      */
     public function file($file, $data = array())
     {
+        /** @var string */
         $result = file_get_contents($file);
 
         $matter = $this->parse($result);
@@ -109,7 +110,7 @@ class PageFactory
     {
         $result = Matter::parse($content);
 
-        /** @var string */
+        /** @var array<string, mixed> */
         $matter = $result[0];
 
         /** @var string */

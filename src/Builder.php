@@ -38,7 +38,8 @@ class Builder extends \Parsedown implements BuilderContract
     {
         $data = array_merge($page->helpers(), $page->data());
 
-        $body = (string) $data[PageContract::DATA_BODY];
+        /** @var string */
+        $body = $data[PageContract::DATA_BODY];
 
         $data[PageContract::DATA_BODY] = $this->text($body);
 

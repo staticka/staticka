@@ -43,6 +43,7 @@ class InlineMinifier implements FilterContract
 
             $minified = $this->minify($original);
 
+            /** @var string */
             $minified = preg_replace('/\s+/', ' ', $minified);
 
             $minified = $this->minify($minified);
@@ -58,7 +59,7 @@ class InlineMinifier implements FilterContract
      *
      * @param string $code
      *
-     * @return \DOMNodeList
+     * @return \DOMElement[]
      */
     protected function elements($code)
     {
@@ -88,18 +89,25 @@ class InlineMinifier implements FilterContract
     {
         $pattern = (string) '!/\*[^*]*\*+([^/][^*]*\*+)*/!';
 
+        /** @var string */
         $minified = preg_replace('/^\\s+/m', '', $code);
 
+        /** @var string */
         $minified = preg_replace($pattern, '', $minified);
 
+        /** @var string */
         $minified = preg_replace('/( )?}( )?/', '}', $minified);
 
+        /** @var string */
         $minified = preg_replace('/( )?{( )?/', '{', $minified);
 
+        /** @var string */
         $minified = preg_replace('/( )?:( )?/', ':', $minified);
 
+        /** @var string */
         $minified = preg_replace('/( )?;( )?/', ';', $minified);
 
+        /** @var string */
         $minified = preg_replace('/( )?,( )?/', ',', $minified);
 
         return $minified;

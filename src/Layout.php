@@ -29,7 +29,7 @@ class Layout implements LayoutContract
     protected $helpers = array();
 
     /**
-     * @var string $body
+     * @param string $body
      */
     public function __construct($body = self::BODY_DEFAULT)
     {
@@ -56,6 +56,8 @@ class Layout implements LayoutContract
     public function filter(FilterContract $filter)
     {
         $this->filters[] = $filter;
+
+        return $this;
     }
 
     /**
@@ -78,6 +80,8 @@ class Layout implements LayoutContract
     public function helper(HelperContract $helper)
     {
         $this->helpers[$helper->name()] = $helper;
+
+        return $this;
     }
 
     /**

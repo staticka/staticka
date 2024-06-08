@@ -22,7 +22,7 @@ class ViewHelper implements HelperContract
      *
      * Initializes the helper instance.
      *
-     * @param \Staticka\Contracts\RendererContract|\Staticka\Contracts\WebsiteContract $website
+     * @param \Staticka\Contracts\RendererContract|\Staticka\Contracts\WebsiteContract $renderer
      */
     public function __construct($renderer)
     {

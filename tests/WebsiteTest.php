@@ -8,8 +8,6 @@ use Staticka\Filter\HtmlMinifier;
 use Staticka\Helper\LinkHelper;
 
 /**
- * Website Test
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -62,6 +60,7 @@ class WebsiteTest extends Testcase
 
         $output = $this->output . '/index.html';
 
+        /** @var string */
         $result = file_get_contents($output);
 
         $this->assertEquals($expected, $result);
@@ -82,12 +81,14 @@ class WebsiteTest extends Testcase
 
         $this->site->compile($this->output);
 
+        /** @var string */
         $contents = file_get_contents($file);
 
         $expected = $content->make($contents);
 
         $output = $this->output . '/index.html';
 
+        /** @var string */
         $result = file_get_contents($output);
 
         $this->assertEquals($expected, $result);
@@ -108,6 +109,7 @@ class WebsiteTest extends Testcase
 
         $output = $this->output . '/index.html';
 
+        /** @var string */
         $result = file_get_contents($output);
 
         $this->assertEquals($expected, $result);
@@ -134,12 +136,16 @@ class WebsiteTest extends Testcase
 
         $site->compile($this->output);
 
-        $content = $content->make(file_get_contents($file));
+        /** @var string */
+        $file = file_get_contents($file);
+
+        $content = $content->make($file);
 
         $data = array('content' => $content, 'url' => $url, 'title' => 'Hello World');
 
         $expected = $renderer->render('layout', $data);
 
+        /** @var string */
         $result = file_get_contents($this->output . '/template/index.html');
 
         $this->assertEquals($expected, $result);
@@ -198,6 +204,7 @@ class WebsiteTest extends Testcase
 
         $content = new MarkdownContent;
 
+        /** @var string */
         $contents = file_get_contents($file);
 
         $expected = $content->make($contents);
@@ -206,6 +213,7 @@ class WebsiteTest extends Testcase
 
         $output = $this->output . '/index.html';
 
+        /** @var string */
         $result = file_get_contents($output);
 
         $this->assertEquals($expected, $result);

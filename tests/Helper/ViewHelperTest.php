@@ -7,8 +7,6 @@ use Staticka\Renderer;
 use Staticka\Testcase;
 
 /**
- * View Helper Test
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -16,12 +14,12 @@ use Staticka\Testcase;
 class ViewHelperTest extends Testcase
 {
     /**
-     * @var \Staticka\Helper\HelperInterface
+     * @var \Staticka\Helper\ViewHelper
      */
     protected $helper;
 
     /**
-     * Sets up the helper instance.
+     * @return void
      */
     protected function doSetUp()
     {
