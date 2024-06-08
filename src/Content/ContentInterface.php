@@ -3,12 +3,11 @@
 namespace Staticka\Content;
 
 /**
- * TODO: Remove this file after v1.0.0.
- *
- * Content Interface
+ * @deprecated since ~0.3, use "BuilderContract" instead.
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface ContentInterface
 {
@@ -22,7 +21,8 @@ interface ContentInterface
     /**
      * Converts the specified code.
      *
-     * @param  string $code
+     * @param string $code
+     *
      * @return string
      */
     public function make($code);

@@ -4,13 +4,11 @@ namespace Staticka\Helpers;
 
 use Staticka\Contracts\HelperContract;
 use Staticka\Contracts\WebsiteContract;
-use Staticka\Contracts\RendererContract;
 
 /**
- * View Helper
+ * @package Staticka
  *
- * @package Rouginsons
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ViewHelper implements HelperContract
 {
@@ -20,12 +18,11 @@ class ViewHelper implements HelperContract
     protected $renderer;
 
     /**
-     * TODO: Remove Website instance in v1.0.0.
-     * RendererContract should only be used.
+     * @deprecated since ~0.3, initialize with "RendererContract" instead.
      *
      * Initializes the helper instance.
      *
-     * @param \Staticka\Contracts\WebsiteContract|\Staticka\Contracts\RendererContract $website
+     * @param \Staticka\Contracts\RendererContract|\Staticka\Contracts\WebsiteContract $website
      */
     public function __construct($renderer)
     {
@@ -40,8 +37,9 @@ class ViewHelper implements HelperContract
     /**
      * Renders the partial template.
      *
-     * @param  string $name
-     * @param  array  $data
+     * @param string               $name
+     * @param array<string, mixed> $data
+     *
      * @return string
      */
     public function render($name, array $data = array())

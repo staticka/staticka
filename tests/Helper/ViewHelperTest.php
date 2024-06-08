@@ -4,14 +4,16 @@ namespace Staticka\Helper;
 
 use Staticka\Website;
 use Staticka\Renderer;
+use Staticka\Testcase;
 
 /**
  * View Helper Test
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ViewHelperTest extends \PHPUnit_Framework_TestCase
+class ViewHelperTest extends Testcase
 {
     /**
      * @var \Staticka\Helper\HelperInterface
@@ -21,7 +23,7 @@ class ViewHelperTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets up the helper instance.
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $renderer = new Renderer(__DIR__ . '/../Fixture');
 
@@ -62,6 +64,8 @@ class ViewHelperTest extends \PHPUnit_Framework_TestCase
 </html>';
 
         $result = $this->helper->render('basic');
+
+        $result = str_replace("\r", '', $result);
 
         $this->assertEquals($expected, $result);
     }

@@ -2,13 +2,16 @@
 
 namespace Staticka\Filter;
 
+use Staticka\Testcase;
+
 /**
  * HTML Minifier Test
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class HtmlMinifierTest extends \PHPUnit_Framework_TestCase
+class HtmlMinifierTest extends Testcase
 {
     /**
      * @var string
@@ -23,7 +26,7 @@ class HtmlMinifierTest extends \PHPUnit_Framework_TestCase
     /**
      * Sets up the filter instance.
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $name = (string) str_replace('Filter', 'Fixture', __DIR__);
 

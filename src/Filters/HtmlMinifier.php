@@ -5,22 +5,22 @@ namespace Staticka\Filters;
 use Staticka\Contracts\FilterContract;
 
 /**
- * HTML Minifier
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class HtmlMinifier implements FilterContract
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $data = array();
 
     /**
      * Filters the specified code.
      *
-     * @param  string $code
+     * @param string $code
+     *
      * @return string
      */
     public function filter($code)
@@ -48,7 +48,8 @@ class HtmlMinifier implements FilterContract
     /**
      * Checks if a specified node has children.
      *
-     * @param  \DOMNode $node
+     * @param \DOMNode $node
+     *
      * @return boolean
      */
     protected function childbearing(\DOMNode $node)
@@ -70,7 +71,8 @@ class HtmlMinifier implements FilterContract
     /**
      * Minifies the specified HTML.
      *
-     * @param  string $html
+     * @param string $html
+     *
      * @return string
      */
     protected function minify($html)
@@ -87,7 +89,8 @@ class HtmlMinifier implements FilterContract
     /**
      * Removes the content of single elements.
      *
-     * @param  \DOMNodeList $elements
+     * @param \DOMNodeList $elements
+     *
      * @return void
      */
     protected function remove(\DOMNodeList $elements)
@@ -119,7 +122,8 @@ class HtmlMinifier implements FilterContract
     /**
      * Restores the data into the minified HTML.
      *
-     * @param  string $html
+     * @param string $html
+     *
      * @return string
      */
     protected function restore($html)

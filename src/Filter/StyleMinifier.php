@@ -5,12 +5,11 @@ namespace Staticka\Filter;
 use Staticka\Filters\StyleMinifier as Filter;
 
 /**
- * TODO: Remove this file after v1.0.0.
- *
- * Style Minifier
+ * @deprecated since ~0.3, use "Filters\StyleMinifier" instead.
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class StyleMinifier extends Filter
 {

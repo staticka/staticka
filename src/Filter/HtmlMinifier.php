@@ -5,12 +5,11 @@ namespace Staticka\Filter;
 use Staticka\Filters\HtmlMinifier as Filter;
 
 /**
- * TODO: Remove this file after v1.0.0.
- *
- * HTML Minifier
+ * @deprecated since ~0.3, use "Filters\HtmlMinifier" instead.
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class HtmlMinifier extends Filter
 {

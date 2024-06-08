@@ -3,10 +3,9 @@
 namespace Staticka\Contracts;
 
 /**
- * Website Contract
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface WebsiteContract
 {
@@ -20,7 +19,8 @@ interface WebsiteContract
     /**
      * Compiles the specified pages into HTML output.
      *
-     * @param  string $output
+     * @param string $output
+     *
      * @return self
      */
     public function build($output);
@@ -28,14 +28,15 @@ interface WebsiteContract
     /**
      * Transfers files from a directory into another path.
      *
-     * @param  string      $source
-     * @param  string|null $path
+     * @param string $source
+     * @param string $path
+     *
      * @return self
      */
     public function copy($source, $path);
 
     /**
-     * TODO: To be removed in v1.0.0.
+     * @deprecated since ~0.3, use "Builder" instead.
      *
      * Returns the renderer instance.
      *

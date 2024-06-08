@@ -5,10 +5,9 @@ namespace Staticka\Filters;
 use Staticka\Contracts\FilterContract;
 
 /**
- * Inline Minifier
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class InlineMinifier implements FilterContract
 {
@@ -30,7 +29,8 @@ class InlineMinifier implements FilterContract
     /**
      * Filters the specified code.
      *
-     * @param  string $code
+     * @param string $code
+     *
      * @return string
      */
     public function filter($code)
@@ -56,7 +56,8 @@ class InlineMinifier implements FilterContract
     /**
      * Returns elements by a tag name.
      *
-     * @param  string $code
+     * @param string $code
+     *
      * @return \DOMNodeList
      */
     protected function elements($code)
@@ -79,7 +80,8 @@ class InlineMinifier implements FilterContract
     /**
      * Minifies the specified code.
      *
-     * @param  string $code
+     * @param string $code
+     *
      * @return string
      */
     protected function minify($code)

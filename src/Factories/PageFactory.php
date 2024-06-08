@@ -7,13 +7,11 @@ use Staticka\Contracts\PageContract;
 use Staticka\Layout;
 use Staticka\Matter;
 use Staticka\Page;
-use Symfony\Component\Yaml\Yaml;
 
 /**
- * Page Factory
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class PageFactory
 {
@@ -27,17 +25,22 @@ class PageFactory
      */
     public function __construct(LayoutContract $layout = null)
     {
-        $this->layout = $layout ? $layout : new Layout;
+        $this->layout = new Layout;
+
+        if ($layout)
+        {
+            $this->layout = $layout;
+        }
     }
 
     /**
-     * TODO: To be removed on v1.0.0.
-     * Should only be file-based.
+     * @deprecated since ~0.3, should only be file-based.
      *
      * Creates a new page instance based on the content.
      *
-     * @param  string $body
-     * @param  array  $data
+     * @param string               $body
+     * @param array<string, mixed> $data
+     *
      * @return \Staticka\Contracts\PageContract
      */
     public function body($body, $data = array())
@@ -50,8 +53,9 @@ class PageFactory
     /**
      * Creates a new page instance based on the file.
      *
-     * @param  string $file
-     * @param  array  $data
+     * @param string               $file
+     * @param array<string, mixed> $data
+     *
      * @return \Staticka\Contracts\PageContract
      */
     public function file($file, $data = array())
@@ -68,7 +72,8 @@ class PageFactory
     /**
      * Returns a new page instance.
      *
-     * @param  array $data
+     * @param array<string, mixed> $data
+     *
      * @return \Staticka\Contracts\PageContract
      */
     protected function make($data)
@@ -78,15 +83,13 @@ class PageFactory
             $data[PageContract::DATA_LINK] = 'index';
         }
 
-        // TODO: Remove this on v1.0.0.
-        // Use DATA_PLATE instead of "layout".
+        /** @deprecated since ~0.3, use DATA_PLATE instead. */
         if (isset($data['layout']))
         {
             $data[PageContract::DATA_PLATE] = $data['layout'];
         }
 
-        // TODO: Remove this on v1.0.0.
-        // Use DATA_LINK instead of "permalink".
+        /** @deprecated since ~0.3, use DATA_LINK instead. */
         if (isset($data['permalink']))
         {
             $data[PageContract::DATA_LINK] = $data['permalink'];
@@ -98,12 +101,19 @@ class PageFactory
     /**
      * Converts the Matter format into data.
      *
-     * @param  string $content
-     * @return array
+     * @param string $content
+     *
+     * @return array<string, mixed>
      */
     protected function parse($content)
     {
-        list($matter, $body) = Matter::parse($content);
+        $result = Matter::parse($content);
+
+        /** @var string */
+        $matter = $result[0];
+
+        /** @var string */
+        $body = $result[1];
 
         $matter[PageContract::DATA_BODY] = trim($body);
 

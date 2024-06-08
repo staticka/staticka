@@ -11,9 +11,10 @@ use Staticka\Helper\LinkHelper;
  * Website Test
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class WebsiteTest extends \PHPUnit_Framework_TestCase
+class WebsiteTest extends Testcase
 {
     /**
      * @var \Staticka\Website
@@ -30,7 +31,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $separator = (string) DIRECTORY_SEPARATOR;
 
