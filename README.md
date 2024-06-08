@@ -2,9 +2,8 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]][link-license]
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+[![Build Status][ico-build]][link-build]
+[![Coverage Status][ico-coverage]][link-coverage]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Inspired by popular static site generators like [Hugo](https://gohugo.io) and [Jekyll](https://jekyllrb.com), [Staticka](https://staticka.github.io) is an extensible PHP-based static site generator. It mainly converts [Markdown](https://en.wikipedia.org/wiki/Markdown) content and PHP template files into static HTML.
@@ -231,18 +230,16 @@ $ composer test
 
 The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/staticka/staticka.svg?style=flat-square
+[ico-build]: https://img.shields.io/github/actions/workflow/status/staticka/staticka/build.yml?style=flat-square
+[ico-coverage]: https://img.shields.io/codecov/c/github/staticka/staticka?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/staticka/staticka.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/staticka/staticka.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/staticka/staticka/master.svg?style=flat-square
 [ico-version]: https://img.shields.io/packagist/v/staticka/staticka.svg?style=flat-square
 
+[link-build]: https://github.com/staticka/staticka/actions
 [link-changelog]: https://github.com/staticka/staticka/blob/master/CHANGELOG.md
-[link-code-quality]: https://scrutinizer-ci.com/g/staticka/staticka
 [link-contributors]: https://github.com/staticka/staticka/contributors
+[link-coverage]: https://app.codecov.io/gh/staticka/staticka
 [link-downloads]: https://packagist.org/packages/staticka/staticka
 [link-license]: https://github.com/staticka/staticka/blob/master/LICENSE.md
 [link-packagist]: https://packagist.org/packages/staticka/staticka
-[link-scrutinizer]: https://scrutinizer-ci.com/g/staticka/staticka/code-structure
-[link-travis]: https://travis-ci.org/staticka/staticka
