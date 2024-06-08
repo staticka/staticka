@@ -4,4 +4,5 @@ build
 composer.lock
 docs
 sites
+tests/Output
 vendor
