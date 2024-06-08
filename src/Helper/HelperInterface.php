@@ -5,12 +5,11 @@ namespace Staticka\Helper;
 use Staticka\Contracts\HelperContract;
 
 /**
- * TODO: Remove this file after v1.0.0.
- *
- * Helper Interface
+ * @deprecated since ~0.3, use "HelperContract" instead.
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface HelperInterface extends HelperContract
 {

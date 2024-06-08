@@ -8,10 +8,9 @@ use Staticka\Contracts\PageContract;
 use Staticka\Contracts\RendererContract;
 
 /**
- * Builder
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Builder extends \Parsedown implements BuilderContract
 {
@@ -31,14 +30,16 @@ class Builder extends \Parsedown implements BuilderContract
     /**
      * Builds the HTML of the page instance.
      *
-     * @param  \Staticka\Contracts\PageContract $page
+     * @param \Staticka\Contracts\PageContract $page
+     *
      * @return string
      */
     public function build(PageContract $page)
     {
         $data = array_merge($page->helpers(), $page->data());
 
-        $body = (string) $data[PageContract::DATA_BODY];
+        /** @var string */
+        $body = $data[PageContract::DATA_BODY];
 
         $data[PageContract::DATA_BODY] = $this->text($body);
 

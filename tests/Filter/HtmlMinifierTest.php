@@ -2,13 +2,16 @@
 
 namespace Staticka\Filter;
 
+use Staticka\Testcase;
+
 /**
  * HTML Minifier Test
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class HtmlMinifierTest extends \PHPUnit_Framework_TestCase
+class HtmlMinifierTest extends Testcase
 {
     /**
      * @var string
@@ -16,20 +19,23 @@ class HtmlMinifierTest extends \PHPUnit_Framework_TestCase
     protected $code;
 
     /**
-     * @var \Staticka\Filter\FilterInterface
+     * @var \Staticka\Contracts\FilterContract
      */
     protected $filter;
 
     /**
-     * Sets up the filter instance.
+     * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $name = (string) str_replace('Filter', 'Fixture', __DIR__);
 
         $this->filter = new HtmlMinifier;
 
-        $this->code = file_get_contents($name . '/Sample.html');
+        /** @var string */
+        $code = file_get_contents($name . '/Sample.html');
+
+        $this->code = $code;
     }
 
     /**
@@ -95,6 +101,10 @@ class Bar
 }</code></body></html>';
 
         $result = $this->filter->filter($this->code);
+
+        $result = str_replace("\r", '', $result);
+
+        $result = str_replace('&#039;', '\'', $result);
 
         $this->assertEquals($expected, $result);
     }

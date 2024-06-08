@@ -2,13 +2,14 @@
 
 namespace Staticka\Filter;
 
+use Staticka\Testcase;
+
 /**
- * Style Minifier Test
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class StyleMinifierTest extends \PHPUnit_Framework_TestCase
+class StyleMinifierTest extends Testcase
 {
     /**
      * @var string
@@ -16,20 +17,23 @@ class StyleMinifierTest extends \PHPUnit_Framework_TestCase
     protected $code;
 
     /**
-     * @var \Staticka\Filter\FilterInterface
+     * @var \Staticka\Contracts\FilterContract
      */
     protected $filter;
 
     /**
-     * Sets up the filter instance.
+     * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $name = (string) str_replace('Filter', 'Fixture', __DIR__);
 
         $this->filter = new StyleMinifier;
 
-        $this->code = file_get_contents($name . '/Style.html');
+        /** @var string */
+        $code = file_get_contents($name . '/Style.html');
+
+        $this->code = $code;
     }
 
     /**
@@ -51,6 +55,8 @@ class StyleMinifierTest extends \PHPUnit_Framework_TestCase
 </html>';
 
         $result = $this->filter->filter($this->code);
+
+        $result = str_replace("\r", '', $result);
 
         $this->assertEquals($expected, $result);
     }

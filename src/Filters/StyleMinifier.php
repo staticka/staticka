@@ -3,10 +3,9 @@
 namespace Staticka\Filters;
 
 /**
- * Style Minifier
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class StyleMinifier extends InlineMinifier
 {
@@ -18,7 +17,8 @@ class StyleMinifier extends InlineMinifier
     /**
      * Minifies the specified code.
      *
-     * @param  string $code
+     * @param string $code
+     *
      * @return string
      */
     protected function minify($code)

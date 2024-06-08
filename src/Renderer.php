@@ -3,15 +3,14 @@
 namespace Staticka;
 
 use Staticka\Contracts\RendererContract;
-// TODO: To be removed in v1.0.0.
-// Implement own renderer instead.
 use Zapheus\Renderer\Renderer as ZapheusRenderer;
 
 /**
- * Renderer
+ * TODO: Use own implementation for RendererContract.
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Renderer implements RendererContract
 {
@@ -21,7 +20,7 @@ class Renderer implements RendererContract
     protected $zapheus;
 
     /**
-     * @param string[] $paths
+     * @param string|string[] $paths
      */
     public function __construct($paths)
     {
@@ -31,10 +30,10 @@ class Renderer implements RendererContract
     /**
      * Renders a file from a specified template.
      *
-     * @param  string $name
-     * @param  array  $data
-     * @return string
+     * @param string               $name
+     * @param array<string, mixed> $data
      *
+     * @return string
      * @throws \InvalidArgumentException
      */
     public function render($name, $data = array())

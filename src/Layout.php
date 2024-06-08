@@ -7,10 +7,9 @@ use Staticka\Contracts\FilterContract;
 use Staticka\Contracts\HelperContract;
 
 /**
- * Layout
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Layout implements LayoutContract
 {
@@ -20,17 +19,17 @@ class Layout implements LayoutContract
     protected $body = self::BODY_DEFAULT;
 
     /**
-     * @var array
+     * @var \Staticka\Contracts\FilterContract[]
      */
     protected $filters = array();
 
     /**
-     * @var array
+     * @var \Staticka\Contracts\HelperContract[]
      */
     protected $helpers = array();
 
     /**
-     * @var string $body
+     * @param string $body
      */
     public function __construct($body = self::BODY_DEFAULT)
     {
@@ -50,12 +49,15 @@ class Layout implements LayoutContract
     /**
      * Adds a filter instance in the layout.
      *
-     * @param  \Staticka\Contracts\FilterContract $filter
+     * @param \Staticka\Contracts\FilterContract $filter
+     *
      * @return self
      */
     public function filter(FilterContract $filter)
     {
         $this->filters[] = $filter;
+
+        return $this;
     }
 
     /**
@@ -71,12 +73,15 @@ class Layout implements LayoutContract
     /**
      * Adds a helper instance in the layout.
      *
-     * @param  \Staticka\Contracts\HelperContract $helper
+     * @param \Staticka\Contracts\HelperContract $helper
+     *
      * @return self
      */
     public function helper(HelperContract $helper)
     {
         $this->helpers[$helper->name()] = $helper;
+
+        return $this;
     }
 
     /**

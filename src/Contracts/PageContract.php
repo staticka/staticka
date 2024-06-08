@@ -3,10 +3,9 @@
 namespace Staticka\Contracts;
 
 /**
- * Page Contract
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface PageContract
 {
@@ -23,14 +22,15 @@ interface PageContract
     /**
      * Returns the details of the page instance.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function data();
 
     /**
      * Adds a filter instance in the layout.
      *
-     * @param  \Staticka\Contracts\FilterContract $filter
+     * @param \Staticka\Contracts\FilterContract $filter
+     *
      * @return self
      */
     public function filter(FilterContract $filter);
@@ -45,7 +45,8 @@ interface PageContract
     /**
      * Adds a helper instance in the layout.
      *
-     * @param  \Staticka\Contracts\HelperContract $helper
+     * @param \Staticka\Contracts\HelperContract $helper
+     *
      * @return self
      */
     public function helper(HelperContract $helper);

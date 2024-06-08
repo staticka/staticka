@@ -3,12 +3,11 @@
 namespace Staticka;
 
 /**
- * Matter Test
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class MatterTest extends \PHPUnit_Framework_TestCase
+class MatterTest extends Testcase
 {
     /**
      * Tests Matter::parse.
@@ -19,9 +18,13 @@ class MatterTest extends \PHPUnit_Framework_TestCase
     {
         $filename = __DIR__ . '/Fixture/Matter.md';
 
-        $file = file_get_contents((string) $filename);
+        /** @var string */
+        $file = file_get_contents($filename);
 
-        list($result, $content) = Matter::parse($file);
+        $result = Matter::parse($file);
+
+        /** @var array<string, mixed> */
+        $result = $result[0];
 
         $expected = array('title' => 'Brave and Bold');
 

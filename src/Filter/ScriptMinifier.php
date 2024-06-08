@@ -5,12 +5,11 @@ namespace Staticka\Filter;
 use Staticka\Filters\ScriptMinifier as Filter;
 
 /**
- * TODO: Remove this file after v1.0.0.
- *
- * Script Minifier
+ * @deprecated since ~0.3, use "Filters\ScriptMinifier" instead.
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ScriptMinifier extends Filter
 {

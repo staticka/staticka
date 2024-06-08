@@ -5,10 +5,11 @@ namespace Staticka\Helper;
 use Staticka\Helpers\ViewHelper as Helper;
 
 /**
- * View Helper
+ * @deprecated since ~0.3, use "Helpers\ViewHelper" instead.
  *
- * @package Rouginsons
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ * @package Staticka
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ViewHelper extends Helper
 {

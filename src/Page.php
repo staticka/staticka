@@ -8,15 +8,14 @@ use Staticka\Contracts\LayoutContract;
 use Staticka\Contracts\PageContract;
 
 /**
- * Page
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Page implements PageContract
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected $data = array();
 
@@ -27,7 +26,7 @@ class Page implements PageContract
 
     /**
      * @param \Staticka\Contracts\LayoutContract $layout
-     * @param array                              $data
+     * @param array<string, mixed>               $data
      */
     public function __construct(LayoutContract $layout, $data = array())
     {
@@ -37,7 +36,10 @@ class Page implements PageContract
 
         if (isset($data['filters']))
         {
-            foreach ($data['filters'] as $filter)
+            /** @var \Staticka\Contracts\FilterContract[] */
+            $filters = $data['filters'];
+
+            foreach ($filters as $filter)
             {
                 $this->filter($filter);
             }
@@ -45,7 +47,10 @@ class Page implements PageContract
 
         if (isset($data['helpers']))
         {
-            foreach ($data['helpers'] as $helper)
+            /** @var \Staticka\Contracts\HelperContract[] */
+            $helpers = $data['helpers'];
+
+            foreach ($helpers as $helper)
             {
                 $this->helper($helper);
             }
@@ -55,7 +60,7 @@ class Page implements PageContract
     /**
      * Returns the details of the page instance.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function data()
     {
@@ -65,7 +70,8 @@ class Page implements PageContract
     /**
      * Adds a filter instance in the layout.
      *
-     * @param  \Staticka\Contracts\FilterContract $filter
+     * @param \Staticka\Contracts\FilterContract $filter
+     *
      * @return self
      */
     public function filter(FilterContract $filter)
@@ -88,7 +94,8 @@ class Page implements PageContract
     /**
      * Adds a helper instance in the layout.
      *
-     * @param  \Staticka\Contracts\HelperContract $helper
+     * @param \Staticka\Contracts\HelperContract $helper
+     *
      * @return self
      */
     public function helper(HelperContract $helper)

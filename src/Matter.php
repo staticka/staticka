@@ -5,21 +5,20 @@ namespace Staticka;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * TODO: Remove this file after v1.0.0.
- * Move the code to PageFactory::parse instead.
- *
- * YAML Front Matter Parser
+ * @deprecated since ~0.3, move logic to "parse" of "PageFactory" instead.
  *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Matter
 {
     /**
      * Retrieves the contents from a YAML format.
      *
-     * @param  string $content
-     * @return array
+     * @param string $content
+     *
+     * @return array<integer, mixed>
      */
     public static function parse($content)
     {
@@ -33,6 +32,7 @@ class Matter
         {
             $yaml = str_replace($id, PHP_EOL, $matches[1]);
 
+            /** @var array<string, mixed> */
             $matter = (array) Yaml::parse(trim($yaml));
 
             $body = str_replace($matches[0], '', $text);

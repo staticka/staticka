@@ -5,10 +5,9 @@ namespace Staticka\Helpers;
 use Staticka\Contracts\HelperContract;
 
 /**
- * Link Helper
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class LinkHelper implements HelperContract
 {
@@ -40,7 +39,8 @@ class LinkHelper implements HelperContract
     /**
      * Sets the specified link.
      *
-     * @param  string $link
+     * @param string $link
+     *
      * @return string
      */
     public function set($link)

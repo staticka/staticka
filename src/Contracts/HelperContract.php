@@ -3,10 +3,9 @@
 namespace Staticka\Contracts;
 
 /**
- * Helper Contract
- *
  * @package Staticka
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface HelperContract
 {
