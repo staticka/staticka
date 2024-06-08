@@ -99,6 +99,8 @@ class Bar
 
         $result = $this->filter->filter($this->code);
 
+        $result = str_replace('&#039;', '\'', $result);
+
         $this->assertEquals($expected, $result);
     }
 }

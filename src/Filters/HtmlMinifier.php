@@ -83,8 +83,6 @@ class HtmlMinifier implements FilterContract
 
         $html = str_replace('> <', '><', $html);
 
-        $html = str_replace('&#039;', '\'', $html);
-
         return str_replace(array(' />', '/>'), '>', $html);
     }
 
