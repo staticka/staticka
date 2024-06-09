@@ -106,6 +106,8 @@ class Bar
 
         $result = str_replace('&#039;', '\'', $result);
 
+        $expected = str_replace("\r", '', $expected);
+
         $this->assertEquals($expected, $result);
     }
 }

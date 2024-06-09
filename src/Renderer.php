@@ -2,8 +2,9 @@
 
 namespace Staticka;
 
+use Rougin\Slytherin\Template\TwigLoader;
+use Rougin\Slytherin\Template\TwigRenderer;
 use Staticka\Contracts\RendererContract;
-use Zapheus\Renderer\Renderer as ZapheusRenderer;
 
 /**
  * TODO: Use own implementation for RendererContract.
@@ -15,16 +16,22 @@ use Zapheus\Renderer\Renderer as ZapheusRenderer;
 class Renderer implements RendererContract
 {
     /**
-     * @var \Zapheus\Renderer\RendererInterface
+     * @var \Rougin\Slytherin\Template\TwigRenderer
      */
-    protected $zapheus;
+    protected $twig;
 
     /**
      * @param string|string[] $paths
      */
     public function __construct($paths)
     {
-        $this->zapheus = new ZapheusRenderer($paths);
+        $loader = new TwigLoader;
+
+        $twig = $loader->load($paths);
+
+        $renderer = new TwigRenderer($twig);
+
+        $this->twig = $renderer;
     }
 
     /**
@@ -32,12 +39,13 @@ class Renderer implements RendererContract
      *
      * @param string               $name
      * @param array<string, mixed> $data
+     * @param string               $file
      *
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function render($name, $data = array())
+    public function render($name, $data = array(), $file = 'php')
     {
-        return $this->zapheus->render($name, $data);
+        return $this->twig->render($name, $data, $file);
     }
 }

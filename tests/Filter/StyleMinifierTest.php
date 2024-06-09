@@ -58,6 +58,8 @@ class StyleMinifierTest extends Testcase
 
         $result = str_replace("\r", '', $result);
 
+        $expected = str_replace("\r", '', $expected);
+
         $this->assertEquals($expected, $result);
     }
 }
