@@ -42,7 +42,7 @@ class ViewHelper implements HelperContract
      *
      * @return string
      */
-    public function render($name, array $data = array())
+    public function render($name, $data = array())
     {
         return $this->renderer->render($name, $data);
     }

@@ -2,8 +2,7 @@
 
 namespace Staticka;
 
-use Rougin\Slytherin\Template\TwigLoader;
-use Rougin\Slytherin\Template\TwigRenderer;
+use Rougin\Slytherin\Template\Renderer as Slytherin;
 use Staticka\Contracts\RendererContract;
 
 /**
@@ -16,22 +15,16 @@ use Staticka\Contracts\RendererContract;
 class Renderer implements RendererContract
 {
     /**
-     * @var \Rougin\Slytherin\Template\TwigRenderer
+     * @var \Rougin\Slytherin\Template\Renderer
      */
-    protected $twig;
+    protected $renderer;
 
     /**
      * @param string|string[] $paths
      */
     public function __construct($paths)
     {
-        $loader = new TwigLoader;
-
-        $twig = $loader->load($paths);
-
-        $renderer = new TwigRenderer($twig);
-
-        $this->twig = $renderer;
+        $this->renderer = new Slytherin($paths);
     }
 
     /**
@@ -39,13 +32,12 @@ class Renderer implements RendererContract
      *
      * @param string               $name
      * @param array<string, mixed> $data
-     * @param string               $file
      *
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function render($name, $data = array(), $file = 'php')
+    public function render($name, $data = array())
     {
-        return $this->twig->render($name, $data, $file);
+        return $this->renderer->render($name, $data);
     }
 }

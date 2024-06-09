@@ -6,6 +6,7 @@ All notable changes to `Staticka` will be documented in this file.
 
 ### Changed
 - Code documentation by `php-cs-fixer`, code quality by `phpstan`
+- Use of `Renderer` from `rougin/slytherin` instead of `zapheus/zapheus`
 
 ## [0.3.0](https://github.com/staticka/staticka/compare/v0.2.1...v0.3.0) - 2020-05-03
 
