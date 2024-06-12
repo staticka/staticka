@@ -4,6 +4,9 @@ All notable changes to `Staticka` will be documented in this file.
 
 ## [0.3.0](https://github.com/staticka/staticka/compare/v0.3.0...v0.4.0) - Unreleased
 
+### Added
+- Own implementation of `RendererContract`
+
 ### Changed
 - Code documentation by `php-cs-fixer`, code quality by `phpstan`
 
