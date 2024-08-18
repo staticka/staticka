@@ -18,34 +18,39 @@ $ composer require staticka/staticka
 
 ## Basic Usage
 
-**NOTE**: The usage below only consists on how to use Staticka as a library and not as a commonly used static site generator. For the applications that this library is being used, kindly check [Console](https://github.com/staticka/console) or [Expresso](https://github.com/staticka/expresso).
+> [!NOTE]
+> The usage below only consists on how to use Staticka as a library and not as a commonly used static site generator. For the applications that this library is being used, kindly check [Console](https://github.com/staticka/console) or [Expresso](https://github.com/staticka/expresso).
 
 ### Compiling Markdown files
 
 Create a new file named `index.md`:
 
-**index.md**
-
 ```
+<!-- index.md -->
+
 # Hello World!
 
 This is a sample Markdown file.
 ```
 
-Then add it as a page to `Staticka` instance:
-
-**index.php**
+Then load the `.md` file as a `Page` class to the `Website` instance:
 
 ``` php
+// index.php
+
 use Staticka\Factories\PageFactory;
 
+// Initialize the factory for creating pages ---
 $factory = new PageFactory;
+// ---------------------------------------------
 
 $site = new Staticka\Website;
 
-$file = __DIR__ . '/index.md';
+// Load the file as a Page class -------------
+$page = $factory->file(__DIR__ . '/index.md');
+// -------------------------------------------
 
-$site->add($factory->file($file));
+$site->add($page);
 
 $site->build(__DIR__ . '/public');
 ```
@@ -95,12 +100,16 @@ The page properties that will be used by Staticka can be found on `Staticka\Cont
 ``` php
 // Content of the page
 PageContract::DATA_BODY = 'body';
+
 // Specific name of the page
 PageContract::DATA_NAME = 'name';
+
 // The URL path of the page
 PageContract::DATA_LINK = 'link';
+
 // File path of the template
 PageContract::DATA_PLATE = 'plate';
+
 // Title heading for the page
 PageContract::DATA_TITLE = 'title';
 ```
@@ -117,20 +126,15 @@ Staticka can use filters to modify the contents of the specified page. Creating 
 use Staticka\Factories\PageFactory;
 use Staticka\Filter\HtmlMinifier;
 
-// NOTE: Add filters in the Layout instance
+// NOTE: Add filters in the Layout instance ---
 $layout = new Staticka\Layout;
+// --------------------------------------------
 
 $layout->filter(new HtmlMinifier);
 
 $factory = new PageFactory($layout);
 
-$site = new Staticka\Website;
-
-$file = __DIR__ . '/index.md';
-
-$site->add($factory->file($file));
-
-$site->build(__DIR__ . '/public');
+// ...
 ```
 
 **build/brave-world/index.html** (after running `php index.php` in the terminal)
@@ -178,22 +182,21 @@ This is a sample Markdown file.
 use Staticka\Factories\PageFactory;
 use Staticka\Helpers\LinkHelper;
 
-// NOTE: Add helpers in the Layout instance
+// NOTE: Add filters in the Layout instance ---
 $layout = new Staticka\Layout;
+// --------------------------------------------
 
-$helper = new LinkHelper('https://staticka.github.io');
+// Create an instance of LinkHelper ---
+$site = 'https://staticka.github.io';
+
+$helper = new LinkHelper($site);
+// ------------------------------------
 
 $layout->helper($helper);
 
 $factory = new PageFactory($layout);
 
-$site = new Staticka\Website;
-
-$file = __DIR__ . '/index.md';
-
-$site->add($factory->file($file));
-
-$site->build(__DIR__ . '/public');
+// ...
 ```
 
 **build/brave-world/index.html** (after running `php index.php` in the terminal)

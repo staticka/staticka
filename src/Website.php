@@ -12,8 +12,6 @@ use Staticka\Factories\PageFactory;
 use Staticka\Contracts\RendererContract;
 
 /**
- * Website
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
