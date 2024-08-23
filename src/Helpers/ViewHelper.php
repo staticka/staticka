@@ -18,7 +18,7 @@ class ViewHelper extends Staticka implements HelperContract
     /**
      * @deprecated since ~0.3, initialize with "RendererContract" instead.
      *
-     * @param \Staticka\Contracts\RendererContract|\Staticka\Contracts\WebsiteContract $render
+     * @param mixed $render
      */
     public function __construct($render)
     {
@@ -27,6 +27,7 @@ class ViewHelper extends Staticka implements HelperContract
             $render = $render->renderer();
         }
 
+        /** @var \Rougin\Staticka\Render $render */
         $this->render = $render;
     }
 }

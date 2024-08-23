@@ -2,17 +2,20 @@
 
 namespace Staticka;
 
+use Rougin\Staticka\Parser;
 use Staticka\Contracts\BuilderContract;
 use Staticka\Contracts\LayoutContract;
 use Staticka\Contracts\PageContract;
 use Staticka\Contracts\RendererContract;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Parser" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Builder extends \Parsedown implements BuilderContract
+class Builder extends Parser implements BuilderContract
 {
     /**
      * @var \Staticka\Contracts\RendererContract

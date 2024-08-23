@@ -48,7 +48,9 @@ class Layout extends Staticka implements LayoutContract
      */
     public function filter(FilterContract $filter)
     {
-        return $this->addFilter($filter);
+        $this->addFilter($filter);
+
+        return $this;
     }
 
     /**
@@ -58,6 +60,7 @@ class Layout extends Staticka implements LayoutContract
      */
     public function filters()
     {
+        /** @var \Staticka\Contracts\FilterContract[] */
         return $this->getFilters();
     }
 
@@ -70,13 +73,15 @@ class Layout extends Staticka implements LayoutContract
      */
     public function helper(HelperContract $helper)
     {
-        return $this->addHelper($helper);
+        $this->addHelper($helper);
+
+        return $this;
     }
 
     /**
      * Returns all available helpers.
      *
-     * @return \Staticka\Contracts\HelperContract[]
+     * @return array<string, \Staticka\Contracts\HelperContract>
      */
     public function helpers()
     {
@@ -84,6 +89,7 @@ class Layout extends Staticka implements LayoutContract
 
         $result = array();
 
+        /** @var \Staticka\Contracts\HelperContract $item */
         foreach ($items as $item)
         {
             $result[$item->name()] = $item;

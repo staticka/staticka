@@ -52,7 +52,7 @@ interface LayoutContract
     /**
      * Returns all available helpers.
      *
-     * @return \Staticka\Contracts\HelperContract[]
+     * @return array<string, \Staticka\Contracts\HelperContract>
      */
     public function helpers();
 }
