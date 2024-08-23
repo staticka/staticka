@@ -3,6 +3,8 @@
 namespace Staticka\Contracts;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Layout" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

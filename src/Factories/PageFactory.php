@@ -9,6 +9,8 @@ use Staticka\Matter;
 use Staticka\Page;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Page" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

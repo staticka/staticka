@@ -2,51 +2,16 @@
 
 namespace Staticka\Helpers;
 
+use Rougin\Staticka\Helper\LinkHelper as Staticka;
 use Staticka\Contracts\HelperContract;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Helper\LinkHelper" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class LinkHelper implements HelperContract
+class LinkHelper extends Staticka implements HelperContract
 {
-    /**
-     * @var string
-     */
-    protected $base;
-
-    /**
-     * Initializes the URL instance.
-     *
-     * @param string $base
-     */
-    public function __construct($base)
-    {
-        $this->base = $base;
-    }
-
-    /**
-     * Returns the name of the helper.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return 'url';
-    }
-
-    /**
-     * Sets the specified link.
-     *
-     * @param string $link
-     *
-     * @return string
-     */
-    public function set($link)
-    {
-        $link = $link[0] !== '/' ? '/' . $link : $link;
-
-        return $this->base . $link;
-    }
 }
