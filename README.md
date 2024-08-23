@@ -40,6 +40,8 @@ Then load the `.md` file as a `Page` class to the `Website` instance:
 
 use Staticka\Factories\PageFactory;
 
+// ...
+
 // Initialize the factory for creating pages ---
 $factory = new PageFactory;
 // ---------------------------------------------
@@ -102,9 +104,8 @@ $ php index.php
 <p>This is a sample Markdown file.</p>
 ```
 
-#### Page properties
-
-The page properties that will be used by Staticka can be found on `Staticka\Contracts\PageContract`:
+> [!NOTE]
+> The page properties that will be used by Staticka can be found on `Staticka\Contracts\PageContract`:
 
 ``` php
 // Content of the page
@@ -135,9 +136,11 @@ Staticka can use filters to modify the contents of the specified page. Creating 
 use Staticka\Factories\PageFactory;
 use Staticka\Filter\HtmlMinifier;
 
-// NOTE: Add filters in the Layout instance ---
+// ...
+
+// Add filters in the Layout instance ---
 $layout = new Staticka\Layout;
-// --------------------------------------------
+// --------------------------------------
 
 $layout->filter(new HtmlMinifier);
 
@@ -195,9 +198,11 @@ This is a sample Markdown file.
 use Staticka\Factories\PageFactory;
 use Staticka\Helpers\LinkHelper;
 
-// NOTE: Add filters in the Layout instance ---
+// ...
+
+// Add filters in the Layout instance ---
 $layout = new Staticka\Layout;
-// --------------------------------------------
+// --------------------------------------
 
 // Create an instance of LinkHelper ---
 $site = 'https://staticka.github.io';
