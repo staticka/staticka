@@ -5,8 +5,6 @@ namespace Staticka\Filter;
 use Staticka\Testcase;
 
 /**
- * HTML Minifier Test
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -28,7 +26,8 @@ class HtmlMinifierTest extends Testcase
      */
     protected function doSetUp()
     {
-        $name = (string) str_replace('Filter', 'Fixture', __DIR__);
+        /** @var string */
+        $name = str_replace('Filter', 'Fixture', __DIR__);
 
         $this->filter = new HtmlMinifier;
 
@@ -39,11 +38,9 @@ class HtmlMinifierTest extends Testcase
     }
 
     /**
-     * Tests FilterInterface::filter.
-     *
      * @return void
      */
-    public function testFilterMethod()
+    public function test_filter_from_html()
     {
         $expected = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style>
     body

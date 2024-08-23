@@ -27,11 +27,9 @@ class LinkHelperTest extends Testcase
     }
 
     /**
-     * Tests LinkHelper::set.
-     *
      * @return void
      */
-    public function testSetMethod()
+    public function test_getting_link()
     {
         $expected = 'https://roug.in/slytherin';
 

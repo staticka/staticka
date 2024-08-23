@@ -31,9 +31,7 @@ class WebsiteTest extends Testcase
      */
     protected function doSetUp()
     {
-        $separator = (string) DIRECTORY_SEPARATOR;
-
-        $output = __DIR__ . $separator . 'Output';
+        $output = (string) __DIR__ . '/Output';
 
         $this->output = (string) $output;
 
@@ -48,11 +46,9 @@ class WebsiteTest extends Testcase
     }
 
     /**
-     * Tests Staticka::compile.
-     *
      * @return void
      */
-    public function testCompileMethod()
+    public function test_compiling_pages()
     {
         $this->site->compile($this->output);
 
@@ -67,15 +63,14 @@ class WebsiteTest extends Testcase
     }
 
     /**
-     * Tests Staticka::compile with a file.
-     *
      * @return void
      */
-    public function testCompileMethodWithFile()
+    public function test_compiling_pages_with_file()
     {
         $content = new MarkdownContent;
 
-        $file = __DIR__ . '/Fixture/World.' . $content->extension();
+        $type = $content->extension();
+        $file = __DIR__ . '/Fixture/World.' . $type;
 
         $this->site->page($file);
 
@@ -95,11 +90,9 @@ class WebsiteTest extends Testcase
     }
 
     /**
-     * Tests Staticka::compile with a filter.
-     *
      * @return void
      */
-    public function testCompileMethodWithFilter()
+    public function test_compiling_pages_with_filter()
     {
         $this->site->filter(new HtmlMinifier);
 
@@ -116,11 +109,9 @@ class WebsiteTest extends Testcase
     }
 
     /**
-     * Tests Staticka::compile with a renderer.
-     *
      * @return void
      */
-    public function testCompileMethodWithRenderer()
+    public function test_compiling_pages_with_renderer()
     {
         $content = new MarkdownContent;
 
@@ -132,7 +123,10 @@ class WebsiteTest extends Testcase
 
         $site->helper($url = new LinkHelper('https://roug.in'));
 
-        $site->page($file, array('layout' => 'layout', 'permalink' => 'template'));
+        $data = array('layout' => 'layout');
+        $data['permalink'] = 'template';
+
+        $site->page($file, (array) $data);
 
         $site->compile($this->output);
 
@@ -141,7 +135,9 @@ class WebsiteTest extends Testcase
 
         $content = $content->make($file);
 
-        $data = array('content' => $content, 'url' => $url, 'title' => 'Hello World');
+        $data = array('content' => $content);
+        $data['url'] = $url;
+        $data['title'] = 'Hello World';
 
         $expected = $renderer->render('layout', $data);
 
@@ -152,11 +148,9 @@ class WebsiteTest extends Testcase
     }
 
     /**
-     * Tests Staticka::content.
-     *
      * @return void
      */
-    public function testContentMethod()
+    public function test_content_interface()
     {
         $expected = 'Staticka\Content\ContentInterface';
 
@@ -166,11 +160,9 @@ class WebsiteTest extends Testcase
     }
 
     /**
-     * Tests Staticka::transfer.
-     *
      * @return void
      */
-    public function testTransferMethod()
+    public function test_transferring_files()
     {
         $this->site->compile($this->output);
 
@@ -182,20 +174,21 @@ class WebsiteTest extends Testcase
     }
 
     /**
-     * Tests Staticka::compile.
-     *
      * @return void
      */
-    public function testAddMethod()
+    public function test_adding_pages()
     {
         $page = new PageFactory(new Layout);
 
-        $file = __DIR__ . '/Fixture/World.md';
-
         $data = array('filters' => array());
-        $data['filters'] = array(new HtmlMinifier);
-        $data['helpers'] = array(new LinkHelper('https://roug.in'));
 
+        $filter = new HtmlMinifier;
+        $data['filters'] = array($filter);
+
+        $helper = new LinkHelper('https://roug.in');
+        $data['helpers'] = array($helper);
+
+        $file = __DIR__ . '/Fixture/World.md';
         $page = $page->file($file, $data);
 
         $this->site->add($page);

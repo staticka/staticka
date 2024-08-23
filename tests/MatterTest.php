@@ -10,11 +10,9 @@ namespace Staticka;
 class MatterTest extends Testcase
 {
     /**
-     * Tests Matter::parse.
-     *
      * @return void
      */
-    public function testParseMethod()
+    public function test_data_parsing()
     {
         $filename = __DIR__ . '/Fixture/Matter.md';
 
