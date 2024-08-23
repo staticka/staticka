@@ -27,12 +27,7 @@ class PageFactory
      */
     public function __construct(LayoutContract $layout = null)
     {
-        $this->layout = new Layout;
-
-        if ($layout)
-        {
-            $this->layout = $layout;
-        }
+        $this->layout = $layout ? $layout : new Layout;
     }
 
     /**

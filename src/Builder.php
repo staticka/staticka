@@ -33,11 +33,13 @@ class Builder extends Parser implements BuilderContract
 
         $data[PageContract::DATA_BODY] = $this->text($body);
 
-        // TODO: Remove this on v1.0.0.
-        // Use DATA_BODY instead of "content".
+        /** @deprecated since ~0.3, use DATA_BODY instead */
         $data['content'] = $data[PageContract::DATA_BODY];
 
-        if (! isset($data[PageContract::DATA_TITLE]))
+        // Try to guess the title from the content ------------
+        $title = PageContract::DATA_TITLE;
+
+        if (! isset($data[$title]))
         {
             $output = $data[PageContract::DATA_BODY];
 
@@ -45,15 +47,16 @@ class Builder extends Parser implements BuilderContract
 
             if (isset($matches[1]))
             {
-                $data[PageContract::DATA_TITLE] = $matches[1];
+                $data[$title] = $matches[1];
             }
         }
+        // ----------------------------------------------------
 
-        if ($this->render && isset($data[PageContract::DATA_PLATE]))
+        $plate = PageContract::DATA_PLATE;
+
+        if ($this->render && isset($data[$plate]))
         {
-            $plate = (string) $data[PageContract::DATA_PLATE];
-
-            $html = $this->render->render($plate, $data);
+            $html = $this->render->render($data[$plate], $data);
         }
         else
         {
@@ -66,10 +69,12 @@ class Builder extends Parser implements BuilderContract
             $html = str_replace($search, $body, $base);
         }
 
+        // Apply filters to HTML if applicable ---
         foreach ($page->filters() as $filter)
         {
             $html = $filter->filter($html);
         }
+        // ---------------------------------------
 
         return (string) $html;
     }
