@@ -2,31 +2,24 @@
 
 namespace Staticka;
 
+use Rougin\Staticka\Layout as Staticka;
 use Staticka\Contracts\LayoutContract;
 use Staticka\Contracts\FilterContract;
 use Staticka\Contracts\HelperContract;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Layout" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Layout implements LayoutContract
+class Layout extends Staticka implements LayoutContract
 {
     /**
      * @var string
      */
     protected $body = self::BODY_DEFAULT;
-
-    /**
-     * @var \Staticka\Contracts\FilterContract[]
-     */
-    protected $filters = array();
-
-    /**
-     * @var \Staticka\Contracts\HelperContract[]
-     */
-    protected $helpers = array();
 
     /**
      * @param string $body
@@ -55,9 +48,7 @@ class Layout implements LayoutContract
      */
     public function filter(FilterContract $filter)
     {
-        $this->filters[] = $filter;
-
-        return $this;
+        return $this->addFilter($filter);
     }
 
     /**
@@ -67,7 +58,7 @@ class Layout implements LayoutContract
      */
     public function filters()
     {
-        return $this->filters;
+        return $this->getFilters();
     }
 
     /**
@@ -79,9 +70,7 @@ class Layout implements LayoutContract
      */
     public function helper(HelperContract $helper)
     {
-        $this->helpers[$helper->name()] = $helper;
-
-        return $this;
+        return $this->addHelper($helper);
     }
 
     /**
@@ -91,6 +80,15 @@ class Layout implements LayoutContract
      */
     public function helpers()
     {
-        return $this->helpers;
+        $items = $this->getHelpers();
+
+        $result = array();
+
+        foreach ($items as $item)
+        {
+            $result[$item->name()] = $item;
+        }
+
+        return $result;
     }
 }
