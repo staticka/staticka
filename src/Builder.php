@@ -18,19 +18,6 @@ use Staticka\Contracts\RendererContract;
 class Builder extends Parser implements BuilderContract
 {
     /**
-     * @var \Staticka\Contracts\RendererContract
-     */
-    protected $renderer;
-
-    /**
-     * @param \Staticka\Contracts\RendererContract $renderer
-     */
-    public function __construct(RendererContract $renderer)
-    {
-        $this->renderer = $renderer;
-    }
-
-    /**
      * Builds the HTML of the page instance.
      *
      * @param \Staticka\Contracts\PageContract $page
@@ -62,11 +49,11 @@ class Builder extends Parser implements BuilderContract
             }
         }
 
-        if (isset($data[PageContract::DATA_PLATE]))
+        if ($this->render && isset($data[PageContract::DATA_PLATE]))
         {
             $plate = (string) $data[PageContract::DATA_PLATE];
 
-            $html = $this->renderer->render($plate, $data);
+            $html = $this->render->render($plate, $data);
         }
         else
         {
