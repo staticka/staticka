@@ -5,11 +5,11 @@ namespace Staticka;
 use LegacyPHPUnit\TestCase as Legacy;
 
 /**
+ * @codeCoverageIgnore
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
- *
- * @codeCoverageIgnore
  */
 class Testcase extends Legacy
 {

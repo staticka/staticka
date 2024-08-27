@@ -3,6 +3,8 @@
 namespace Staticka\Contracts;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Site" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -10,7 +12,7 @@ namespace Staticka\Contracts;
 interface WebsiteContract
 {
     /**
-     * Add a new page instance in the website.
+     * Adds a new page instance in the website.
      *
      * @param \Staticka\Contracts\PageContract $page
      *

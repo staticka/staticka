@@ -2,29 +2,16 @@
 
 namespace Staticka\Filters;
 
+use Rougin\Staticka\Filter\StyleMinifier as Staticka;
+use Staticka\Contracts\FilterContract;
+
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Filter\StyleMinifier" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class StyleMinifier extends InlineMinifier
+class StyleMinifier extends Staticka implements FilterContract
 {
-    /**
-     * @var string
-     */
-    protected $tagname = 'style';
-
-    /**
-     * Minifies the specified code.
-     *
-     * @param string $code
-     *
-     * @return string
-     */
-    protected function minify($code)
-    {
-        $minified = (string) parent::minify($code);
-
-        return str_replace(' > ', '>', $minified);
-    }
 }

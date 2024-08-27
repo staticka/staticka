@@ -2,6 +2,7 @@
 
 namespace Staticka;
 
+use Rougin\Staticka\Site;
 use Staticka\Content\ContentInterface;
 use Staticka\Content\MarkdownContent;
 use Staticka\Contracts\FilterContract;
@@ -16,7 +17,7 @@ use Staticka\Contracts\RendererContract;
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Website implements WebsiteContract
+class Website extends Site implements WebsiteContract
 {
     /**
      * @var \Staticka\Contracts\BuilderContract
@@ -128,27 +129,15 @@ class Website implements WebsiteContract
         {
             $data = (array) $page->data();
 
-            $link = $data[PageContract::DATA_LINK];
-
-            $folder = $output . '/' . $link;
-
             $html = $this->builder->build($page);
 
-            $path = str_replace('/index', '', $folder);
+            // Create the destination file path ---
+            $link = $data[PageContract::DATA_LINK];
 
-            if (! file_exists($path))
-            {
-                mkdir($path, 0700, true);
-            }
+            $path = (string) $output . '/' . $link;
+            // ------------------------------------
 
-            $file = "$folder/index.html";
-
-            if ($link === 'index')
-            {
-                $file = "$folder.html";
-            }
-
-            file_put_contents($file, $html);
+            $this->createFile($path, $html);
         }
 
         return $this;
@@ -163,29 +152,7 @@ class Website implements WebsiteContract
      */
     public function clear($path)
     {
-        $directory = new \RecursiveDirectoryIterator($path, 4096);
-
-        $iterator = new \RecursiveIteratorIterator($directory, 2);
-
-        /** @var \SplFileInfo $file */
-        foreach ($iterator as $file)
-        {
-            $path = $file->getRealPath();
-
-            if (strpos($path, '.git') !== false)
-            {
-                continue;
-            }
-
-            if ($file->isDir())
-            {
-                rmdir($path);
-
-                continue;
-            }
-
-            unlink($path);
-        }
+        $this->emptyDir($path);
     }
 
     /**
@@ -231,35 +198,7 @@ class Website implements WebsiteContract
      */
     public function copy($source, $path)
     {
-        /** @var string */
-        $source = realpath($source);
-
-        $this->clear((string) $path);
-
-        /** @var string[] */
-        $files = glob("$source/**/**.**");
-
-        foreach ($files as $file)
-        {
-            /** @var string */
-            $real = realpath($file);
-
-            $basename = basename($real);
-
-            $dirname = dirname($real);
-
-            /** @var string */
-            $newpath = str_replace($source, $path, $dirname);
-
-            if (! file_exists($newpath))
-            {
-                mkdir($newpath, 0777, true);
-            }
-
-            copy($file, "$newpath/$basename");
-        }
-
-        return $this;
+        return $this->copyDir($source, $path);
     }
 
     /**

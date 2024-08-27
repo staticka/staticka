@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <title><?php echo $title; ?></title>
   <style>
-    body {
+    body
+    {
       background: #fff;
     }
   </style>

@@ -31,11 +31,9 @@ class ViewHelperTest extends Testcase
     }
 
     /**
-     * Tests HelperInterface::name.
-     *
      * @return void
      */
-    public function testNameMethod()
+    public function test_helper_name()
     {
         $result = $this->helper->name();
 
@@ -45,11 +43,9 @@ class ViewHelperTest extends Testcase
     }
 
     /**
-     * Tests ViewHelper::set.
-     *
      * @return void
      */
-    public function testSetMethod()
+    public function test_html_render()
     {
         $expected = '<!DOCTYPE html>
 <html lang="en">

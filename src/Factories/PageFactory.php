@@ -9,6 +9,8 @@ use Staticka\Matter;
 use Staticka\Page;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Page" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -25,12 +27,7 @@ class PageFactory
      */
     public function __construct(LayoutContract $layout = null)
     {
-        $this->layout = new Layout;
-
-        if ($layout)
-        {
-            $this->layout = $layout;
-        }
+        $this->layout = $layout ? $layout : new Layout;
     }
 
     /**

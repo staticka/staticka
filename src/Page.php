@@ -2,28 +2,21 @@
 
 namespace Staticka;
 
+use Rougin\Staticka\Page as Staticka;
 use Staticka\Contracts\FilterContract;
 use Staticka\Contracts\HelperContract;
 use Staticka\Contracts\LayoutContract;
 use Staticka\Contracts\PageContract;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Page" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Page implements PageContract
+class Page extends Staticka implements PageContract
 {
-    /**
-     * @var array<string, mixed>
-     */
-    protected $data = array();
-
-    /**
-     * @var \Staticka\Contracts\LayoutContract
-     */
-    protected $layout;
-
     /**
      * @param \Staticka\Contracts\LayoutContract $layout
      * @param array<string, mixed>               $data
@@ -32,6 +25,7 @@ class Page implements PageContract
     {
         $this->data = (array) $data;
 
+        /** @var \Rougin\Staticka\Layout $layout */
         $this->layout = $layout;
 
         if (isset($data['filters']))
@@ -76,7 +70,10 @@ class Page implements PageContract
      */
     public function filter(FilterContract $filter)
     {
-        $this->layout->filter($filter);
+        /** @var \Staticka\Contracts\LayoutContract */
+        $layout = $this->layout;
+
+        $layout->filter($filter);
 
         return $this;
     }
@@ -88,7 +85,10 @@ class Page implements PageContract
      */
     public function filters()
     {
-        return $this->layout->filters();
+        /** @var \Staticka\Contracts\LayoutContract */
+        $layout = $this->layout;
+
+        return $layout->filters();
     }
 
     /**
@@ -100,7 +100,10 @@ class Page implements PageContract
      */
     public function helper(HelperContract $helper)
     {
-        $this->layout->helper($helper);
+        /** @var \Staticka\Contracts\LayoutContract */
+        $layout = $this->layout;
+
+        $layout->helper($helper);
 
         return $this;
     }
@@ -112,7 +115,10 @@ class Page implements PageContract
      */
     public function helpers()
     {
-        return $this->layout->helpers();
+        /** @var \Staticka\Contracts\LayoutContract */
+        $layout = $this->layout;
+
+        return $layout->helpers();
     }
 
     /**
@@ -122,6 +128,7 @@ class Page implements PageContract
      */
     public function layout()
     {
+        /** @var \Staticka\Contracts\LayoutContract */
         return $this->layout;
     }
 }

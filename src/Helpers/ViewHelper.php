@@ -2,58 +2,32 @@
 
 namespace Staticka\Helpers;
 
+use Rougin\Staticka\Helper\ViewHelper as Staticka;
 use Staticka\Contracts\HelperContract;
 use Staticka\Contracts\WebsiteContract;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Helper\ViewHelper" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ViewHelper implements HelperContract
+class ViewHelper extends Staticka implements HelperContract
 {
-    /**
-     * @var \Staticka\Contracts\RendererContract
-     */
-    protected $renderer;
-
     /**
      * @deprecated since ~0.3, initialize with "RendererContract" instead.
      *
-     * Initializes the helper instance.
-     *
-     * @param \Staticka\Contracts\RendererContract|\Staticka\Contracts\WebsiteContract $renderer
+     * @param mixed $render
      */
-    public function __construct($renderer)
+    public function __construct($render)
     {
-        if ($renderer instanceof WebsiteContract)
+        if ($render instanceof WebsiteContract)
         {
-            $renderer = $renderer->renderer();
+            $render = $render->renderer();
         }
 
-        $this->renderer = $renderer;
-    }
-
-    /**
-     * Renders the partial template.
-     *
-     * @param string               $name
-     * @param array<string, mixed> $data
-     *
-     * @return string
-     */
-    public function render($name, $data = array())
-    {
-        return $this->renderer->render($name, $data);
-    }
-
-    /**
-     * Returns the name of the helper.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return 'view';
+        /** @var \Rougin\Staticka\Render $render */
+        $this->render = $render;
     }
 }

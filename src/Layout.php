@@ -2,31 +2,24 @@
 
 namespace Staticka;
 
+use Rougin\Staticka\Layout as Staticka;
 use Staticka\Contracts\LayoutContract;
 use Staticka\Contracts\FilterContract;
 use Staticka\Contracts\HelperContract;
 
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Layout" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Layout implements LayoutContract
+class Layout extends Staticka implements LayoutContract
 {
     /**
      * @var string
      */
     protected $body = self::BODY_DEFAULT;
-
-    /**
-     * @var \Staticka\Contracts\FilterContract[]
-     */
-    protected $filters = array();
-
-    /**
-     * @var \Staticka\Contracts\HelperContract[]
-     */
-    protected $helpers = array();
 
     /**
      * @param string $body
@@ -55,7 +48,7 @@ class Layout implements LayoutContract
      */
     public function filter(FilterContract $filter)
     {
-        $this->filters[] = $filter;
+        $this->addFilter($filter);
 
         return $this;
     }
@@ -67,7 +60,8 @@ class Layout implements LayoutContract
      */
     public function filters()
     {
-        return $this->filters;
+        /** @var \Staticka\Contracts\FilterContract[] */
+        return $this->getFilters();
     }
 
     /**
@@ -79,7 +73,7 @@ class Layout implements LayoutContract
      */
     public function helper(HelperContract $helper)
     {
-        $this->helpers[$helper->name()] = $helper;
+        $this->addHelper($helper);
 
         return $this;
     }
@@ -87,10 +81,20 @@ class Layout implements LayoutContract
     /**
      * Returns all available helpers.
      *
-     * @return \Staticka\Contracts\HelperContract[]
+     * @return array<string, \Staticka\Contracts\HelperContract>
      */
     public function helpers()
     {
-        return $this->helpers;
+        $items = $this->getHelpers();
+
+        $result = array();
+
+        /** @var \Staticka\Contracts\HelperContract $item */
+        foreach ($items as $item)
+        {
+            $result[$item->name()] = $item;
+        }
+
+        return $result;
     }
 }

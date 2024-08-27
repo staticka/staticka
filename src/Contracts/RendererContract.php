@@ -2,21 +2,15 @@
 
 namespace Staticka\Contracts;
 
+use Rougin\Staticka\Render\RenderInterface;
+
 /**
+ * @deprecated since ~0.4, use "Rougin\Staticka\Render\RenderInterface" instead.
+ *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-interface RendererContract
+interface RendererContract extends RenderInterface
 {
-    /**
-     * Renders a file from a specified template.
-     *
-     * @param string               $name
-     * @param array<string, mixed> $data
-     *
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function render($name, $data = array());
 }

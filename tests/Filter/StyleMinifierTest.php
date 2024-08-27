@@ -26,7 +26,8 @@ class StyleMinifierTest extends Testcase
      */
     protected function doSetUp()
     {
-        $name = (string) str_replace('Filter', 'Fixture', __DIR__);
+        /** @var string */
+        $name = str_replace('Filter', 'Fixture', __DIR__);
 
         $this->filter = new StyleMinifier;
 
@@ -37,11 +38,9 @@ class StyleMinifierTest extends Testcase
     }
 
     /**
-     * Tests FilterInterface::filter.
-     *
      * @return void
      */
-    public function testFilterMethod()
+    public function test_filter_from_html()
     {
         $expected = '<!DOCTYPE html>
 <html lang="en">
