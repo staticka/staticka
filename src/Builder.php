@@ -6,7 +6,6 @@ use Rougin\Staticka\Parser;
 use Staticka\Contracts\BuilderContract;
 use Staticka\Contracts\LayoutContract;
 use Staticka\Contracts\PageContract;
-use Staticka\Contracts\RendererContract;
 
 /**
  * @deprecated since ~0.4, use "Rougin\Staticka\Parser" instead.
