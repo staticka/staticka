@@ -45,7 +45,7 @@ $page = new Page(__DIR__ . '/index.md');
 // -------------------------------------
 ```
 
-## Removed `PageContract` properties
+## Remove `PageContract` properties
 
 **Before**
 
@@ -79,7 +79,7 @@ $page->setBody("# {NAME}\nThis is a sample page.");
 // ...
 ```
 
-In this release, the `PageContract` is removed and will be replaced by methods (e.g., `setName`, `setBody`, etc.). For [Front Matter](https://jekyllrb.com/docs/frontmatter) content, `Staticka` will use the following properties for the `Parser` class:
+In this release, the `PageContract` is removed and will be replaced by methods (e.g., `setName`, `setBody`, etc.). When using [Front Matter](https://jekyllrb.com/docs/frontmatter) content inside an `.md` file, `Staticka` will use the following properties for the `Parser` class:
 
 ### `name`
 
