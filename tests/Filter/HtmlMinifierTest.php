@@ -17,7 +17,7 @@ class HtmlMinifierTest extends Testcase
     protected $code;
 
     /**
-     * @var \Staticka\Contracts\FilterContract
+     * @var \Staticka\Filter\FilterInterface
      */
     protected $filter;
 
@@ -97,14 +97,32 @@ class Bar
     }
 }</code></body></html>';
 
-        $result = $this->filter->filter($this->code);
+        $actual = $this->filter->filter($this->code);
 
-        $result = str_replace("\r", '', $result);
+        $actual = str_replace("\r", '', $actual);
 
-        $result = str_replace('&#039;', '\'', $result);
+        $actual = str_replace('&#039;', '\'', $actual);
 
         $expected = str_replace("\r", '', $expected);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_without_html()
+    {
+        $expected = 'This is not an HTML template.';
+
+        $actual = $this->filter->filter($expected);
+
+        $actual = str_replace("\r", '', $actual);
+
+        $actual = str_replace('&#039;', '\'', $actual);
+
+        $expected = str_replace("\r", '', $expected);
+
+        $this->assertEquals($expected, $actual);
     }
 }

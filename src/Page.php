@@ -2,133 +2,222 @@
 
 namespace Staticka;
 
-use Rougin\Staticka\Page as Staticka;
-use Staticka\Contracts\FilterContract;
-use Staticka\Contracts\HelperContract;
-use Staticka\Contracts\LayoutContract;
-use Staticka\Contracts\PageContract;
-
 /**
- * @deprecated since ~0.4, use "Rougin\Staticka\Page" instead.
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Page extends Staticka implements PageContract
+class Page
 {
+    const TYPE_BODY = 0;
+
+    const TYPE_FILE = 1;
+
     /**
-     * @param \Staticka\Contracts\LayoutContract $layout
-     * @param array<string, mixed>               $data
+     * @var string
      */
-    public function __construct(LayoutContract $layout, $data = array())
+    protected $body;
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected $data = array();
+
+    /**
+     * @var string|null
+     */
+    protected $file = null;
+
+    /**
+     * @var string
+     */
+    protected $html = '';
+
+    /**
+     * @var \Staticka\Layout|null
+     */
+    protected $layout = null;
+
+    /**
+     * @var string|null
+     */
+    protected $link = null;
+
+    /**
+     * @var string|null
+     */
+    protected $name = null;
+
+    /**
+     * @param string|null $data
+     * @param integer     $type
+     */
+    public function __construct($data = null, $type = self::TYPE_FILE)
     {
-        $this->data = (array) $data;
-
-        /** @var \Rougin\Staticka\Layout $layout */
-        $this->layout = $layout;
-
-        if (isset($data['filters']))
+        if ($data && $type === self::TYPE_FILE)
         {
-            /** @var \Staticka\Contracts\FilterContract[] */
-            $filters = $data['filters'];
-
-            foreach ($filters as $filter)
-            {
-                $this->filter($filter);
-            }
+            $this->setFile($data);
         }
 
-        if (isset($data['helpers']))
+        if ($data && $type === self::TYPE_BODY)
         {
-            /** @var \Staticka\Contracts\HelperContract[] */
-            $helpers = $data['helpers'];
-
-            foreach ($helpers as $helper)
-            {
-                $this->helper($helper);
-            }
+            $this->setBody($data);
         }
     }
 
     /**
-     * Returns the details of the page instance.
-     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->html;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
      * @return array<string, mixed>
      */
-    public function data()
+    public function getData()
     {
-        return $this->data;
+        $data = $this->data;
+
+        $data['name'] = $this->getName();
+
+        $data['body'] = $this->getBody();
+
+        $data['html'] = $this->getHtml();
+
+        return $data;
     }
 
     /**
-     * Adds a filter instance in the layout.
-     *
-     * @param \Staticka\Contracts\FilterContract $filter
-     *
-     * @return self
+     * @return string|null
      */
-    public function filter(FilterContract $filter)
+    public function getFile()
     {
-        /** @var \Staticka\Contracts\LayoutContract */
-        $layout = $this->layout;
-
-        $layout->filter($filter);
-
-        return $this;
+        return $this->file;
     }
 
     /**
-     * Returns all available filters.
-     *
-     * @return \Staticka\Contracts\FilterContract[]
+     * @return string
      */
-    public function filters()
+    public function getHtml()
     {
-        /** @var \Staticka\Contracts\LayoutContract */
-        $layout = $this->layout;
-
-        return $layout->filters();
+        return $this->__toString();
     }
 
     /**
-     * Adds a helper instance in the layout.
-     *
-     * @param \Staticka\Contracts\HelperContract $helper
-     *
-     * @return self
+     * @return \Staticka\Layout|null
      */
-    public function helper(HelperContract $helper)
+    public function getLayout()
     {
-        /** @var \Staticka\Contracts\LayoutContract */
-        $layout = $this->layout;
-
-        $layout->helper($helper);
-
-        return $this;
-    }
-
-    /**
-     * Returns all available helpers.
-     *
-     * @return \Staticka\Contracts\HelperContract[]
-     */
-    public function helpers()
-    {
-        /** @var \Staticka\Contracts\LayoutContract */
-        $layout = $this->layout;
-
-        return $layout->helpers();
-    }
-
-    /**
-     * Returns the layout instance.
-     *
-     * @return \Staticka\Contracts\LayoutContract
-     */
-    public function layout()
-    {
-        /** @var \Staticka\Contracts\LayoutContract */
         return $this->layout;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $body
+     *
+     * @return self
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @return self
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * @param string $file
+     *
+     * @return self
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * @param string $html
+     *
+     * @return self
+     */
+    public function setHtml($html)
+    {
+        $this->html = $html;
+
+        return $this;
+    }
+
+    /**
+     * @param \Staticka\Layout $layout
+     *
+     * @return self
+     */
+    public function setLayout(Layout $layout)
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * @param string $link
+     *
+     * @return self
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 }

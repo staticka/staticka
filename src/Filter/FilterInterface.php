@@ -2,15 +2,19 @@
 
 namespace Staticka\Filter;
 
-use Staticka\Contracts\FilterContract;
-
 /**
- * @deprecated since ~0.3, use "FilterContract" instead.
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-interface FilterInterface extends FilterContract
+interface FilterInterface
 {
+    /**
+     * Filters the specified code.
+     *
+     * @param string $code
+     *
+     * @return string
+     */
+    public function filter($code);
 }

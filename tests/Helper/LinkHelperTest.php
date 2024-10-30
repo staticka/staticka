@@ -31,10 +31,10 @@ class LinkHelperTest extends Testcase
      */
     public function test_getting_link()
     {
-        $expected = 'https://roug.in/slytherin';
+        $expected = 'https://roug.in/staticka';
 
-        $result = $this->helper->set('slytherin');
+        $actual = $this->helper->set('staticka');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

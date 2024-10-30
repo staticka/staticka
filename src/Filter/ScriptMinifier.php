@@ -2,15 +2,36 @@
 
 namespace Staticka\Filter;
 
-use Staticka\Filters\ScriptMinifier as Filter;
-
 /**
- * @deprecated since ~0.3, use "Filters\ScriptMinifier" instead.
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ScriptMinifier extends Filter
+class ScriptMinifier extends InlineMinifier
 {
+    /**
+     * @var string
+     */
+    protected $tagname = 'script';
+
+    /**
+     * Minifies the specified code.
+     *
+     * @param string $code
+     *
+     * @return string
+     */
+    protected function minify($code)
+    {
+        $code = parent::minify($code);
+
+        /** @var string */
+        $code = preg_replace('/( )?=( )?/', '=', $code);
+
+        /** @var string */
+        $code = preg_replace('/( )?\(( )?/', '(', $code);
+
+        /** @var string */
+        return preg_replace('/( )?var ( )?/', '', $code);
+    }
 }

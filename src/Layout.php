@@ -2,99 +2,88 @@
 
 namespace Staticka;
 
-use Rougin\Staticka\Layout as Staticka;
-use Staticka\Contracts\LayoutContract;
-use Staticka\Contracts\FilterContract;
-use Staticka\Contracts\HelperContract;
+use Staticka\Filter\FilterInterface;
+use Staticka\Helper\HelperInterface;
 
 /**
- * @deprecated since ~0.4, use "Rougin\Staticka\Layout" instead.
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Layout extends Staticka implements LayoutContract
+class Layout
 {
     /**
-     * @var string
+     * @var \Staticka\Filter\FilterInterface[]
      */
-    protected $body = self::BODY_DEFAULT;
+    protected $filters = array();
 
     /**
-     * @param string $body
+     * @var \Staticka\Helper\HelperInterface[]
      */
-    public function __construct($body = self::BODY_DEFAULT)
+    protected $helpers = array();
+
+    /**
+     * @var string|null
+     */
+    protected $name = null;
+
+    /**
+     * @return \Staticka\Filter\FilterInterface[]
+     */
+    public function getFilters()
     {
-        $this->body = $body;
+        return $this->filters;
     }
 
     /**
-     * Returns the body content of the layout if available.
-     *
-     * @return string
+     * @return \Staticka\Helper\HelperInterface[]
      */
-    public function body()
+    public function getHelpers()
     {
-        return $this->body;
+        return $this->helpers;
     }
 
     /**
-     * Adds a filter instance in the layout.
-     *
-     * @param \Staticka\Contracts\FilterContract $filter
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param \Staticka\Filter\FilterInterface $filter
      *
      * @return self
      */
-    public function filter(FilterContract $filter)
+    public function addFilter(FilterInterface $filter)
     {
-        $this->addFilter($filter);
+        $this->filters[] = $filter;
 
         return $this;
     }
 
     /**
-     * Returns all available filters.
-     *
-     * @return \Staticka\Contracts\FilterContract[]
-     */
-    public function filters()
-    {
-        /** @var \Staticka\Contracts\FilterContract[] */
-        return $this->getFilters();
-    }
-
-    /**
-     * Adds a helper instance in the layout.
-     *
-     * @param \Staticka\Contracts\HelperContract $helper
+     * @param \Staticka\Helper\HelperInterface $helper
      *
      * @return self
      */
-    public function helper(HelperContract $helper)
+    public function addHelper(HelperInterface $helper)
     {
-        $this->addHelper($helper);
+        $this->helpers[] = $helper;
 
         return $this;
     }
 
     /**
-     * Returns all available helpers.
+     * @param string|null $name
      *
-     * @return array<string, \Staticka\Contracts\HelperContract>
+     * @return self
      */
-    public function helpers()
+    public function setName($name)
     {
-        $items = $this->getHelpers();
+        $this->name = $name;
 
-        $result = array();
-
-        /** @var \Staticka\Contracts\HelperContract $item */
-        foreach ($items as $item)
-        {
-            $result[$item->name()] = $item;
-        }
-
-        return $result;
+        return $this;
     }
 }

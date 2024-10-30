@@ -2,8 +2,7 @@
 
 namespace Staticka\Helper;
 
-use Staticka\Website;
-use Staticka\Renderer;
+use Staticka\Render;
 use Staticka\Testcase;
 
 /**
@@ -23,11 +22,11 @@ class ViewHelperTest extends Testcase
      */
     protected function doSetUp()
     {
-        $renderer = new Renderer(__DIR__ . '/../Fixture');
+        $path = __DIR__ . '/../Fixture/Plates';
 
-        $website = new Website($renderer);
+        $render = new Render($path);
 
-        $this->helper = new ViewHelper($website);
+        $this->helper = new ViewHelper($render);
     }
 
     /**
@@ -35,11 +34,11 @@ class ViewHelperTest extends Testcase
      */
     public function test_helper_name()
     {
-        $result = $this->helper->name();
+        $actual = $this->helper->name();
 
         $expected = (string) 'view';
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -57,12 +56,12 @@ class ViewHelperTest extends Testcase
 </body>
 </html>';
 
-        $result = $this->helper->render('basic');
+        $actual = $this->helper->render('simple');
 
-        $result = str_replace("\r", '', $result);
+        $actual = str_replace("\r", '', $actual);
 
         $expected = str_replace("\r", '', $expected);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

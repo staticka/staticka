@@ -17,7 +17,7 @@ class ScriptMinifierTest extends Testcase
     protected $code;
 
     /**
-     * @var \Staticka\Contracts\FilterContract
+     * @var \Staticka\Filter\FilterInterface
      */
     protected $filter;
 
@@ -53,12 +53,12 @@ class ScriptMinifierTest extends Testcase
 </body>
 </html>';
 
-        $result = $this->filter->filter($this->code);
+        $actual = $this->filter->filter($this->code);
 
-        $result = str_replace("\r", '', $result);
+        $actual = str_replace("\r", '', $actual);
 
         $expected = str_replace("\r", '', $expected);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

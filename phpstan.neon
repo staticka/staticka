@@ -5,4 +5,4 @@ parameters:
     - tests
   excludePaths:
     analyse:
-      - tests/Fixture/Layout.php
+      - tests/Fixture/Plates

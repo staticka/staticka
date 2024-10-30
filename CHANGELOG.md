@@ -4,9 +4,15 @@ All notable changes to `Staticka` will be documented in this file.
 
 ## [0.4.0](https://github.com/staticka/staticka/compare/v0.3.0...v0.4.0) - Unreleased
 
+> [!WARNING]
+> This release will introduce a backward compatability break if upgrading from `v0.3.0` release.
+
 ### Changed
-- Code documentation by `php-cs-fixer`, code quality by `phpstan`
-- Migrated codebase to `rougin/staticka`
+- Code coverage to `Codecov`
+- Code documentation by `php-cs-fixer`
+- Improved code quality by `phpstan`
+- Simplified code structure
+- Workflow to `Github Actions`
 
 ## [0.3.0](https://github.com/staticka/staticka/compare/v0.2.1...v0.3.0) - 2020-05-03
 
