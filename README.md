@@ -10,13 +10,15 @@ A yet-another PHP-based static site generator. This converts [Markdown](https://
 
 ## Installation
 
-Install `Staticka` via [Composer](https://getcomposer.org/):
+Installing `Staticka` is possible via [Composer](https://getcomposer.org/):
 
 ``` bash
-$ composer require rougin/staticka
+$ composer require staticka/staticka
 ```
 
 ## Basic Usage
+
+The following guides below showcase the functionalities of `Staticka`. If a specified requirement wants to create a static blog site using a terminal or wants to create pages with a web-based user interface, kindly check [Console](https://roug.in/staticka/console) or [Expresso](https://roug.in/staticka/expresso) respectively.
 
 ### Simple HTML from string
 
@@ -360,6 +362,8 @@ The link is **{LINK}**. And this is to get started...
 
 ## Extending and customization
 
+With the philosophy of `Staticka` to be an extensible and scalable static site generator, the following guides below are use-cases for `Staticka` turning it into a content management system (CMS) or a fully functional static blog website:
+
 ### Modifying with filters
 
 A `Filter` allows a page to be modified after being parsed:
@@ -552,16 +556,16 @@ $ composer test
 
 The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
-[ico-build]: https://img.shields.io/github/actions/workflow/status/rougin/staticka/build.yml?style=flat-square
-[ico-coverage]: https://img.shields.io/codecov/c/github/rougin/staticka?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/rougin/staticka.svg?style=flat-square
+[ico-build]: https://img.shields.io/github/actions/workflow/status/staticka/staticka/build.yml?style=flat-square
+[ico-coverage]: https://img.shields.io/codecov/c/github/staticka/staticka?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/staticka/staticka.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-version]: https://img.shields.io/packagist/v/rougin/staticka.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/staticka/staticka.svg?style=flat-square
 
-[link-build]: https://github.com/rougin/staticka/actions
-[link-changelog]: https://github.com/rougin/staticka/blob/master/CHANGELOG.md
-[link-contributors]: https://github.com/rougin/staticka/contributors
-[link-coverage]: https://app.codecov.io/gh/rougin/staticka
-[link-downloads]: https://packagist.org/packages/rougin/staticka
-[link-license]: https://github.com/rougin/staticka/blob/master/LICENSE.md
-[link-packagist]: https://packagist.org/packages/rougin/staticka
+[link-build]: https://github.com/staticka/staticka/actions
+[link-changelog]: https://github.com/staticka/staticka/blob/master/CHANGELOG.md
+[link-contributors]: https://github.com/staticka/staticka/contributors
+[link-coverage]: https://app.codecov.io/gh/staticka/staticka
+[link-downloads]: https://packagist.org/packages/staticka/staticka
+[link-license]: https://github.com/staticka/staticka/blob/master/LICENSE.md
+[link-packagist]: https://packagist.org/packages/staticka/staticka
