@@ -28,7 +28,7 @@ These classes provides a helper to a template in loading layouts:
 <?= $layout->load('main', ['title' => $title]); ?>
 
 <?= $block->body() ?>
-  <div>$title</div>
+  <div><?= $title ?></div>
 <?= $block->end() ?>
 ```
 
