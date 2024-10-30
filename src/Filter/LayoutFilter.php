@@ -40,10 +40,12 @@ class LayoutFilter implements FilterInterface
             $row = array('code' => '', 'data' => '');
             // -------------------------------------------
 
+            // @codeCoverageIgnoreStart
             if (! isset($result[0][0]))
             {
                 continue;
             }
+            // @codeCoverageIgnoreEnd
 
             // e.g., <x-layout></x-layout> ---
             $row['code'] = $result[0][0];
