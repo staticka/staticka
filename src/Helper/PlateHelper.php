@@ -2,35 +2,36 @@
 
 namespace Staticka\Helper;
 
+use Staticka\Render\RenderInterface;
+
 /**
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ViewHelper implements HelperInterface
+class PlateHelper implements HelperInterface
 {
     /**
-     * @var \Staticka\Render
+     * @var \Staticka\Render\RenderInterface
      */
     protected $render;
 
     /**
-     * @param \Staticka\Render $render
+     * @param \Staticka\Render\RenderInterface $render
      */
-    public function __construct($render)
+    public function __construct(RenderInterface $render)
     {
         $this->render = $render;
     }
 
     /**
-     * Renders the partial template.
-     *
      * @param string               $name
      * @param array<string, mixed> $data
      *
      * @return string
+     * @throws \InvalidArgumentException
      */
-    public function render($name, $data = array())
+    public function add($name, $data = array())
     {
         return $this->render->render($name, $data);
     }
@@ -42,6 +43,6 @@ class ViewHelper implements HelperInterface
      */
     public function name()
     {
-        return 'view';
+        return 'plate';
     }
 }
