@@ -15,16 +15,6 @@ class InlineMinifier implements FilterInterface
     protected $tagname = '';
 
     /**
-     * Initializes the filter instance.
-     *
-     * @param string $tagname
-     */
-    public function __construct($tagname = '')
-    {
-        $tagname !== '' && $this->tagname = $tagname;
-    }
-
-    /**
      * Filters the specified code.
      *
      * @param string $code
