@@ -2,15 +2,46 @@
 
 namespace Staticka\Helper;
 
-use Staticka\Helpers\ViewHelper as Helper;
-
 /**
- * @deprecated since ~0.3, use "Helpers\ViewHelper" instead.
- *
  * @package Staticka
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ViewHelper extends Helper
+class ViewHelper implements HelperInterface
 {
+    /**
+     * @var \Staticka\Render
+     */
+    protected $render;
+
+    /**
+     * @param \Staticka\Render $render
+     */
+    public function __construct($render)
+    {
+        $this->render = $render;
+    }
+
+    /**
+     * Renders the partial template.
+     *
+     * @param string               $name
+     * @param array<string, mixed> $data
+     *
+     * @return string
+     */
+    public function render($name, $data = array())
+    {
+        return $this->render->render($name, $data);
+    }
+
+    /**
+     * Returns the name of the helper.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return 'view';
+    }
 }
