@@ -116,7 +116,7 @@ $ php index.php
 Multiple `Page` instances can be converted into `.html` files with their respective directory names using the `Site` class:
 
 ``` php
-// index.pp
+// index.php
 
 // ...
 
