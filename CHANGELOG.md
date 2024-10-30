@@ -13,6 +13,7 @@ All notable changes to `Staticka` will be documented in this file.
 - Improved code quality by `phpstan`
 - Simplified code structure
 - Workflow to `Github Actions`
+- `ViewHelper` to `PlateHelper`
 
 ## [0.3.0](https://github.com/staticka/staticka/compare/v0.2.1...v0.3.0) - 2020-05-03
 

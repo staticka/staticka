@@ -10,10 +10,10 @@ use Staticka\Testcase;
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ViewHelperTest extends Testcase
+class PlateHelperTest extends Testcase
 {
     /**
-     * @var \Staticka\Helper\ViewHelper
+     * @var \Staticka\Helper\PlateHelper
      */
     protected $helper;
 
@@ -26,7 +26,7 @@ class ViewHelperTest extends Testcase
 
         $render = new Render($path);
 
-        $this->helper = new ViewHelper($render);
+        $this->helper = new PlateHelper($render);
     }
 
     /**
@@ -36,7 +36,7 @@ class ViewHelperTest extends Testcase
     {
         $actual = $this->helper->name();
 
-        $expected = (string) 'view';
+        $expected = (string) 'plate';
 
         $this->assertEquals($expected, $actual);
     }
@@ -56,7 +56,7 @@ class ViewHelperTest extends Testcase
 </body>
 </html>';
 
-        $actual = $this->helper->render('simple');
+        $actual = $this->helper->add('simple');
 
         $actual = str_replace("\r", '', $actual);
 

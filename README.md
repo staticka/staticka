@@ -382,7 +382,7 @@ $layout->setName('main.php');
 // ---------------------------------------
 
 // Minifies the HTML after parsing the page ---
-$layout->addFilter(new HtmlMinifier)
+$layout->addFilter(new HtmlMinifier);
 // --------------------------------------------
 
 // ...
@@ -416,6 +416,9 @@ interface FilterInterface
 }
 
 ```
+
+> [!TIP]
+> Please see [FILTERS][link-filters] page for showcasing the list of available filters.
 
 ### Custom methods using helpers
 
@@ -496,6 +499,9 @@ interface HelperInterface
 }
 ```
 
+> [!TIP]
+> Check the [HELPERS][link-helpers] page for a list of available helpers.
+
 ### Adding filters to Parser
 
 By design, the filters under `FilterInterface` should be executed after parsing is completed by Parser. However, there may be scenarios that the body of a page must undergo a filter prior to its parsing process:
@@ -534,7 +540,7 @@ The new release for `v0.4.0` will be having a [backward compatibility](https://e
 
 > I also want to extend this plan to my personal packages as well like [Staticka](https://roug.in/staticka) and [Transcribe](https://roug.in/transcribe). With this, I will introduce backward compatibility breaks to them initially as it is hard to migrate their codebase due to minimal to no documentation being provided in its basic usage and its internals. As I checked their code, I realized that they are also over engineered, which is a mistake that I needed to atone for when updating my packages in the future.
 
-Please see [Pull Request #5](https://github.com/staticka/staticka/pull/5) for the files that were removed or updated in this release and the [UPGRADING](https://github.com/staticka/staticka/blob/master/UPGRADING.md) page for the specified breaking changes.
+Please see [Pull Request #5](https://github.com/staticka/staticka/pull/5) for the files that were removed or updated in this release and the [UPGRADING][link-upgrading] page for the specified breaking changes.
 
 ## Changelog
 
@@ -567,5 +573,8 @@ The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 [link-contributors]: https://github.com/staticka/staticka/contributors
 [link-coverage]: https://app.codecov.io/gh/staticka/staticka
 [link-downloads]: https://packagist.org/packages/staticka/staticka
+[link-filters]: https://github.com/staticka/staticka/blob/master/FILTERS.md
+[link-helpers]: https://github.com/staticka/staticka/blob/master/HELPERS.md
 [link-license]: https://github.com/staticka/staticka/blob/master/LICENSE.md
 [link-packagist]: https://packagist.org/packages/staticka/staticka
+[link-upgrading]: https://github.com/staticka/staticka/blob/master/UPGRADING.md
