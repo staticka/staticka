@@ -56,7 +56,7 @@ class Site
             // Merge site data to page data --------
             $data = $page->getData();
 
-            $data = array_merge($data, $this->data);
+            $data = array_merge($this->data, $data);
 
             $page = $page->setData($data);
             // -------------------------------------

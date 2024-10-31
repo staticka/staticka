@@ -7,6 +7,9 @@ All notable changes to `Staticka` will be documented in this file.
 > [!WARNING]
 > This release will introduce a backward compatability break if upgrading from `v0.3.0` release.
 
+### Added
+- `PSR-11` (`ContainerInterface`) via `rougin/slytherin`
+
 ### Changed
 - Code coverage to `Codecov`
 - Code documentation by `php-cs-fixer`
