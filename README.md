@@ -55,7 +55,7 @@ In the example above, the `{NAME}` is a placeholder to insert the `name` value f
 
 ### Using `.md` files
 
-`Staticka` also supports converting the Markdown-based files (`.md`files) by adding the path of the specified `.md` file to the `Page` class:
+`Staticka` also supports converting the Markdown-based files (`.md`files) by adding the path of the `.md` file to the `Page` class:
 
 ``` md
 <!-- app/pages/hello-world.md -->
@@ -242,11 +242,11 @@ use Staticka\Render;
 $path = __DIR__ . '/app/plates';
 // --------------------------------------------
 
-// Sets the Render and Parser ----------
+// Sets the Render and Parser ---
 $render = new Render($path);
 
 $parser = new Parser($render);
-// -------------------------------------
+// ------------------------------
 
 // Render may be added to Parser after ---
 $parser->setRender($render);
@@ -326,9 +326,9 @@ $site->addPage($page->setLayout($layout));
 ```
 
 > [!NOTE]
-> If a name is specified from the `Layout`, there is no need to specify the `plate` property from the specified `.md` file.
+> If a name is specified from the `Layout`, there is no need to specify the `plate` property from the `.md` file.
 
-It is also possible to specify a class extended to `Layout` in the Front Matter details. Using this approach requires a `RenderInterface` attached to the `Parser` class:
+It is also possible to specify a `Layout` class in the `.md` file by specifying it to the `plate` property. Using this approach requires a `RenderInterface` attached to the `Parser` class:
 
 ``` php
 namespace App\Layouts;
@@ -360,7 +360,7 @@ plate: App\Layouts\HomeLayout
 The link is **{LINK}**. And this is to get started...
 ```
 
-If the `Layout` class requires complex dependencies, the `Parser` class must specify a container to identify the specified layout instance:
+If the `Layout` class requires complex dependencies, the `Parser` class must specify a container to easily identify the specified layout instance:
 
 ``` php
 namespace App\Layouts;
