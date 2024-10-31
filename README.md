@@ -581,6 +581,41 @@ $parser->addFilter(new WorldFilter);
 // ...
 ```
 
+### Using the `Package` class
+
+There may be a requirement wherein `Staticka` must be built to any PHP application such as a static blog platform or a hybrid content management system. To achieve this, the `Package` and `System` classes may be used for the specified requirement:
+
+``` php
+// index.php
+
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Integration\Configuration;
+use Staticka\Package;
+
+// Create paths such as "pages", "plates", and ---
+// "build" from "__DIR__ . '/app'" directory -----
+$root = __DIR__ . '/app';
+
+$app = new Package($root);
+
+$app->setPathsFromRooth();
+// -----------------------------------------------
+
+
+// Return the "System" instance from "Package" ---
+$container = new Container;
+
+$config = new Configuration;
+
+$result = $app->define($container, $config);
+
+/** @var \Staticka\System */
+return $result->get(System::class);
+// -----------------------------------------------
+```
+
+For more information on how to implement this for new ideas and projects, kindly see the codebase of [Console](https://github.com/staticka/console) and [Expresso](https://github.com/staticka/expresso) respectively for their implementations.
+
 ## Migrating to the `v0.4.0` release
 
 The new release for `v0.4.0` will be having a [backward compatibility](https://en.wikipedia.org/wiki/Backward_compatibility) break (BC break). With this, some functionalities from the earlier versions might not be working after upgrading. This was done to increase extensibility, simplicity and maintainbility. `Staticka` is also mentioned in [my blog post](https://roug.in/hello-world-again/):

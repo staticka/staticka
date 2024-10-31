@@ -8,6 +8,7 @@ All notable changes to `Staticka` will be documented in this file.
 > This release will introduce a backward compatability break if upgrading from `v0.3.0` release.
 
 ### Added
+- `Package`, `System` for easily extending `Staticka` 
 - `PSR-11` (`ContainerInterface`) via `rougin/slytherin`
 
 ### Changed
