@@ -1,7 +1,7 @@
 ---
 title: Hello world!
-link: custom
-plate: Custom.php
+link: /custom
+plate: custom
 name: Hello
 ---
 

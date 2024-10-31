@@ -1,4 +1,4 @@
-<?php echo $layout->load('Layout', array('title' => $title)); ?>
+<?php echo $layout->load('main', array('title' => $title)); ?>
 
 <?php echo $block->body(); ?>
   <?php echo $plate->add('navbar', array('name' => $name)); ?>
