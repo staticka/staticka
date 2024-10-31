@@ -2,6 +2,8 @@
 
 namespace Staticka;
 
+use Psr\Container\ContainerInterface;
+use Rougin\Slytherin\Container\ReflectionContainer;
 use Staticka\Filter\FilterInterface;
 use Staticka\Render\RenderInterface;
 
@@ -12,6 +14,11 @@ use Staticka\Render\RenderInterface;
  */
 class Parser extends \Parsedown
 {
+    /**
+     * @var \Psr\Container\ContainerInterface
+     */
+    protected $container;
+
     /**
      * @var \Staticka\Filter\FilterInterface[]
      */
@@ -28,6 +35,10 @@ class Parser extends \Parsedown
     public function __construct(RenderInterface $render = null)
     {
         $this->render = $render;
+
+        // Set ReflectionContainer by default -------
+        $this->setContainer(new ReflectionContainer);
+        // ------------------------------------------
     }
 
     /**
@@ -95,6 +106,18 @@ class Parser extends \Parsedown
         }
 
         return $this->filterPage($page);
+    }
+
+    /**
+     * @param \Psr\Container\ContainerInterface $container
+     *
+     * @return self
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        return $this;
     }
 
     /**
@@ -224,12 +247,8 @@ class Parser extends \Parsedown
 
             if (class_exists($name))
             {
-                // TODO: Use ContainerInterface for classes ---
-                $class = new \ReflectionClass($name);
-
                 /** @var \Staticka\Layout */
-                $layout = $class->newInstanceArgs(array());
-                // --------------------------------------------
+                $layout = $this->container->get($name);
             }
             else
             {
