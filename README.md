@@ -31,16 +31,13 @@ use Staticka\Page;
 use Staticka\Parser;
 
 // Creates a new page with the specified body -----
-$page = new Page;
+$page = (new Page)->setName('Hello world!');
 
-$page->setName('Hello world!');
 $page->setBody("# {NAME}\nThis is a sample page.");
 // ------------------------------------------------
 
 // Converts the page into an HTML ---
-$parser = new Parser;
-
-echo $parser->parsePage($page);
+echo (new Parser)->parsePage($page);
 // ----------------------------------
 ```
 
@@ -294,7 +291,6 @@ interface RenderInterface
      */
     public function render($name, $data = array());
 }
-
 ```
 
 ### Setting layouts
@@ -311,9 +307,7 @@ use Staticka\Layout;
 $pages = __DIR__ . '/app/pages';
 
 // Define the layout with the name "main.php" ---
-$layout = new Layout;
-
-$layout->setName('main.php');
+$layout = (new Layout)->setName('main.php');
 // ----------------------------------------------
 
 // ...
@@ -392,19 +386,23 @@ use App\Complex;
 
 $pages = __DIR__ . '/app/pages';
 
-// Define the layout and add it to the container ---
+// Define the complex layout... ---------
+$layout = new ComplexLayout(new Complex);
+// --------------------------------------
+
+// ...then add it to the container... ---
 $container = new Container;
 
-$layout = new ComplexLayout(new Complex);
+$name = ComplexLayout::class;
 
-$container->set(ComplexLayout::class, $layout);
-// -------------------------------------------------
+$container->set($name, $layout);
+// --------------------------------------
 
 // ...
 
-// Set the specified container to the parser ---
+// ...and set the container to the parser ---
 $parser->setContainer($container);
-// ---------------------------------------------
+// ------------------------------------------
 
 // ...
 ```
@@ -466,7 +464,6 @@ interface FilterInterface
      */
     public function filter($code);
 }
-
 ```
 
 > [!TIP]
