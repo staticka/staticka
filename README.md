@@ -384,8 +384,6 @@ use App\Complex;
 
 // ...
 
-$pages = __DIR__ . '/app/pages';
-
 // Define the complex layout... ---------
 $layout = new ComplexLayout(new Complex);
 // --------------------------------------
