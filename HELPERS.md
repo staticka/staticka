@@ -1,6 +1,6 @@
 # Helpers
 
-### `LayoutFilter`, `LayoutHelper`
+## `LayoutFilter`, `LayoutHelper`
 
 These classes provides a helper to a template in loading layouts:
 
@@ -95,7 +95,7 @@ $helper = new LinkHelper('https://roug.in');
 </html>
 ```
 
-### `PlateHelper`
+## `PlateHelper`
 
 One of the helpers that allows to load sub-templates (template inside a template):
 
@@ -126,7 +126,7 @@ One of the helpers that allows to load sub-templates (template inside a template
 <?= $block->end() ?>
 ```
 
-### `StringHelper`
+## `StringHelper`
 
 A simple helper that contains methods for manipulating strings:
 
