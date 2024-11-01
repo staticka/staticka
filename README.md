@@ -610,7 +610,7 @@ $config = new Configuration;
 $result = $app->define($container, $config);
 
 /** @var \Staticka\System */
-return $result->get(System::class);
+$app = $result->get(System::class);
 // -----------------------------------------------
 ```
 
