@@ -27,14 +27,24 @@ class PagesHelper implements HelperInterface
      */
     public function get()
     {
+        $items = $this->getPages();
+
         $result = array();
 
-        foreach ($this->pages as $page)
+        foreach ($items as $page)
         {
             $result[] = $page->getData();
         }
 
         return $result;
+    }
+
+    /**
+     * @return \Staticka\Page[]
+     */
+    public function getPages()
+    {
+        return $this->pages;
     }
 
     /**
