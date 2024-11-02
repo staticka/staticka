@@ -18,6 +18,12 @@ class Matter
      */
     public static function parse($content)
     {
+        // Try to remove "\r" (from Windows) -----------
+        $content = str_replace("\r\n", "\n", $content);
+
+        $content = str_replace("\n", PHP_EOL, $content);
+        // ---------------------------------------------
+
         $matter = array();
 
         $text = str_replace(PHP_EOL, $id = uniqid(), $content);
