@@ -86,13 +86,17 @@ class Page
      */
     public function getData()
     {
-        $data = $this->data;
+        $data = array('id' => null);
+
+        $data = array_merge($data, $this->data);
 
         $data['name'] = $this->getName();
 
         $data['body'] = $this->getBody();
 
         $data['html'] = $this->getHtml();
+
+        $data['id'] = $this->getId();
 
         return $data;
     }
@@ -111,6 +115,24 @@ class Page
     public function getHtml()
     {
         return $this->__toString();
+    }
+
+    /**
+     * @return integer|null
+     */
+    public function getId()
+    {
+        $id = null;
+
+        // If has timestamp, use it as ID for the page ---
+        if (array_key_exists('created_at', $this->data))
+        {
+            /** @var integer */
+            $id = $this->data['created_at'];
+        }
+        // -----------------------------------------------
+
+        return $id;
     }
 
     /**
