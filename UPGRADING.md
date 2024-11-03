@@ -204,3 +204,25 @@ $page->setLayout($layout);
 
 // ...
 ```
+
+## Change `ViewHelper` to `PlateHelper`
+
+**Before**
+
+``` html
+<!-- plates/home.php -->
+
+<?= $view->render('navbar') ?>
+
+<!-- ... -->
+```
+
+**After**
+
+``` html
+<!-- plates/home.php -->
+
+<?= $plate->add('navbar') ?>
+
+<!-- ... -->
+```
