@@ -209,6 +209,10 @@ $page->setLayout($layout);
 
 **Before**
 
+``` php
+use Staticka\Helper\ViewHelper;
+```
+
 ``` html
 <!-- plates/home.php -->
 
@@ -218,6 +222,10 @@ $page->setLayout($layout);
 ```
 
 **After**
+
+``` php
+use Staticka\Helper\PlateHelper;
+```
 
 ``` html
 <!-- plates/home.php -->

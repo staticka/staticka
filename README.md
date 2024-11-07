@@ -616,6 +616,107 @@ $app = $result->get(System::class);
 
 For more information on how to implement this for new ideas and projects, kindly see the codebase of [Console](https://github.com/staticka/console) and [Expresso](https://github.com/staticka/expresso) respectively for their implementations.
 
+### Using the `PageDepot` class
+
+`Staticka` also provides a depot class for providing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations for pages:
+
+``` php
+// index.php
+
+use Staticka\Depots\PageDepot;
+
+// ...
+
+/** @var \Staticka\System $app */
+$depot = new PageDepot($app);
+```
+
+The `PageDepot` has a functionality to create a new page based on provided data:
+
+``` php
+// index.php
+
+// ...
+
+$data = array('name' => 'Hello!');
+$data['link'] = '/hello';
+
+/** @var \Staticka\Page */
+$page = $depot->create($data);
+
+// Return the unix timestamp as its identifier ---
+$id = $page->getId();
+// -----------------------------------------------
+```
+
+> [!NOTE]
+> A page's identifier is determined by its timestamp (e.g., `20240101000000_hello.md` returns a `1704067200` as its identifier).
+
+After the new page is created successfully, it can now be updated its details using `update`:
+
+``` php
+// index.php
+
+// ...
+
+// Return the "/hello" link ---
+echo $page->getLink();
+// ----------------------------
+
+$data = array('link' => '/hello-world');
+
+/** @var \Staticka\Page */
+$page = $depot->update($id, $data);
+
+// Return the "/hello-world" link ---
+echo $page->getLink();
+// ----------------------------------
+```
+
+To delete a specified page, the `delete` method can be used:
+
+``` php
+// index.php
+
+// Will delete the file specified in the page ---
+$depot->delete($id);
+// ----------------------------------------------
+```
+
+Finding a specified page is also possible by its identifier, by link, or by name:
+
+``` php
+// index.php
+
+// The page can be found using its ID... ---
+$page = $depot->find(1704067200);
+// -----------------------------------------
+
+// ...or by the page's link... ------
+$page = $depot->findByLink('/hello');
+// ----------------------------------
+
+// ...or by its page name -----------
+$page = $depot->findByName('Hello!');
+// ----------------------------------
+```
+
+`PageDepot` can also return the available pages from its source directory:
+
+``` php
+// index.php
+
+/** @var \Staticka\Page[] */
+$pages = $depot->get();
+
+// Can also return pages as data ---
+$items = $depot->getAsData();
+// ---------------------------------
+```
+
+> [!NOTE]
+> The word `Depot` is only a preference and it is best known as the [Repository pattern](https://designpatternsphp.readthedocs.io/en/latest/More/Repository/README.html).
+
 ## Migrating to the `v0.4.0` release
 
 The new release for `v0.4.0` will be having a [backward compatibility](https://en.wikipedia.org/wiki/Backward_compatibility) break (BC break). With this, some functionalities from the earlier versions might not be working after upgrading. This was done to increase extensibility, simplicity and maintainbility. `Staticka` is also mentioned in [my blog post](https://roug.in/hello-world-again/):

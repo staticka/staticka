@@ -80,7 +80,7 @@ class PackageTest extends Testcase
     {
         $path = __DIR__ . '/Fixture/Pages';
 
-        $expected = 8;
+        $expected = 10;
 
         $this->package->setPagesPath($path);
 
