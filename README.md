@@ -618,7 +618,7 @@ For more information on how to implement this for new ideas and projects, kindly
 
 ### Using the `PageDepot` class
 
-`Staticka` also provides a depot class for providing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations for pages:
+`Staticka` also contains a `PageDepot` class for providing [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations for pages:
 
 ``` php
 // index.php
@@ -631,7 +631,7 @@ use Staticka\Depots\PageDepot;
 $depot = new PageDepot($app);
 ```
 
-The `PageDepot` has a functionality to create a new page based on provided data:
+The specified depot has a functionality to create a new page based on provided payload:
 
 ``` php
 // index.php
@@ -650,7 +650,7 @@ $id = $page->getId();
 ```
 
 > [!NOTE]
-> A page's identifier is determined by its timestamp (e.g., `20240101000000_hello.md` returns a `1704067200` as its identifier).
+> A page's identifier is specified by its timestamp (e.g., `20240101000000_hello.md` returns a `1704067200` as its identifier).
 
 After the new page is created successfully, it can now be updated its details using `update`:
 
