@@ -2,7 +2,7 @@
 
 All notable changes to `Staticka` will be documented in this file.
 
-## [0.4.0](https://github.com/staticka/staticka/compare/v0.3.0...v0.4.0) - Unreleased
+## [0.4.0](https://github.com/staticka/staticka/compare/v0.3.0...v0.4.0) - 2024-11-10
 
 > [!WARNING]
 > This release will introduce a backward compatability break if upgrading from `v0.3.0` release.
