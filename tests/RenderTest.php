@@ -27,7 +27,7 @@ class RenderTest extends Testcase
      */
     public function test_render_with_error()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->doExpectException('InvalidArgumentException');
 
         $this->renderer->render('hello');
     }
