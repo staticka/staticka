@@ -613,12 +613,6 @@ $app = $result->get(System::class);
 // -----------------------------------------------
 ```
 
-> [!NOTE]
-> The `Package` class requires the [Slytherin](https://github.com/rougin/slytherin) package to be installed first:
-> ``` bash
-> $ composer require rougin/slytherin
-> ```
-
 For more information on how to implement this for new ideas and projects, kindly see the codebase of [Console](https://github.com/staticka/console) and [Expresso](https://github.com/staticka/expresso) respectively for their implementations.
 
 ### Using the `PageDepot` class
