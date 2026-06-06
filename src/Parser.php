@@ -279,6 +279,11 @@ class Parser extends \Parsedown
         // Converts placeholder in body, if any -----
         foreach ($data as $key => $value)
         {
+            if ($value === null)
+            {
+                continue;
+            }
+
             $key = '{' . strtoupper($key) . '}';
 
             $body = str_replace($key, $value, $body);
