@@ -36,7 +36,7 @@ class PlateHelperTest extends Testcase
     {
         $actual = $this->helper->name();
 
-        $expected = (string) 'plate';
+        $expected = 'plate';
 
         $this->assertEquals($expected, $actual);
     }
