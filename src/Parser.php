@@ -32,7 +32,7 @@ class Parser extends \Parsedown
     /**
      * @param \Staticka\Render\RenderInterface|null $render
      */
-    public function __construct(RenderInterface $render = null)
+    public function __construct($render = null)
     {
         $this->render = $render;
 

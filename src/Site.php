@@ -27,7 +27,7 @@ class Site
     /**
      * @param \Staticka\Parser|null $parser
      */
-    public function __construct(Parser $parser = null)
+    public function __construct($parser = null)
     {
         $this->parser = $parser ? $parser : new Parser;
     }
