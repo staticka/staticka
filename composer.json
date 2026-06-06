@@ -1,6 +1,6 @@
 {
   "name": "staticka/staticka",
-  "description": "Yet another PHP-based static site generator.",
+  "description": "Yet another PHP static site generator.",
   "keywords": [ "simple", "static-site", "site-generator" ],
   "homepage": "https://roug.in/staticka/",
   "license": "MIT",
@@ -17,11 +17,11 @@
   {
     "php": ">=5.3.0",
     "erusev/parsedown": "~1.6",
-    "rougin/slytherin": "~0.9",
     "symfony/yaml": "*"
   },
   "require-dev":
   {
+    "rougin/slytherin": "~0.9",
     "phpunit/phpunit": "*",
     "sanmai/phpunit-legacy-adapter": "*"
   },

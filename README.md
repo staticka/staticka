@@ -388,17 +388,17 @@ $layout = new ComplexLayout(new Complex);
 // --------------------------------------
 
 // ...then add it to the container... ---
-$container = new Container;
+$app = new Container;
 
 $name = ComplexLayout::class;
 
-$container->set($name, $layout);
+$app->set($name, $layout);
 // --------------------------------------
 
 // ...
 
 // ...and set the container to the parser ---
-$parser->setContainer($container);
+$parser->setContainer($app);
 // ------------------------------------------
 
 // ...
@@ -602,16 +602,22 @@ $app->setPathsFromRooth();
 
 
 // Return the "System" instance from "Package" ---
-$container = new Container;
+$app = new Container;
 
 $config = new Configuration;
 
-$result = $app->define($container, $config);
+$result = $app->define($app, $config);
 
 /** @var \Staticka\System */
 $app = $result->get(System::class);
 // -----------------------------------------------
 ```
+
+> [!NOTE]
+> The `Package` class requires the [Slytherin](https://github.com/rougin/slytherin) package to be installed first:
+> ``` bash
+> $ composer require rougin/slytherin
+> ```
 
 For more information on how to implement this for new ideas and projects, kindly see the codebase of [Console](https://github.com/staticka/console) and [Expresso](https://github.com/staticka/expresso) respectively for their implementations.
 

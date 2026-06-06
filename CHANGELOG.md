@@ -7,6 +7,9 @@ All notable changes to `Staticka` will be documented in this file.
 ### Added
 - Conformed to `Level 10` of `PHPStan`
 
+### Changed
+- Moved `rougin/slytherin` as optional
+
 ### Fixed
 - [Implicitly nullable parameter declarations](https://php.watch/versions/8.4/implicitly-marking-parameter-type-nullable-deprecated)
 
