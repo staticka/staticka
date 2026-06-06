@@ -1,5 +1,7 @@
 # Helpers
 
+A list of available helpers that provide additional methods inside template files via `Layout::addHelper()`.
+
 ## `LayoutFilter`, `LayoutHelper`
 
 These classes provides a helper to a template in loading layouts:

@@ -1,4 +1,6 @@
-The following are the breaking changes introduced in `v0.4.0`. As previously mentioned, this was done to improve its extensibility, simplicity and maintainbility. Please see the `"Breaking bad" packages` in [my blog post](https://roug.in/hello-world-again/) for the said reason:
+# Upgrading Guide
+
+The following are the breaking changes introduced in `v0.4.0`. As previously mentioned, this was done to improve its extensibility, simplicity and maintainbility. Please see the `"Breaking bad" packages` in [my blog post](https://roug.in/hello-world-again/) for the said reason.
 
 ## Replace code marked as `@deprecated`
 

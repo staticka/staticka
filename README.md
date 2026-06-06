@@ -10,7 +10,7 @@ A yet-another PHP-based static site generator. This converts [Markdown](https://
 
 ## Installation
 
-Installing `Staticka` is possible via [Composer](https://getcomposer.org/):
+Install the `Staticka` package via [Composer](https://getcomposer.org/):
 
 ``` bash
 $ composer require staticka/staticka

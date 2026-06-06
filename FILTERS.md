@@ -1,5 +1,7 @@
 # Filters
 
+A list of available filters that can be applied to pages after parsing using `Layout::addFilter()`.
+
 ## `HtmlMinifier`
 
 A simple filter to minify the converted HTML.
