@@ -16,11 +16,10 @@ Installing `Staticka` is possible via [Composer](https://getcomposer.org/):
 $ composer require staticka/staticka
 ```
 
-## Basic Usage
+## Basic usage
 
-The following guides below showcase the functionalities of `Staticka`. If a specified requirement wants to create a static blog site using a terminal or wants to create pages with a web-based user interface, kindly check [Console](https://github.com/staticka/console) or [Expresso](https://github.com/staticka/expresso) respectively.
-
-### Simple HTML from string
+> [!NOTE]
+> The following guides below showcase the functionalities of `Staticka`. If a specified requirement wants to create a static blog site using a terminal or wants to create pages with a web-based user interface, kindly check [Console](https://github.com/staticka/console) or [Expresso](https://github.com/staticka/expresso) respectively.
 
 `Staticka` can convert simple Markdown content from string into HTML:
 
@@ -727,19 +726,11 @@ Please see [Pull Request #5](https://github.com/staticka/staticka/pull/5) for th
 
 ## Changelog
 
-Please see [CHANGELOG][link-changelog] for more information what has changed recently.
+Please see [CHANGELOG][link-changelog] for more recent changes and latest updates.
 
-## Testing
+## Contributing
 
-The unit tests of `Staticka` can be run using the `test` command:
-
-``` bash
-$ composer test
-```
-
-## Credits
-
-- [All contributors][link-contributors]
+See [CONTRIBUTING][link-contributing] on how to contribute to the project.
 
 ## License
 
@@ -753,7 +744,7 @@ The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
 [link-build]: https://github.com/staticka/staticka/actions
 [link-changelog]: https://github.com/staticka/staticka/blob/master/CHANGELOG.md
-[link-contributors]: https://github.com/staticka/staticka/contributors
+[link-contributing]: https://github.com/staticka/staticka/blob/master/CONTRIBUTING.md
 [link-coverage]: https://app.codecov.io/gh/staticka/staticka
 [link-downloads]: https://packagist.org/packages/staticka/staticka
 [link-filters]: https://github.com/staticka/staticka/blob/master/FILTERS.md
