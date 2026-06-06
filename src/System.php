@@ -77,8 +77,9 @@ class System
 
         $parser = $this->getParser();
 
-        /** @var string[] */
         $files = glob($path . '/*.**');
+
+        $files = is_array($files) ? $files : array();
 
         $pages = array();
 

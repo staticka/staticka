@@ -41,7 +41,10 @@ class StringHelper implements HelperInterface
     {
         if (strlen($text) >= $length)
         {
-            $html = strip_tags($this->parser->parse($text));
+            /** @var string */
+            $parsed = $this->parser->parse($text);
+
+            $html = strip_tags($parsed);
 
             $text = substr($html, 0, $length) . '...';
         }

@@ -84,24 +84,18 @@ class Site
      */
     public function copyDir($source, $path)
     {
-        /** @var string */
-        $source = realpath($source);
-
         $this->emptyDir($path);
 
-        /** @var string[] */
-        $files = glob("$source/**/**.**");
+        $files = glob($source . '/**/**.**');
+
+        $files = is_array($files) ? $files : array();
 
         foreach ($files as $file)
         {
-            /** @var string */
-            $real = realpath($file);
+            $name = dirname($file);
 
-            $name = dirname($real);
+            $base = basename($file);
 
-            $base = basename($real);
-
-            /** @var string */
             $newpath = str_replace($source, $path, $name);
 
             if (! file_exists($newpath))

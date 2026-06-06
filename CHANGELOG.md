@@ -4,6 +4,9 @@ All notable changes to `Staticka` will be documented in this file.
 
 ## [0.4.1](https://github.com/staticka/staticka/compare/v0.4.0...v0.4.1) - Unreleased
 
+### Added
+- Conformed to `Level 10` of `PHPStan`
+
 ### Fixed
 - [Implicitly nullable parameter declarations](https://php.watch/versions/8.4/implicitly-marking-parameter-type-nullable-deprecated)
 

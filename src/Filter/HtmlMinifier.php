@@ -113,6 +113,7 @@ class HtmlMinifier implements FilterInterface
                 continue;
             }
 
+            /** @var string */
             $output = $element->nodeValue;
 
             if (in_array($element->nodeName, $encoded))

@@ -47,7 +47,7 @@ class LayoutHelper implements HelperInterface
      */
     public function load($name, $data = array())
     {
-        $prefix = (string) $this->prefix;
+        $prefix = $this->prefix;
 
         $helper = new BlockHelper($prefix);
 
@@ -57,7 +57,7 @@ class LayoutHelper implements HelperInterface
 
         $file = $this->prefix . '-' . self::LAYOUT;
 
-        return (string) "<$file>$html</$file>";
+        return "<$file>$html</$file>";
     }
 
     /**

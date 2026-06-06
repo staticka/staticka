@@ -109,7 +109,7 @@ category:
 
         foreach ($this->get() as $page)
         {
-            if ($page->getId() === ((int) $id))
+            if ($page->getId() === $id)
             {
                 $result = $this->parsePage($page);
 
@@ -160,9 +160,11 @@ category:
 
         foreach ($this->get() as $page)
         {
-            $pageName = strtolower((string) $page->getName());
+            $temp = $page->getName();
 
-            if ($pageName === strtolower($name))
+            $temp = $temp ? strtolower($temp) : '';
+
+            if ($temp === strtolower($name))
             {
                 $result = $this->parsePage($page);
 
@@ -340,7 +342,7 @@ category:
 
         $path = $this->app->getPagesPath();
 
-        return (string) $path . '/' . $file;
+        return $path . '/' . $file;
     }
 
     /**

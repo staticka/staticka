@@ -93,13 +93,14 @@ class Render implements RenderInterface
             // Check if the name matched from the files ---
             foreach ($files as $file)
             {
-                $fileName = strtolower($file['name']);
+                $temp = strtolower($file['name']);
 
-                if ($fileName === strtolower($name))
+                if ($temp !== strtolower($name))
                 {
-                    /** @var string */
-                    $result = realpath($file['path']);
+                    continue;
                 }
+
+                $result = $file['path'];
             }
             // --------------------------------------------
         }

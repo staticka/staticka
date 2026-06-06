@@ -169,10 +169,8 @@ class Parser extends \Parsedown
 
         $timestamp = substr($filename, 0, 14);
 
-        $intStamp = (int) $timestamp;
-
-        $valid = $intStamp <= PHP_INT_MAX
-            && $intStamp >= ~PHP_INT_MAX;
+        $valid = ctype_digit($timestamp)
+            && strlen($timestamp) === 14;
 
         /** @var integer|null */
         return $valid ? strtotime($timestamp) : null;
@@ -273,13 +271,12 @@ class Parser extends \Parsedown
     {
         $body = $page->getBody();
 
-        /** @var array<string, string> */
         $data = $page->getData();
 
         // Converts placeholder in body, if any -----
         foreach ($data as $key => $value)
         {
-            if ($value === null)
+            if (! is_string($value))
             {
                 continue;
             }
@@ -297,6 +294,7 @@ class Parser extends \Parsedown
         }
         // ----------------------------------------------
 
+        /** @var string */
         $html = $this->parse($body);
 
         return $page->setHtml($html);
