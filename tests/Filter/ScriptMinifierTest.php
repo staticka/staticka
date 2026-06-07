@@ -24,25 +24,9 @@ class ScriptMinifierTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_script_minified()
     {
-        /** @var string */
-        $name = str_replace('Filter', 'Fixture', __DIR__);
-
-        $this->filter = new ScriptMinifier;
-
-        /** @var string */
-        $code = file_get_contents($name . '/Script.html');
-
-        $this->code = $code;
-    }
-
-    /**
-     * @return void
-     */
-    public function test_filter_from_html()
-    {
-        $expected = '<!DOCTYPE html>
+        $expect = '<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -57,8 +41,24 @@ class ScriptMinifierTest extends Testcase
 
         $actual = str_replace("\r", '', $actual);
 
-        $expected = str_replace("\r", '', $expected);
+        $expect = str_replace("\r", '', $expect);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        /** @var string */
+        $name = str_replace('Filter', 'Fixture', __DIR__);
+
+        $this->filter = new ScriptMinifier;
+
+        /** @var string */
+        $code = file_get_contents($name . '/Script.html');
+
+        $this->code = $code;
     }
 }

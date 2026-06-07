@@ -20,9 +20,9 @@ class LayoutTest extends Testcase
     /**
      * @return void
      */
-    public function test_sample_page()
+    public function test_passed_if_sample_page_rendered()
     {
-        $expected = $this->getHtml('CustomLayout');
+        $expect = $this->getHtml('CustomLayout');
 
         $render = new Render(__DIR__ . '/Fixture/Plates');
 
@@ -42,7 +42,7 @@ class LayoutTest extends Testcase
 
         $actual = $this->getActual($page, $render);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
@@ -55,11 +55,11 @@ class LayoutTest extends Testcase
     {
         $parser = new Parser($render);
 
-        $actual = $parser->parsePage($page);
+        $parsed = $parser->parsePage($page);
 
-        $result = $actual->getHtml();
+        $actual = $parsed->getHtml();
 
-        return str_replace("\r\n", "\n", $result);
+        return str_replace("\r\n", "\n", $actual);
     }
 
     /**
@@ -72,8 +72,8 @@ class LayoutTest extends Testcase
         $file = __DIR__ . '/Fixture/Output/' . $name . '.html';
 
         /** @var string */
-        $result = file_get_contents($file);
+        $actual = file_get_contents($file);
 
-        return str_replace("\r\n", "\n", $result);
+        return str_replace("\r\n", "\n", $actual);
     }
 }

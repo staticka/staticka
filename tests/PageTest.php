@@ -27,9 +27,41 @@ class PageTest extends Testcase
     /**
      * @return void
      */
-    public function test_from_string()
+    public function test_passed_if_from_constructor()
     {
-        $expected = $this->getHtml('SimplePlate');
+        $expect = $this->getHtml('SimplePlate');
+
+        $page = new Page("# {NAME}\nThis is a sample page.", Page::TYPE_BODY);
+
+        $page->setName('Hello world!');
+
+        $actual = $this->getActual($page);
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_from_markdown_file()
+    {
+        $expect = $this->getHtml('FromMdFile');
+
+        $file = __DIR__ . '/Fixture/Pages/HelloWorld.md';
+
+        $page = new Page($file);
+
+        $actual = $this->getActual($page);
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_parsed_from_string()
+    {
+        $expect = $this->getHtml('SimplePlate');
 
         $page = new Page;
 
@@ -39,47 +71,15 @@ class PageTest extends Testcase
 
         $actual = $this->getActual($page);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_from_constructor()
+    public function test_passed_if_with_front_matter()
     {
-        $expected = $this->getHtml('SimplePlate');
-
-        $page = new Page("# {NAME}\nThis is a sample page.", Page::TYPE_BODY);
-
-        $page->setName('Hello world!');
-
-        $actual = $this->getActual($page);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_from_markdown_file()
-    {
-        $expected = $this->getHtml('FromMdFile');
-
-        $file = __DIR__ . '/Fixture/Pages/HelloWorld.md';
-
-        $page = new Page($file);
-
-        $actual = $this->getActual($page);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_with_front_matter()
-    {
-        $expected = $this->getHtml('FrontMatter');
+        $expect = $this->getHtml('FrontMatter');
 
         $file = __DIR__ . '/Fixture/Pages/FrontMatter.md';
 
@@ -87,15 +87,15 @@ class PageTest extends Testcase
 
         $actual = $this->getActual($page);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_with_minifier()
+    public function test_passed_if_with_minifier()
     {
-        $expected = $this->getHtml('WithMinifier');
+        $expect = $this->getHtml('WithMinifier');
 
         $file = __DIR__ . '/Fixture/Pages/WithMinifier.md';
 
@@ -105,7 +105,7 @@ class PageTest extends Testcase
 
         $actual = $this->getActual($page);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
@@ -130,8 +130,8 @@ class PageTest extends Testcase
         $file = __DIR__ . '/Fixture/Output/' . $name . '.html';
 
         /** @var string */
-        $result = file_get_contents($file);
+        $actual = file_get_contents($file);
 
-        return str_replace("\r\n", "\n", $result);
+        return str_replace("\r\n", "\n", $actual);
     }
 }

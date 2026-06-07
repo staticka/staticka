@@ -32,55 +32,55 @@ class PackageTest extends Testcase
     /**
      * @return void
      */
-    public function test_build_path()
+    public function test_passed_if_build_path_set()
     {
-        $expected = __DIR__ . '/Fixture/Sample/build';
+        $expect = __DIR__ . '/Fixture/Sample/build';
 
         $app = $this->getSystem();
 
         $actual = $app->getBuildPath();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_custom_parser()
+    public function test_passed_if_config_path_set()
     {
-        $expected = new Parser;
-
-        $app = $this->getSystem();
-
-        $app->setParser($expected);
-
-        $actual = $app->getParser();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_config_path()
-    {
-        $expected = __DIR__ . '/Fixture/Sample/config';
+        $expect = __DIR__ . '/Fixture/Sample/config';
 
         $app = $this->getSystem();
 
         $actual = $app->getConfigPath();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_page_items()
+    public function test_passed_if_custom_parser_set()
+    {
+        $expect = new Parser;
+
+        $app = $this->getSystem();
+
+        $app->setParser($expect);
+
+        $actual = $app->getParser();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_page_items_loaded()
     {
         $path = __DIR__ . '/Fixture/Pages';
 
-        $expected = 10;
+        $expect = 10;
 
         $this->package->setPagesPath($path);
 
@@ -88,65 +88,65 @@ class PackageTest extends Testcase
 
         $actual = $app->getPages();
 
-        $this->assertCount($expected, $actual);
+        $this->assertCount($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_pages_path()
+    public function test_passed_if_pages_path_set()
     {
-        $expected = __DIR__ . '/Fixture/Sample/pages';
+        $expect = __DIR__ . '/Fixture/Sample/pages';
 
         $app = $this->getSystem();
 
         $actual = $app->getPagesPath();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_plates_path()
+    public function test_passed_if_plates_path_set()
     {
-        $expected = __DIR__ . '/Fixture/Sample/plates';
+        $expect = __DIR__ . '/Fixture/Sample/plates';
 
         $app = $this->getSystem();
 
         $actual = $app->getPlatesPath();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_root_path()
+    public function test_passed_if_root_path_set()
     {
-        $expected = __DIR__ . '/Fixture/Sample';
+        $expect = __DIR__ . '/Fixture/Sample';
 
         $app = $this->getSystem();
 
         $actual = $app->getRootPath();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_set_timezone()
+    public function test_passed_if_timezone_set()
     {
-        $expected = 'Asia/Manila';
+        $expect = 'Asia/Manila';
 
-        $this->package->setTimezone($expected);
+        $this->package->setTimezone($expect);
 
         $app = $this->getSystem();
 
         $actual = $app->getTimezone();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
@@ -158,11 +158,11 @@ class PackageTest extends Testcase
 
         $config = new Configuration;
 
-        $result = $this->package->define($container, $config);
+        $actual = $this->package->define($container, $config);
 
         $name = 'Staticka\System';
 
         /** @var \Staticka\System */
-        return $result->get($name);
+        return $actual->get($name);
     }
 }

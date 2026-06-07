@@ -19,22 +19,22 @@ class LinkHelperTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_link_generated()
     {
-        $link = 'https://roug.in';
+        $expect = 'https://roug.in/staticka';
 
-        $this->helper = new LinkHelper($link);
+        $actual = $this->helper->set('staticka');
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_getting_link()
+    protected function doSetUp()
     {
-        $expected = 'https://roug.in/staticka';
+        $link = 'https://roug.in';
 
-        $actual = $this->helper->set('staticka');
-
-        $this->assertEquals($expected, $actual);
+        $this->helper = new LinkHelper($link);
     }
 }

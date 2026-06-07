@@ -17,18 +17,18 @@ class RenderTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_failed_if_render_error()
     {
-        $this->renderer = new Render(__DIR__ . '/Fixture');
+        $this->doExpectException('InvalidArgumentException');
+
+        $this->renderer->render('hello');
     }
 
     /**
      * @return void
      */
-    public function test_render_with_error()
+    protected function doSetUp()
     {
-        $this->doExpectException('InvalidArgumentException');
-
-        $this->renderer->render('hello');
+        $this->renderer = new Render(__DIR__ . '/Fixture');
     }
 }

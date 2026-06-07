@@ -26,35 +26,13 @@ class DepotTest extends Testcase
     /**
      * @return void
      */
-    public function test_array_data_pages()
+    public function test_passed_if_custom_fields_set()
     {
-        $row = array('name' => 'Hello world!');
+        $expect = array('name', 'link');
 
-        $row['link'] = '/hello-world';
+        $depot = $this->getDepot($expect);
 
-        $row['title'] = 'Hello world!';
-
-        $row['id'] = 1704067200;
-
-        $row['body'] = '# Hello world!';
-
-        $row['html'] = '<h1>Hello world!</h1>';
-
-        $row['created_at'] = 1704067200;
-
-        $row['description'] = null;
-
-        $row['tags'] = null;
-
-        $row['category'] = null;
-
-        $expect = array($row);
-
-        $sort = PageDepot::SORT_DESC;
-
-        $depot = $this->getDepot();
-
-        $actual = $depot->getAsData($sort);
+        $actual = $depot->getFields();
 
         $this->assertEquals($expect, $actual);
     }
@@ -62,7 +40,7 @@ class DepotTest extends Testcase
     /**
      * @return void
      */
-    public function test_create_new_page()
+    public function test_passed_if_new_page_created()
     {
         $page = $this->getPage('NewDepot');
 
@@ -95,21 +73,7 @@ class DepotTest extends Testcase
     /**
      * @return void
      */
-    public function test_custom_fields()
-    {
-        $expect = array('name', 'link');
-
-        $depot = $this->getDepot($expect);
-
-        $actual = $depot->getFields();
-
-        $this->assertEquals($expect, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_delete_page()
+    public function test_passed_if_page_deleted()
     {
         $data = array('name' => 'Delete me!');
 
@@ -134,7 +98,7 @@ class DepotTest extends Testcase
     /**
      * @return void
      */
-    public function test_find_page_by_id()
+    public function test_passed_if_page_found_by_id()
     {
         $page = $this->getPage('FromDepot');
 
@@ -157,7 +121,7 @@ class DepotTest extends Testcase
     /**
      * @return void
      */
-    public function test_find_page_by_link()
+    public function test_passed_if_page_found_by_link()
     {
         $page = $this->getPage('FromDepot');
 
@@ -180,7 +144,7 @@ class DepotTest extends Testcase
     /**
      * @return void
      */
-    public function test_find_page_by_name()
+    public function test_passed_if_page_found_by_name()
     {
         $page = $this->getPage('FromDepot');
 
@@ -203,7 +167,7 @@ class DepotTest extends Testcase
     /**
      * @return void
      */
-    public function test_update_page()
+    public function test_passed_if_page_updated()
     {
         $data = array('name' => 'Hello!');
 
@@ -243,42 +207,39 @@ class DepotTest extends Testcase
     }
 
     /**
-     * @param string[] $fields
-     *
-     * @return \Staticka\Depots\PageDepot
+     * @return void
      */
-    protected function getDepot($fields = array())
+    public function test_passed_if_pages_from_array_data()
     {
-        return new PageDepot($this->getSystem(), $fields);
-    }
+        $row = array('name' => 'Hello world!');
 
-    /**
-     * @param string $name
-     *
-     * @return \Staticka\Page
-     */
-    protected function getPage($name)
-    {
-        $file = __DIR__ . '/Fixture/Pages/' . $name . '.md';
+        $row['link'] = '/hello-world';
 
-        return $this->parser->parsePage(new Page($file));
-    }
+        $row['title'] = 'Hello world!';
 
-    /**
-     * @return \Staticka\System
-     */
-    protected function getSystem()
-    {
-        $container = new Container;
+        $row['id'] = 1704067200;
 
-        $config = new Configuration;
+        $row['body'] = '# Hello world!';
 
-        $result = $this->package->define($container, $config);
+        $row['html'] = '<h1>Hello world!</h1>';
 
-        $name = 'Staticka\System';
+        $row['created_at'] = 1704067200;
 
-        /** @var \Staticka\System */
-        return $result->get($name);
+        $row['description'] = null;
+
+        $row['tags'] = null;
+
+        $row['category'] = null;
+
+        $expect = array($row);
+
+        $sort = PageDepot::SORT_DESC;
+
+        $depot = $this->getDepot();
+
+        $actual = $depot->getAsData($sort);
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**
@@ -318,5 +279,44 @@ class DepotTest extends Testcase
 
             unlink($file);
         }
+    }
+
+    /**
+     * @param string[] $fields
+     *
+     * @return \Staticka\Depots\PageDepot
+     */
+    protected function getDepot($fields = array())
+    {
+        return new PageDepot($this->getSystem(), $fields);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return \Staticka\Page
+     */
+    protected function getPage($name)
+    {
+        $file = __DIR__ . '/Fixture/Pages/' . $name . '.md';
+
+        return $this->parser->parsePage(new Page($file));
+    }
+
+    /**
+     * @return \Staticka\System
+     */
+    protected function getSystem()
+    {
+        $container = new Container;
+
+        $config = new Configuration;
+
+        $actual = $this->package->define($container, $config);
+
+        $name = 'Staticka\System';
+
+        /** @var \Staticka\System */
+        return $actual->get($name);
     }
 }

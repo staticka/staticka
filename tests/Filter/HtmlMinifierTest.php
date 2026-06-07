@@ -24,25 +24,27 @@ class HtmlMinifierTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_filter_without_html()
     {
-        /** @var string */
-        $name = str_replace('Filter', 'Fixture', __DIR__);
+        $expect = 'This is not an HTML template.';
 
-        $this->filter = new HtmlMinifier;
+        $actual = $this->filter->filter($expect);
 
-        /** @var string */
-        $code = file_get_contents($name . '/Sample.html');
+        $actual = str_replace("\r", '', $actual);
 
-        $this->code = $code;
+        $actual = str_replace('&#039;', '\'', $actual);
+
+        $expect = str_replace("\r", '', $expect);
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_filter_from_html()
+    public function test_passed_if_html_minified()
     {
-        $expected = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style>
+        $expect = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Document</title><style>
     body
     {
       background: #fff;
@@ -103,26 +105,24 @@ class Bar
 
         $actual = str_replace('&#039;', '\'', $actual);
 
-        $expected = str_replace("\r", '', $expected);
+        $expect = str_replace("\r", '', $expect);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_without_html()
+    protected function doSetUp()
     {
-        $expected = 'This is not an HTML template.';
+        /** @var string */
+        $name = str_replace('Filter', 'Fixture', __DIR__);
 
-        $actual = $this->filter->filter($expected);
+        $this->filter = new HtmlMinifier;
 
-        $actual = str_replace("\r", '', $actual);
+        /** @var string */
+        $code = file_get_contents($name . '/Sample.html');
 
-        $actual = str_replace('&#039;', '\'', $actual);
-
-        $expected = str_replace("\r", '', $expected);
-
-        $this->assertEquals($expected, $actual);
+        $this->code = $code;
     }
 }

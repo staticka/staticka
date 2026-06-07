@@ -30,67 +30,9 @@ class SiteTest extends Testcase
     /**
      * @return void
      */
-    public function test_build_with_pages()
+    public function test_passed_if_built_with_data()
     {
-        $expected = $this->getHtml('FromMdFile');
-
-        $file = __DIR__ . '/Fixture/Pages/HelloWorld.md';
-
-        $page = new Page($file);
-
-        $this->site->addPage($page);
-
-        $this->buildSite();
-
-        $actual = $this->getActualHtml('index');
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_build_with_pages_front_matter()
-    {
-        $expected = $this->getHtml('FrontMatter');
-
-        $file = __DIR__ . '/Fixture/Pages/FrontMatter.md';
-
-        $page = new Page($file);
-
-        $this->site->addPage($page);
-
-        $this->buildSite();
-
-        $actual = $this->getActualHtml('hello-world');
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @depends test_build_with_pages_front_matter
-     *
-     * @return void
-     */
-    public function test_copy_entire_build_path()
-    {
-        $path = __DIR__ . '/Fixture/Build';
-
-        $dest = __DIR__ . '/Fixture/Copied';
-
-        $this->site->copyDir($path, $dest);
-
-        $exists = $dest . '/hello-world/index.html';
-
-        $this->assertTrue(file_exists($exists));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_with_data()
-    {
-        $expected = $this->getHtml('WithSiteData');
+        $expect = $this->getHtml('WithSiteData');
 
         $file = __DIR__ . '/Fixture/Pages/WithSiteData.md';
 
@@ -106,15 +48,15 @@ class SiteTest extends Testcase
 
         $actual = $this->getActualHtml('index');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_with_filters()
+    public function test_passed_if_built_with_filters()
     {
-        $expected = $this->getHtml('WithFilter');
+        $expect = $this->getHtml('WithFilter');
 
         $file = __DIR__ . '/Fixture/Pages/WithFilter.md';
 
@@ -128,15 +70,35 @@ class SiteTest extends Testcase
 
         $actual = $this->getActualHtml('home');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_with_layout()
+    public function test_passed_if_built_with_front_matter()
     {
-        $expected = $this->getHtml('WithLayout');
+        $expect = $this->getHtml('FrontMatter');
+
+        $file = __DIR__ . '/Fixture/Pages/FrontMatter.md';
+
+        $page = new Page($file);
+
+        $this->site->addPage($page);
+
+        $this->buildSite();
+
+        $actual = $this->getActualHtml('hello-world');
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_built_with_layout()
+    {
+        $expect = $this->getHtml('WithLayout');
 
         $file = __DIR__ . '/Fixture/Pages/WithLayout.md';
 
@@ -148,15 +110,35 @@ class SiteTest extends Testcase
 
         $actual = $this->getActualHtml('world');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_with_plate()
+    public function test_passed_if_built_with_pages()
     {
-        $expected = $this->getHtml('WithPlate');
+        $expect = $this->getHtml('FromMdFile');
+
+        $file = __DIR__ . '/Fixture/Pages/HelloWorld.md';
+
+        $page = new Page($file);
+
+        $this->site->addPage($page);
+
+        $this->buildSite();
+
+        $actual = $this->getActualHtml('index');
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_built_with_plate()
+    {
+        $expect = $this->getHtml('WithPlate');
 
         $file = __DIR__ . '/Fixture/Pages/WithPlate.md';
 
@@ -168,7 +150,31 @@ class SiteTest extends Testcase
 
         $actual = $this->getActualHtml('hello');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_entire_build_path_copied()
+    {
+        $file = __DIR__ . '/Fixture/Pages/FrontMatter.md';
+
+        $page = new Page($file);
+
+        $this->site->addPage($page);
+
+        $this->buildSite();
+
+        $path = __DIR__ . '/Fixture/Build';
+
+        $dest = __DIR__ . '/Fixture/Copied';
+
+        $this->site->copyDir($path, $dest);
+
+        $exists = $dest . '/hello-world/index.html';
+
+        $this->assertTrue(file_exists($exists));
     }
 
     /**
@@ -193,9 +199,9 @@ class SiteTest extends Testcase
         $file = __DIR__ . '/Fixture/Build/' . $name . '.html';
 
         /** @var string */
-        $result = file_get_contents($file);
+        $actual = file_get_contents($file);
 
-        return str_replace("\r\n", "\n", $result);
+        return str_replace("\r\n", "\n", $actual);
     }
 
     /**
@@ -208,9 +214,9 @@ class SiteTest extends Testcase
         $file = __DIR__ . '/Fixture/Output/' . $name . '.html';
 
         /** @var string */
-        $result = file_get_contents($file);
+        $actual = file_get_contents($file);
 
-        return str_replace("\r\n", "\n", $result);
+        return str_replace("\r\n", "\n", $actual);
     }
 
     /**

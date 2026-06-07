@@ -20,33 +20,21 @@ class PlateHelperTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
-    {
-        $path = __DIR__ . '/../Fixture/Plates';
-
-        $render = new Render($path);
-
-        $this->helper = new PlateHelper($render);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_helper_name()
+    public function test_passed_if_helper_name_returned()
     {
         $actual = $this->helper->name();
 
-        $expected = 'plate';
+        $expect = 'plate';
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_html_render()
+    public function test_passed_if_html_rendered()
     {
-        $expected = '<!DOCTYPE html>
+        $expect = '<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -60,8 +48,20 @@ class PlateHelperTest extends Testcase
 
         $actual = str_replace("\r", '', $actual);
 
-        $expected = str_replace("\r", '', $expected);
+        $expect = str_replace("\r", '', $expect);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $path = __DIR__ . '/../Fixture/Plates';
+
+        $render = new Render($path);
+
+        $this->helper = new PlateHelper($render);
     }
 }
