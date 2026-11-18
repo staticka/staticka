@@ -228,6 +228,7 @@ class Parser extends \Parsedown
         {
             /** @var string */
             $name = $data['name'];
+
             $page->setName($name);
         }
 
@@ -235,22 +236,25 @@ class Parser extends \Parsedown
         {
             $layout = $page->getLayout();
 
-            /** @var string */
-            $name = $data['plate'];
+            /** @var string|null */
+            $plate = $data['plate'];
 
             if (! $layout)
             {
                 $layout = new Layout;
             }
 
-            if (class_exists($name))
+            if ($plate)
             {
-                /** @var \Staticka\Layout */
-                $layout = $this->container->get($name);
-            }
-            else
-            {
-                $layout->setName($name);
+                if (class_exists($plate))
+                {
+                    /** @var \Staticka\Layout */
+                    $layout = $this->container->get($plate);
+                }
+                else
+                {
+                    $layout->setName($plate);
+                }
             }
 
             $page->setLayout($layout);
