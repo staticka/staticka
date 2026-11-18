@@ -354,21 +354,23 @@ category:
     {
         $md = self::TEMPLATE;
 
-        $exists = array_key_exists('description', $data);
+        // Set the initial description of the page ------
+        $exists = isset($data['description']);
 
         $text = $exists ? $data['description'] : '';
 
         $md = str_replace('[TITLE]', $data['name'], $md);
 
         $md = str_replace('[DESCRIPTION]', $text, $md);
+        // ----------------------------------------------
 
+        // Guess the link from the page, if undefined -------
         $slug = $this->getSlug($data['name']);
 
-        $exists = array_key_exists('link', $data);
-
-        $slug = $exists ? $data['link'] : $slug;
+        $slug = isset($data['link']) ? $data['link'] : $slug;
 
         $md = str_replace('[LINK]', $slug, $md);
+        // --------------------------------------------------
 
         return str_replace('link: //', 'link: /', $md);
     }
