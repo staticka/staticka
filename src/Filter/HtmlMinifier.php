@@ -80,7 +80,9 @@ class HtmlMinifier implements FilterInterface
      */
     protected function minify($html)
     {
-        $encoding = '<?xml encoding="UTF-8">';
+        $encoding = array('<?xml encoding="UTF-8">');
+
+        $encoding[] = '<!--?xml encoding="UTF-8"?-->';
 
         $html = str_replace($encoding, '', $html);
 
