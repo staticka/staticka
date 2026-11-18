@@ -2,13 +2,14 @@
 
 All notable changes to `Staticka` will be documented in this file.
 
-## [0.4.1](https://github.com/staticka/staticka/compare/v0.4.0...v0.4.1) - Unreleased
+## [0.4.1](https://github.com/staticka/staticka/compare/v0.4.0...v0.4.1) - 2026-11-18
 
 ### Added
 - Conformed to `Level 10` of `PHPStan`
 
 ### Fixed
 - [Implicitly nullable parameter declarations](https://php.watch/versions/8.4/implicitly-marking-parameter-type-nullable-deprecated)
+- Check of empty properties in `PageDepot`
 
 ## [0.4.0](https://github.com/staticka/staticka/compare/v0.3.0...v0.4.0) - 2024-11-10
 
